@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "369627770815",
+    "project_id": "mera-pay-5abc3",
+    "storage_bucket": "mera-pay-5abc3.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:369627770815:android:257a1836361e0e6d49fb0a",
+        "android_client_info": {
+          "package_name": "com.mycompany.merapay"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDGnFZdYJC5vAOtarBJzBSlUAjhKBnPmGc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
