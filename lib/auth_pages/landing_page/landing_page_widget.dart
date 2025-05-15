@@ -3,7 +3,9 @@ import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
 import '/index.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:percent_indicator/percent_indicator.dart';
 import 'landing_page_model.dart';
 export 'landing_page_model.dart';
 
@@ -27,6 +29,14 @@ class _LandingPageWidgetState extends State<LandingPageWidget> {
     super.initState();
     _model = createModel(context, () => LandingPageModel());
 
+    // On page load action.
+    SchedulerBinding.instance.addPostFrameCallback((_) async {
+      _model.earn = 45000.0;
+      _model.goal = 80000.0;
+      safeSetState(() {});
+    });
+
+    _model.switchValue = false;
     WidgetsBinding.instance.addPostFrameCallback((_) => safeSetState(() {}));
   }
 
@@ -61,6 +71,39 @@ class _LandingPageWidgetState extends State<LandingPageWidget> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
+                    Padding(
+                      padding:
+                          EdgeInsetsDirectional.fromSTEB(15.0, 15.0, 15.0, 0.0),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.max,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Align(
+                            alignment: AlignmentDirectional(0.0, 0.0),
+                            child: Switch.adaptive(
+                              value: _model.switchValue!,
+                              onChanged: (newValue) async {
+                                safeSetState(
+                                    () => _model.switchValue = newValue);
+                                if (newValue) {
+                                  setDarkModeSetting(context, ThemeMode.dark);
+                                } else {
+                                  setDarkModeSetting(context, ThemeMode.light);
+                                }
+                              },
+                              activeColor:
+                                  FlutterFlowTheme.of(context).alternate,
+                              activeTrackColor: Color(0xFF22D846),
+                              inactiveTrackColor:
+                                  FlutterFlowTheme.of(context).alternate,
+                              inactiveThumbColor: FlutterFlowTheme.of(context)
+                                  .secondaryBackground,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
                     Row(
                       mainAxisSize: MainAxisSize.max,
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -123,21 +166,77 @@ class _LandingPageWidgetState extends State<LandingPageWidget> {
                             ),
                           ),
                         ),
-                        Flexible(
-                          child: Container(
-                            decoration: BoxDecoration(),
-                            child: Padding(
-                              padding: EdgeInsetsDirectional.fromSTEB(
-                                  0.0, 29.0, 15.0, 3.0),
-                              child: Row(
-                                mainAxisSize: MainAxisSize.max,
-                                mainAxisAlignment: MainAxisAlignment.end,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  FFButtonWidget(
+                        Container(
+                          decoration: BoxDecoration(),
+                          child: Padding(
+                            padding: EdgeInsetsDirectional.fromSTEB(
+                                0.0, 29.0, 0.0, 3.0),
+                            child: Row(
+                              mainAxisSize: MainAxisSize.max,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                FFButtonWidget(
+                                  onPressed: () async {
+                                    context.pushNamed(
+                                      LoginPageWidget.routeName,
+                                      extra: <String, dynamic>{
+                                        kTransitionInfoKey: TransitionInfo(
+                                          hasTransition: true,
+                                          transitionType:
+                                              PageTransitionType.topToBottom,
+                                        ),
+                                      },
+                                    );
+                                  },
+                                  text: 'Login',
+                                  options: FFButtonOptions(
+                                    height: 40.0,
+                                    padding: EdgeInsetsDirectional.fromSTEB(
+                                        16.0, 0.0, 16.0, 0.0),
+                                    iconPadding: EdgeInsetsDirectional.fromSTEB(
+                                        0.0, 0.0, 0.0, 0.0),
+                                    color: Color(0x17000000),
+                                    textStyle: FlutterFlowTheme.of(context)
+                                        .titleSmall
+                                        .override(
+                                          font: GoogleFonts.interTight(
+                                            fontWeight: FontWeight.w500,
+                                            fontStyle:
+                                                FlutterFlowTheme.of(context)
+                                                    .titleSmall
+                                                    .fontStyle,
+                                          ),
+                                          color: Color(0xC8000000),
+                                          fontSize: 14.0,
+                                          letterSpacing: 0.0,
+                                          fontWeight: FontWeight.w500,
+                                          fontStyle:
+                                              FlutterFlowTheme.of(context)
+                                                  .titleSmall
+                                                  .fontStyle,
+                                        ),
+                                    elevation: 0.0,
+                                    borderRadius: BorderRadius.circular(8.0),
+                                  ),
+                                  showLoadingIndicator: false,
+                                ),
+                                Container(
+                                  width:
+                                      MediaQuery.sizeOf(context).width * 0.12,
+                                  constraints: BoxConstraints(
+                                    minWidth: 12.0,
+                                    maxWidth: 12.0,
+                                  ),
+                                  decoration: BoxDecoration(),
+                                ),
+                                Padding(
+                                  padding: EdgeInsetsDirectional.fromSTEB(
+                                      8.0, 0.0, 8.0, 0.0),
+                                  child: FFButtonWidget(
                                     onPressed: () async {
                                       context.pushNamed(
-                                        LoginPageWidget.routeName,
+                                        CreateaccountWidget.routeName,
                                         extra: <String, dynamic>{
                                           kTransitionInfoKey: TransitionInfo(
                                             hasTransition: true,
@@ -147,7 +246,7 @@ class _LandingPageWidgetState extends State<LandingPageWidget> {
                                         },
                                       );
                                     },
-                                    text: 'Login',
+                                    text: 'Signup',
                                     options: FFButtonOptions(
                                       height: 40.0,
                                       padding: EdgeInsetsDirectional.fromSTEB(
@@ -155,21 +254,21 @@ class _LandingPageWidgetState extends State<LandingPageWidget> {
                                       iconPadding:
                                           EdgeInsetsDirectional.fromSTEB(
                                               0.0, 0.0, 0.0, 0.0),
-                                      color: Color(0x17000000),
+                                      color: Color(0xFF22D846),
                                       textStyle: FlutterFlowTheme.of(context)
                                           .titleSmall
                                           .override(
                                             font: GoogleFonts.interTight(
-                                              fontWeight: FontWeight.w500,
+                                              fontWeight: FontWeight.normal,
                                               fontStyle:
                                                   FlutterFlowTheme.of(context)
                                                       .titleSmall
                                                       .fontStyle,
                                             ),
-                                            color: Color(0xC8000000),
+                                            color: Colors.black,
                                             fontSize: 14.0,
                                             letterSpacing: 0.0,
-                                            fontWeight: FontWeight.w500,
+                                            fontWeight: FontWeight.normal,
                                             fontStyle:
                                                 FlutterFlowTheme.of(context)
                                                     .titleSmall
@@ -180,68 +279,8 @@ class _LandingPageWidgetState extends State<LandingPageWidget> {
                                     ),
                                     showLoadingIndicator: false,
                                   ),
-                                  Container(
-                                    width:
-                                        MediaQuery.sizeOf(context).width * 0.12,
-                                    constraints: BoxConstraints(
-                                      minWidth: 12.0,
-                                      maxWidth: 12.0,
-                                    ),
-                                    decoration: BoxDecoration(),
-                                  ),
-                                  Padding(
-                                    padding: EdgeInsetsDirectional.fromSTEB(
-                                        8.0, 0.0, 0.0, 0.0),
-                                    child: FFButtonWidget(
-                                      onPressed: () async {
-                                        context.pushNamed(
-                                          CreateaccountWidget.routeName,
-                                          extra: <String, dynamic>{
-                                            kTransitionInfoKey: TransitionInfo(
-                                              hasTransition: true,
-                                              transitionType: PageTransitionType
-                                                  .topToBottom,
-                                            ),
-                                          },
-                                        );
-                                      },
-                                      text: 'Signup',
-                                      options: FFButtonOptions(
-                                        height: 40.0,
-                                        padding: EdgeInsetsDirectional.fromSTEB(
-                                            16.0, 0.0, 16.0, 0.0),
-                                        iconPadding:
-                                            EdgeInsetsDirectional.fromSTEB(
-                                                0.0, 0.0, 0.0, 0.0),
-                                        color: Color(0xFF22D846),
-                                        textStyle: FlutterFlowTheme.of(context)
-                                            .titleSmall
-                                            .override(
-                                              font: GoogleFonts.interTight(
-                                                fontWeight: FontWeight.normal,
-                                                fontStyle:
-                                                    FlutterFlowTheme.of(context)
-                                                        .titleSmall
-                                                        .fontStyle,
-                                              ),
-                                              color: Colors.black,
-                                              fontSize: 14.0,
-                                              letterSpacing: 0.0,
-                                              fontWeight: FontWeight.normal,
-                                              fontStyle:
-                                                  FlutterFlowTheme.of(context)
-                                                      .titleSmall
-                                                      .fontStyle,
-                                            ),
-                                        elevation: 0.0,
-                                        borderRadius:
-                                            BorderRadius.circular(8.0),
-                                      ),
-                                      showLoadingIndicator: false,
-                                    ),
-                                  ),
-                                ],
-                              ),
+                                ),
+                              ],
                             ),
                           ),
                         ),
@@ -394,7 +433,7 @@ class _LandingPageWidgetState extends State<LandingPageWidget> {
                                           .bodyMedium
                                           .fontStyle,
                                     ),
-                                    color: Color(0xFF4B4E51),
+                                    color: Color(0xFF32393B),
                                     letterSpacing: 0.0,
                                     fontWeight: FontWeight.w500,
                                     fontStyle: FlutterFlowTheme.of(context)
@@ -551,18 +590,16 @@ class _LandingPageWidgetState extends State<LandingPageWidget> {
                                   topRight: Radius.circular(4.0),
                                 ),
                               ),
-                              child: Container(
-                                width: MediaQuery.sizeOf(context).width * 0.5,
-                                height: 8.0,
-                                decoration: BoxDecoration(
-                                  color: Color(0xFF22D846),
-                                  borderRadius: BorderRadius.only(
-                                    bottomLeft: Radius.circular(4.0),
-                                    bottomRight: Radius.circular(4.0),
-                                    topLeft: Radius.circular(4.0),
-                                    topRight: Radius.circular(4.0),
-                                  ),
-                                ),
+                              child: LinearPercentIndicator(
+                                percent: 0.5,
+                                width: 120.0,
+                                lineHeight: 12.0,
+                                animation: true,
+                                animateFromLastPercent: true,
+                                progressColor: Color(0xFF22D82D),
+                                backgroundColor:
+                                    FlutterFlowTheme.of(context).accent4,
+                                padding: EdgeInsets.zero,
                               ),
                             ),
                             Padding(
