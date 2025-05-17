@@ -40,30 +40,25 @@ class UsersRecord extends FirestoreRecord {
   String get password => _password ?? '';
   bool hasPassword() => _password != null;
 
-  // "monthly_salary" field.
-  String? _monthlySalary;
-  String get monthlySalary => _monthlySalary ?? '';
-  bool hasMonthlySalary() => _monthlySalary != null;
-
-  // "bank_name" field.
-  String? _bankName;
-  String get bankName => _bankName ?? '';
-  bool hasBankName() => _bankName != null;
-
   // "phone_number" field.
   String? _phoneNumber;
   String get phoneNumber => _phoneNumber ?? '';
   bool hasPhoneNumber() => _phoneNumber != null;
 
-  // "account_number" field.
-  String? _accountNumber;
-  String get accountNumber => _accountNumber ?? '';
-  bool hasAccountNumber() => _accountNumber != null;
-
   // "photo_url" field.
   String? _photoUrl;
   String get photoUrl => _photoUrl ?? '';
   bool hasPhotoUrl() => _photoUrl != null;
+
+  // "age" field.
+  double? _age;
+  double get age => _age ?? 0.0;
+  bool hasAge() => _age != null;
+
+  // "gender" field.
+  String? _gender;
+  String get gender => _gender ?? '';
+  bool hasGender() => _gender != null;
 
   void _initializeFields() {
     _email = snapshotData['email'] as String?;
@@ -71,11 +66,10 @@ class UsersRecord extends FirestoreRecord {
     _uid = snapshotData['uid'] as String?;
     _createdTime = snapshotData['created_time'] as DateTime?;
     _password = snapshotData['password'] as String?;
-    _monthlySalary = snapshotData['monthly_salary'] as String?;
-    _bankName = snapshotData['bank_name'] as String?;
     _phoneNumber = snapshotData['phone_number'] as String?;
-    _accountNumber = snapshotData['account_number'] as String?;
     _photoUrl = snapshotData['photo_url'] as String?;
+    _age = castToType<double>(snapshotData['age']);
+    _gender = snapshotData['gender'] as String?;
   }
 
   static CollectionReference get collection =>
@@ -117,11 +111,10 @@ Map<String, dynamic> createUsersRecordData({
   String? uid,
   DateTime? createdTime,
   String? password,
-  String? monthlySalary,
-  String? bankName,
   String? phoneNumber,
-  String? accountNumber,
   String? photoUrl,
+  double? age,
+  String? gender,
 }) {
   final firestoreData = mapToFirestore(
     <String, dynamic>{
@@ -130,11 +123,10 @@ Map<String, dynamic> createUsersRecordData({
       'uid': uid,
       'created_time': createdTime,
       'password': password,
-      'monthly_salary': monthlySalary,
-      'bank_name': bankName,
       'phone_number': phoneNumber,
-      'account_number': accountNumber,
       'photo_url': photoUrl,
+      'age': age,
+      'gender': gender,
     }.withoutNulls,
   );
 
@@ -151,11 +143,10 @@ class UsersRecordDocumentEquality implements Equality<UsersRecord> {
         e1?.uid == e2?.uid &&
         e1?.createdTime == e2?.createdTime &&
         e1?.password == e2?.password &&
-        e1?.monthlySalary == e2?.monthlySalary &&
-        e1?.bankName == e2?.bankName &&
         e1?.phoneNumber == e2?.phoneNumber &&
-        e1?.accountNumber == e2?.accountNumber &&
-        e1?.photoUrl == e2?.photoUrl;
+        e1?.photoUrl == e2?.photoUrl &&
+        e1?.age == e2?.age &&
+        e1?.gender == e2?.gender;
   }
 
   @override
@@ -165,11 +156,10 @@ class UsersRecordDocumentEquality implements Equality<UsersRecord> {
         e?.uid,
         e?.createdTime,
         e?.password,
-        e?.monthlySalary,
-        e?.bankName,
         e?.phoneNumber,
-        e?.accountNumber,
-        e?.photoUrl
+        e?.photoUrl,
+        e?.age,
+        e?.gender
       ]);
 
   @override

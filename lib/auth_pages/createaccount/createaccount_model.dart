@@ -1,4 +1,5 @@
 import '/flutter_flow/flutter_flow_util.dart';
+import '/flutter_flow/form_field_controller.dart';
 import '/index.dart';
 import 'createaccount_widget.dart' show CreateaccountWidget;
 import 'package:flutter/material.dart';
@@ -19,6 +20,12 @@ class CreateaccountModel extends FlutterFlowModel<CreateaccountWidget> {
 
   String bankname = '\"\"';
 
+  String username = '\"\"';
+
+  double? age;
+
+  String gender = '\"\"';
+
   ///  State fields for stateful widgets in this page.
 
   // State field(s) for phonenumber widget.
@@ -26,6 +33,10 @@ class CreateaccountModel extends FlutterFlowModel<CreateaccountWidget> {
   TextEditingController? phonenumberTextController;
   final phonenumberMask = MaskTextInputFormatter(mask: '+91 ##########');
   String? Function(BuildContext, String?)? phonenumberTextControllerValidator;
+  // State field(s) for username widget.
+  FocusNode? usernameFocusNode;
+  TextEditingController? usernameTextController;
+  String? Function(BuildContext, String?)? usernameTextControllerValidator;
   // State field(s) for emailAddress widget.
   FocusNode? emailAddressFocusNode;
   TextEditingController? emailAddressTextController;
@@ -41,19 +52,13 @@ class CreateaccountModel extends FlutterFlowModel<CreateaccountWidget> {
   late bool passwordConfirmVisibility;
   String? Function(BuildContext, String?)?
       passwordConfirmTextControllerValidator;
-  // State field(s) for Montly_Salary widget.
-  FocusNode? montlySalaryFocusNode;
-  TextEditingController? montlySalaryTextController;
-  String? Function(BuildContext, String?)? montlySalaryTextControllerValidator;
-  // State field(s) for BankName widget.
-  FocusNode? bankNameFocusNode;
-  TextEditingController? bankNameTextController;
-  String? Function(BuildContext, String?)? bankNameTextControllerValidator;
-  // State field(s) for AccountNumber widget.
-  FocusNode? accountNumberFocusNode;
-  TextEditingController? accountNumberTextController;
-  final accountNumberMask = MaskTextInputFormatter(mask: '##############');
-  String? Function(BuildContext, String?)? accountNumberTextControllerValidator;
+  // State field(s) for age widget.
+  FocusNode? ageFocusNode;
+  TextEditingController? ageTextController;
+  String? Function(BuildContext, String?)? ageTextControllerValidator;
+  // State field(s) for DropDown widget.
+  String? dropDownValue;
+  FormFieldController<String>? dropDownValueController;
 
   @override
   void initState(BuildContext context) {
@@ -66,6 +71,9 @@ class CreateaccountModel extends FlutterFlowModel<CreateaccountWidget> {
     phonenumberFocusNode?.dispose();
     phonenumberTextController?.dispose();
 
+    usernameFocusNode?.dispose();
+    usernameTextController?.dispose();
+
     emailAddressFocusNode?.dispose();
     emailAddressTextController?.dispose();
 
@@ -75,13 +83,7 @@ class CreateaccountModel extends FlutterFlowModel<CreateaccountWidget> {
     passwordConfirmFocusNode?.dispose();
     passwordConfirmTextController?.dispose();
 
-    montlySalaryFocusNode?.dispose();
-    montlySalaryTextController?.dispose();
-
-    bankNameFocusNode?.dispose();
-    bankNameTextController?.dispose();
-
-    accountNumberFocusNode?.dispose();
-    accountNumberTextController?.dispose();
+    ageFocusNode?.dispose();
+    ageTextController?.dispose();
   }
 }

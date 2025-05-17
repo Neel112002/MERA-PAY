@@ -1,8 +1,10 @@
 import '/auth/firebase_auth/auth_util.dart';
 import '/backend/backend.dart';
+import '/flutter_flow/flutter_flow_drop_down.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
+import '/flutter_flow/form_field_controller.dart';
 import '/index.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:easy_debounce/easy_debounce.dart';
@@ -35,6 +37,9 @@ class _CreateaccountWidgetState extends State<CreateaccountWidget> {
     _model.phonenumberTextController ??= TextEditingController();
     _model.phonenumberFocusNode ??= FocusNode();
 
+    _model.usernameTextController ??= TextEditingController();
+    _model.usernameFocusNode ??= FocusNode();
+
     _model.emailAddressTextController ??= TextEditingController();
     _model.emailAddressFocusNode ??= FocusNode();
 
@@ -44,14 +49,8 @@ class _CreateaccountWidgetState extends State<CreateaccountWidget> {
     _model.passwordConfirmTextController ??= TextEditingController();
     _model.passwordConfirmFocusNode ??= FocusNode();
 
-    _model.montlySalaryTextController ??= TextEditingController();
-    _model.montlySalaryFocusNode ??= FocusNode();
-
-    _model.bankNameTextController ??= TextEditingController();
-    _model.bankNameFocusNode ??= FocusNode();
-
-    _model.accountNumberTextController ??= TextEditingController();
-    _model.accountNumberFocusNode ??= FocusNode();
+    _model.ageTextController ??= TextEditingController();
+    _model.ageFocusNode ??= FocusNode();
 
     WidgetsBinding.instance.addPostFrameCallback((_) => safeSetState(() {}));
   }
@@ -204,8 +203,6 @@ class _CreateaccountWidgetState extends State<CreateaccountWidget> {
                                           '_model.phonenumberTextController',
                                           Duration(milliseconds: 2000),
                                           () async {
-                                            _model.email = _model
-                                                .phonenumberTextController.text;
                                             _model.phonenumber = _model
                                                 .phonenumberTextController.text;
                                             safeSetState(() {});
@@ -213,8 +210,7 @@ class _CreateaccountWidgetState extends State<CreateaccountWidget> {
                                         ),
                                         autofocus: true,
                                         autofillHints: [
-                                          AutofillHints
-                                              .telephoneNumberCountryCode
+                                          AutofillHints.telephoneNumber
                                         ],
                                         obscureText: false,
                                         decoration: InputDecoration(
@@ -321,6 +317,133 @@ class _CreateaccountWidgetState extends State<CreateaccountWidget> {
                                         inputFormatters: [
                                           _model.phonenumberMask
                                         ],
+                                      ),
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: EdgeInsetsDirectional.fromSTEB(
+                                        0.0, 0.0, 0.0, 16.0),
+                                    child: Container(
+                                      width: double.infinity,
+                                      child: TextFormField(
+                                        controller:
+                                            _model.usernameTextController,
+                                        focusNode: _model.usernameFocusNode,
+                                        onChanged: (_) => EasyDebounce.debounce(
+                                          '_model.usernameTextController',
+                                          Duration(milliseconds: 2000),
+                                          () async {
+                                            _model.email = _model
+                                                .usernameTextController.text;
+                                            _model.username = _model
+                                                .usernameTextController.text;
+                                            safeSetState(() {});
+                                          },
+                                        ),
+                                        autofocus: true,
+                                        autofillHints: [AutofillHints.username],
+                                        obscureText: false,
+                                        decoration: InputDecoration(
+                                          labelText: 'UserName',
+                                          labelStyle: FlutterFlowTheme.of(
+                                                  context)
+                                              .labelLarge
+                                              .override(
+                                                font: GoogleFonts.inter(
+                                                  fontWeight:
+                                                      FlutterFlowTheme.of(
+                                                              context)
+                                                          .labelLarge
+                                                          .fontWeight,
+                                                  fontStyle:
+                                                      FlutterFlowTheme.of(
+                                                              context)
+                                                          .labelLarge
+                                                          .fontStyle,
+                                                ),
+                                                letterSpacing: 0.0,
+                                                fontWeight:
+                                                    FlutterFlowTheme.of(context)
+                                                        .labelLarge
+                                                        .fontWeight,
+                                                fontStyle:
+                                                    FlutterFlowTheme.of(context)
+                                                        .labelLarge
+                                                        .fontStyle,
+                                              ),
+                                          enabledBorder: OutlineInputBorder(
+                                            borderSide: BorderSide(
+                                              color:
+                                                  FlutterFlowTheme.of(context)
+                                                      .primaryBackground,
+                                              width: 2.0,
+                                            ),
+                                            borderRadius:
+                                                BorderRadius.circular(12.0),
+                                          ),
+                                          focusedBorder: OutlineInputBorder(
+                                            borderSide: BorderSide(
+                                              color:
+                                                  FlutterFlowTheme.of(context)
+                                                      .primary,
+                                              width: 2.0,
+                                            ),
+                                            borderRadius:
+                                                BorderRadius.circular(12.0),
+                                          ),
+                                          errorBorder: OutlineInputBorder(
+                                            borderSide: BorderSide(
+                                              color:
+                                                  FlutterFlowTheme.of(context)
+                                                      .error,
+                                              width: 2.0,
+                                            ),
+                                            borderRadius:
+                                                BorderRadius.circular(12.0),
+                                          ),
+                                          focusedErrorBorder:
+                                              OutlineInputBorder(
+                                            borderSide: BorderSide(
+                                              color:
+                                                  FlutterFlowTheme.of(context)
+                                                      .error,
+                                              width: 2.0,
+                                            ),
+                                            borderRadius:
+                                                BorderRadius.circular(12.0),
+                                          ),
+                                          filled: true,
+                                          fillColor:
+                                              FlutterFlowTheme.of(context)
+                                                  .primaryBackground,
+                                        ),
+                                        style: FlutterFlowTheme.of(context)
+                                            .bodyLarge
+                                            .override(
+                                              font: GoogleFonts.inter(
+                                                fontWeight:
+                                                    FlutterFlowTheme.of(context)
+                                                        .bodyLarge
+                                                        .fontWeight,
+                                                fontStyle:
+                                                    FlutterFlowTheme.of(context)
+                                                        .bodyLarge
+                                                        .fontStyle,
+                                              ),
+                                              letterSpacing: 0.0,
+                                              fontWeight:
+                                                  FlutterFlowTheme.of(context)
+                                                      .bodyLarge
+                                                      .fontWeight,
+                                              fontStyle:
+                                                  FlutterFlowTheme.of(context)
+                                                      .bodyLarge
+                                                      .fontStyle,
+                                            ),
+                                        keyboardType: TextInputType.name,
+                                        validator: _model
+                                            .usernameTextControllerValidator
+                                            .asValidator(context),
                                       ),
                                     ),
                                   ),
@@ -737,27 +860,22 @@ class _CreateaccountWidgetState extends State<CreateaccountWidget> {
                                     child: Container(
                                       width: double.infinity,
                                       child: TextFormField(
-                                        controller:
-                                            _model.montlySalaryTextController,
-                                        focusNode: _model.montlySalaryFocusNode,
+                                        controller: _model.ageTextController,
+                                        focusNode: _model.ageFocusNode,
                                         onChanged: (_) => EasyDebounce.debounce(
-                                          '_model.montlySalaryTextController',
+                                          '_model.ageTextController',
                                           Duration(milliseconds: 2000),
                                           () async {
-                                            _model.email = _model
-                                                .montlySalaryTextController
-                                                .text;
-                                            _model.monthlysalary = _model
-                                                .montlySalaryTextController
-                                                .text;
+                                            _model.age = double.tryParse(
+                                                _model.ageTextController.text);
                                             safeSetState(() {});
                                           },
                                         ),
                                         autofocus: true,
-                                        autofillHints: [AutofillHints.email],
+                                        autofillHints: [AutofillHints.birthday],
                                         obscureText: false,
                                         decoration: InputDecoration(
-                                          labelText: 'Montly Salary',
+                                          labelText: 'Age',
                                           labelStyle: FlutterFlowTheme.of(
                                                   context)
                                               .labelLarge
@@ -855,7 +973,7 @@ class _CreateaccountWidgetState extends State<CreateaccountWidget> {
                                             ),
                                         keyboardType: TextInputType.number,
                                         validator: _model
-                                            .montlySalaryTextControllerValidator
+                                            .ageTextControllerValidator
                                             .asValidator(context),
                                       ),
                                     ),
@@ -863,254 +981,64 @@ class _CreateaccountWidgetState extends State<CreateaccountWidget> {
                                   Padding(
                                     padding: EdgeInsetsDirectional.fromSTEB(
                                         0.0, 0.0, 0.0, 16.0),
-                                    child: Container(
+                                    child: FlutterFlowDropDown<String>(
+                                      controller:
+                                          _model.dropDownValueController ??=
+                                              FormFieldController<String>(null),
+                                      options: ['Male', 'female'],
+                                      onChanged: (val) async {
+                                        safeSetState(
+                                            () => _model.dropDownValue = val);
+                                        _model.gender = _model.dropDownValue!;
+                                        safeSetState(() {});
+                                      },
                                       width: double.infinity,
-                                      child: TextFormField(
-                                        controller:
-                                            _model.bankNameTextController,
-                                        focusNode: _model.bankNameFocusNode,
-                                        onChanged: (_) => EasyDebounce.debounce(
-                                          '_model.bankNameTextController',
-                                          Duration(milliseconds: 2000),
-                                          () async {
-                                            _model.email = _model
-                                                .bankNameTextController.text;
-                                            _model.bankname = _model
-                                                .bankNameTextController.text;
-                                            safeSetState(() {});
-                                          },
-                                        ),
-                                        autofocus: true,
-                                        autofillHints: [AutofillHints.email],
-                                        obscureText: false,
-                                        decoration: InputDecoration(
-                                          labelText: 'Bank Name',
-                                          labelStyle: FlutterFlowTheme.of(
-                                                  context)
-                                              .labelLarge
-                                              .override(
-                                                font: GoogleFonts.inter(
-                                                  fontWeight:
-                                                      FlutterFlowTheme.of(
-                                                              context)
-                                                          .labelLarge
-                                                          .fontWeight,
-                                                  fontStyle:
-                                                      FlutterFlowTheme.of(
-                                                              context)
-                                                          .labelLarge
-                                                          .fontStyle,
-                                                ),
-                                                letterSpacing: 0.0,
-                                                fontWeight:
-                                                    FlutterFlowTheme.of(context)
-                                                        .labelLarge
-                                                        .fontWeight,
-                                                fontStyle:
-                                                    FlutterFlowTheme.of(context)
-                                                        .labelLarge
-                                                        .fontStyle,
-                                              ),
-                                          enabledBorder: OutlineInputBorder(
-                                            borderSide: BorderSide(
-                                              color:
-                                                  FlutterFlowTheme.of(context)
-                                                      .primaryBackground,
-                                              width: 2.0,
-                                            ),
-                                            borderRadius:
-                                                BorderRadius.circular(12.0),
-                                          ),
-                                          focusedBorder: OutlineInputBorder(
-                                            borderSide: BorderSide(
-                                              color:
-                                                  FlutterFlowTheme.of(context)
-                                                      .primary,
-                                              width: 2.0,
-                                            ),
-                                            borderRadius:
-                                                BorderRadius.circular(12.0),
-                                          ),
-                                          errorBorder: OutlineInputBorder(
-                                            borderSide: BorderSide(
-                                              color:
-                                                  FlutterFlowTheme.of(context)
-                                                      .error,
-                                              width: 2.0,
-                                            ),
-                                            borderRadius:
-                                                BorderRadius.circular(12.0),
-                                          ),
-                                          focusedErrorBorder:
-                                              OutlineInputBorder(
-                                            borderSide: BorderSide(
-                                              color:
-                                                  FlutterFlowTheme.of(context)
-                                                      .error,
-                                              width: 2.0,
-                                            ),
-                                            borderRadius:
-                                                BorderRadius.circular(12.0),
-                                          ),
-                                          filled: true,
-                                          fillColor:
-                                              FlutterFlowTheme.of(context)
-                                                  .primaryBackground,
-                                        ),
-                                        style: FlutterFlowTheme.of(context)
-                                            .bodyLarge
-                                            .override(
-                                              font: GoogleFonts.inter(
-                                                fontWeight:
-                                                    FlutterFlowTheme.of(context)
-                                                        .bodyLarge
-                                                        .fontWeight,
-                                                fontStyle:
-                                                    FlutterFlowTheme.of(context)
-                                                        .bodyLarge
-                                                        .fontStyle,
-                                              ),
-                                              letterSpacing: 0.0,
+                                      height: 40.0,
+                                      textStyle: FlutterFlowTheme.of(context)
+                                          .bodyMedium
+                                          .override(
+                                            font: GoogleFonts.inter(
                                               fontWeight:
                                                   FlutterFlowTheme.of(context)
-                                                      .bodyLarge
+                                                      .bodyMedium
                                                       .fontWeight,
                                               fontStyle:
                                                   FlutterFlowTheme.of(context)
-                                                      .bodyLarge
+                                                      .bodyMedium
                                                       .fontStyle,
                                             ),
-                                        keyboardType:
-                                            TextInputType.emailAddress,
-                                        validator: _model
-                                            .bankNameTextControllerValidator
-                                            .asValidator(context),
+                                            color: FlutterFlowTheme.of(context)
+                                                .secondaryText,
+                                            fontSize: 16.0,
+                                            letterSpacing: 0.0,
+                                            fontWeight:
+                                                FlutterFlowTheme.of(context)
+                                                    .bodyMedium
+                                                    .fontWeight,
+                                            fontStyle:
+                                                FlutterFlowTheme.of(context)
+                                                    .bodyMedium
+                                                    .fontStyle,
+                                          ),
+                                      hintText: 'Gender',
+                                      icon: Icon(
+                                        Icons.keyboard_arrow_down_rounded,
+                                        color: FlutterFlowTheme.of(context)
+                                            .secondaryText,
+                                        size: 24.0,
                                       ),
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: EdgeInsetsDirectional.fromSTEB(
-                                        0.0, 0.0, 0.0, 16.0),
-                                    child: Container(
-                                      width: double.infinity,
-                                      child: TextFormField(
-                                        controller:
-                                            _model.accountNumberTextController,
-                                        focusNode:
-                                            _model.accountNumberFocusNode,
-                                        onFieldSubmitted: (_) async {
-                                          _model.accountnumber = _model
-                                              .accountNumberTextController.text;
-                                          safeSetState(() {});
-                                        },
-                                        autofocus: true,
-                                        autofillHints: [AutofillHints.email],
-                                        obscureText: false,
-                                        decoration: InputDecoration(
-                                          labelText: 'Account Number',
-                                          labelStyle: FlutterFlowTheme.of(
-                                                  context)
-                                              .labelLarge
-                                              .override(
-                                                font: GoogleFonts.inter(
-                                                  fontWeight:
-                                                      FlutterFlowTheme.of(
-                                                              context)
-                                                          .labelLarge
-                                                          .fontWeight,
-                                                  fontStyle:
-                                                      FlutterFlowTheme.of(
-                                                              context)
-                                                          .labelLarge
-                                                          .fontStyle,
-                                                ),
-                                                letterSpacing: 0.0,
-                                                fontWeight:
-                                                    FlutterFlowTheme.of(context)
-                                                        .labelLarge
-                                                        .fontWeight,
-                                                fontStyle:
-                                                    FlutterFlowTheme.of(context)
-                                                        .labelLarge
-                                                        .fontStyle,
-                                              ),
-                                          enabledBorder: OutlineInputBorder(
-                                            borderSide: BorderSide(
-                                              color:
-                                                  FlutterFlowTheme.of(context)
-                                                      .primaryBackground,
-                                              width: 2.0,
-                                            ),
-                                            borderRadius:
-                                                BorderRadius.circular(12.0),
-                                          ),
-                                          focusedBorder: OutlineInputBorder(
-                                            borderSide: BorderSide(
-                                              color:
-                                                  FlutterFlowTheme.of(context)
-                                                      .primary,
-                                              width: 2.0,
-                                            ),
-                                            borderRadius:
-                                                BorderRadius.circular(12.0),
-                                          ),
-                                          errorBorder: OutlineInputBorder(
-                                            borderSide: BorderSide(
-                                              color:
-                                                  FlutterFlowTheme.of(context)
-                                                      .error,
-                                              width: 2.0,
-                                            ),
-                                            borderRadius:
-                                                BorderRadius.circular(12.0),
-                                          ),
-                                          focusedErrorBorder:
-                                              OutlineInputBorder(
-                                            borderSide: BorderSide(
-                                              color:
-                                                  FlutterFlowTheme.of(context)
-                                                      .error,
-                                              width: 2.0,
-                                            ),
-                                            borderRadius:
-                                                BorderRadius.circular(12.0),
-                                          ),
-                                          filled: true,
-                                          fillColor:
-                                              FlutterFlowTheme.of(context)
-                                                  .primaryBackground,
-                                        ),
-                                        style: FlutterFlowTheme.of(context)
-                                            .bodyLarge
-                                            .override(
-                                              font: GoogleFonts.inter(
-                                                fontWeight:
-                                                    FlutterFlowTheme.of(context)
-                                                        .bodyLarge
-                                                        .fontWeight,
-                                                fontStyle:
-                                                    FlutterFlowTheme.of(context)
-                                                        .bodyLarge
-                                                        .fontStyle,
-                                              ),
-                                              letterSpacing: 0.0,
-                                              fontWeight:
-                                                  FlutterFlowTheme.of(context)
-                                                      .bodyLarge
-                                                      .fontWeight,
-                                              fontStyle:
-                                                  FlutterFlowTheme.of(context)
-                                                      .bodyLarge
-                                                      .fontStyle,
-                                            ),
-                                        keyboardType: TextInputType.number,
-                                        validator: _model
-                                            .accountNumberTextControllerValidator
-                                            .asValidator(context),
-                                        inputFormatters: [
-                                          _model.accountNumberMask
-                                        ],
-                                      ),
+                                      fillColor: FlutterFlowTheme.of(context)
+                                          .primaryBackground,
+                                      elevation: 2.0,
+                                      borderColor: Colors.transparent,
+                                      borderWidth: 0.0,
+                                      borderRadius: 8.0,
+                                      margin: EdgeInsetsDirectional.fromSTEB(
+                                          12.0, 0.0, 12.0, 0.0),
+                                      hidesUnderline: true,
+                                      isOverButton: false,
+                                      isSearchable: false,
+                                      isMultiSelect: false,
                                     ),
                                   ),
                                   Padding(
@@ -1155,24 +1083,21 @@ class _CreateaccountWidgetState extends State<CreateaccountWidget> {
                                           await UsersRecord.collection
                                               .doc(user.uid)
                                               .update(createUsersRecordData(
-                                                email: _model
-                                                    .emailAddressTextController
-                                                    .text,
                                                 password: _model
                                                     .passwordTextController
                                                     .text,
                                                 phoneNumber: _model
                                                     .phonenumberTextController
                                                     .text,
-                                                monthlySalary: _model
-                                                    .montlySalaryTextController
+                                                displayName: _model
+                                                    .usernameTextController
                                                     .text,
-                                                bankName: _model
-                                                    .bankNameTextController
+                                                age: double.tryParse(_model
+                                                    .ageTextController.text),
+                                                email: _model
+                                                    .emailAddressTextController
                                                     .text,
-                                                accountNumber: _model
-                                                    .accountNumberTextController
-                                                    .text,
+                                                gender: _model.dropDownValue,
                                               ));
 
                                           _navigate = () => context.goNamedAuth(

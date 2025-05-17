@@ -535,7 +535,7 @@ class _LoginPageWidgetState extends State<LoginPageWidget> {
                                           highlightColor: Colors.transparent,
                                           onTap: () async {
                                             context.pushNamed(
-                                                LandingPageWidget.routeName);
+                                                HomeScreenWidget.routeName);
                                           },
                                           child: Text(
                                             'Learn About Mera-Pay',

@@ -5,7 +5,6 @@ import 'package:provider/provider.dart';
 
 import '/auth/base_auth_user_provider.dart';
 
-import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 
 import '/index.dart';
@@ -76,24 +75,14 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
       refreshListenable: appStateNotifier,
       navigatorKey: appNavigatorKey,
       errorBuilder: (context, state) =>
-          appStateNotifier.loggedIn ? HomeScreenWidget() : LandingPageWidget(),
+          appStateNotifier.loggedIn ? HomeScreenWidget() : LoginPageWidget(),
       routes: [
         FFRoute(
           name: '_initialize',
           path: '/',
           builder: (context, _) => appStateNotifier.loggedIn
               ? HomeScreenWidget()
-              : LandingPageWidget(),
-        ),
-        FFRoute(
-          name: LandingPageWidget.routeName,
-          path: LandingPageWidget.routePath,
-          builder: (context, params) => LandingPageWidget(),
-        ),
-        FFRoute(
-          name: LoginPageWidget.routeName,
-          path: LoginPageWidget.routePath,
-          builder: (context, params) => LoginPageWidget(),
+              : LoginPageWidget(),
         ),
         FFRoute(
           name: HomeScreenWidget.routeName,
@@ -101,9 +90,19 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
           builder: (context, params) => HomeScreenWidget(),
         ),
         FFRoute(
+          name: LoginPageWidget.routeName,
+          path: LoginPageWidget.routePath,
+          builder: (context, params) => LoginPageWidget(),
+        ),
+        FFRoute(
           name: CreateaccountWidget.routeName,
           path: CreateaccountWidget.routePath,
           builder: (context, params) => CreateaccountWidget(),
+        ),
+        FFRoute(
+          name: LandingPageWidget.routeName,
+          path: LandingPageWidget.routePath,
+          builder: (context, params) => LandingPageWidget(),
         )
       ].map((r) => r.toRoute(appStateNotifier)).toList(),
     );
@@ -274,7 +273,7 @@ class FFRoute {
 
           if (requireAuth && !appStateNotifier.loggedIn) {
             appStateNotifier.setRedirectLocationIfUnset(state.uri.toString());
-            return '/landingPage';
+            return '/loginPage';
           }
           return null;
         },
@@ -288,15 +287,11 @@ class FFRoute {
                 )
               : builder(context, ffParams);
           final child = appStateNotifier.loading
-              ? Center(
-                  child: SizedBox(
-                    width: 50.0,
-                    height: 50.0,
-                    child: CircularProgressIndicator(
-                      valueColor: AlwaysStoppedAnimation<Color>(
-                        FlutterFlowTheme.of(context).primary,
-                      ),
-                    ),
+              ? Container(
+                  color: Colors.white,
+                  child: Image.asset(
+                    'assets/images/Image_2025-03-02_at_11.09_PM.jpeg',
+                    fit: BoxFit.contain,
                   ),
                 )
               : page;
