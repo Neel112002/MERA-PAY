@@ -1,8 +1,11 @@
 // Export pages
-export '/dashboard_pages/home_screen/home_screen_widget.dart'
-    show HomeScreenWidget;
+export '/dashboard_pages/dashboard_page/dashboard_page_widget.dart'
+    show DashboardPageWidget;
 export '/auth_pages/login_page/login_page_widget.dart' show LoginPageWidget;
-export '/auth_pages/createaccount/createaccount_widget.dart'
-    show CreateaccountWidget;
-export '/dashboard_pages/landing_page/landing_page_widget.dart'
-    show LandingPageWidget;
+export '/auth_pages/createaccount_page/createaccount_page_widget.dart'
+    show CreateaccountPageWidget;
+export '/menupages/f_a_qs_page/f_a_qs_page_widget.dart' show FAQsPageWidget;
+export '/menupages/profile_page/profile_page_widget.dart'
+    show ProfilePageWidget;
+export '/menupages/settings_page/settings_page_widget.dart'
+    show SettingsPageWidget;

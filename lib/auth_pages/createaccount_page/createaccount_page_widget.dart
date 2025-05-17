@@ -11,28 +11,29 @@ import 'package:easy_debounce/easy_debounce.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'createaccount_model.dart';
-export 'createaccount_model.dart';
+import 'createaccount_page_model.dart';
+export 'createaccount_page_model.dart';
 
-class CreateaccountWidget extends StatefulWidget {
-  const CreateaccountWidget({super.key});
+class CreateaccountPageWidget extends StatefulWidget {
+  const CreateaccountPageWidget({super.key});
 
-  static String routeName = 'createaccount';
-  static String routePath = '/createaccount';
+  static String routeName = 'CreateaccountPage';
+  static String routePath = '/createaccountPage';
 
   @override
-  State<CreateaccountWidget> createState() => _CreateaccountWidgetState();
+  State<CreateaccountPageWidget> createState() =>
+      _CreateaccountPageWidgetState();
 }
 
-class _CreateaccountWidgetState extends State<CreateaccountWidget> {
-  late CreateaccountModel _model;
+class _CreateaccountPageWidgetState extends State<CreateaccountPageWidget> {
+  late CreateaccountPageModel _model;
 
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   void initState() {
     super.initState();
-    _model = createModel(context, () => CreateaccountModel());
+    _model = createModel(context, () => CreateaccountPageModel());
 
     _model.phonenumberTextController ??= TextEditingController();
     _model.phonenumberFocusNode ??= FocusNode();
@@ -1101,7 +1102,7 @@ class _CreateaccountWidgetState extends State<CreateaccountWidget> {
                                               ));
 
                                           _navigate = () => context.goNamedAuth(
-                                              HomeScreenWidget.routeName,
+                                              DashboardPageWidget.routeName,
                                               context.mounted);
                                         } else {
                                           ScaffoldMessenger.of(context)

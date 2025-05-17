@@ -1,5 +1,5 @@
 import '/auth/firebase_auth/auth_util.dart';
-import '/components/menu_page_widget.dart';
+import '/components/menu_page/menu_page_widget.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
@@ -7,28 +7,28 @@ import '/index.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:percent_indicator/percent_indicator.dart';
-import 'home_screen_model.dart';
-export 'home_screen_model.dart';
+import 'dashboard_page_model.dart';
+export 'dashboard_page_model.dart';
 
-class HomeScreenWidget extends StatefulWidget {
-  const HomeScreenWidget({super.key});
+class DashboardPageWidget extends StatefulWidget {
+  const DashboardPageWidget({super.key});
 
-  static String routeName = 'HomeScreen';
-  static String routePath = '/homeScreen';
+  static String routeName = 'DashboardPage';
+  static String routePath = '/dashboardPage';
 
   @override
-  State<HomeScreenWidget> createState() => _HomeScreenWidgetState();
+  State<DashboardPageWidget> createState() => _DashboardPageWidgetState();
 }
 
-class _HomeScreenWidgetState extends State<HomeScreenWidget> {
-  late HomeScreenModel _model;
+class _DashboardPageWidgetState extends State<DashboardPageWidget> {
+  late DashboardPageModel _model;
 
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   void initState() {
     super.initState();
-    _model = createModel(context, () => HomeScreenModel());
+    _model = createModel(context, () => DashboardPageModel());
 
     WidgetsBinding.instance.addPostFrameCallback((_) => safeSetState(() {}));
   }
@@ -130,12 +130,23 @@ class _HomeScreenWidgetState extends State<HomeScreenWidget> {
                               mainAxisSize: MainAxisSize.max,
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text(
-                                  'Max Rosco',
-                                  style: FlutterFlowTheme.of(context)
-                                      .titleLarge
-                                      .override(
-                                        font: GoogleFonts.interTight(
+                                AuthUserStreamWidget(
+                                  builder: (context) => Text(
+                                    currentUserDisplayName,
+                                    style: FlutterFlowTheme.of(context)
+                                        .titleLarge
+                                        .override(
+                                          font: GoogleFonts.interTight(
+                                            fontWeight:
+                                                FlutterFlowTheme.of(context)
+                                                    .titleLarge
+                                                    .fontWeight,
+                                            fontStyle:
+                                                FlutterFlowTheme.of(context)
+                                                    .titleLarge
+                                                    .fontStyle,
+                                          ),
+                                          letterSpacing: 0.0,
                                           fontWeight:
                                               FlutterFlowTheme.of(context)
                                                   .titleLarge
@@ -145,14 +156,7 @@ class _HomeScreenWidgetState extends State<HomeScreenWidget> {
                                                   .titleLarge
                                                   .fontStyle,
                                         ),
-                                        letterSpacing: 0.0,
-                                        fontWeight: FlutterFlowTheme.of(context)
-                                            .titleLarge
-                                            .fontWeight,
-                                        fontStyle: FlutterFlowTheme.of(context)
-                                            .titleLarge
-                                            .fontStyle,
-                                      ),
+                                  ),
                                 ),
                                 Padding(
                                   padding: EdgeInsetsDirectional.fromSTEB(

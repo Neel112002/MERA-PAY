@@ -1,13 +1,12 @@
 import '/flutter_flow/flutter_flow_util.dart';
-import 'landing_page_widget.dart' show LandingPageWidget;
+import '/index.dart';
+import 'dashboard_page_widget.dart' show DashboardPageWidget;
 import 'package:flutter/material.dart';
 
-class LandingPageModel extends FlutterFlowModel<LandingPageWidget> {
+class DashboardPageModel extends FlutterFlowModel<DashboardPageWidget> {
   ///  Local state fields for this page.
 
-  double? earn = 45000.0;
-
-  double? goal = 80000.0;
+  bool showMenu = true;
 
   @override
   void initState(BuildContext context) {}

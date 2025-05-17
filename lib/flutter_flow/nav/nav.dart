@@ -75,19 +75,19 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
       refreshListenable: appStateNotifier,
       navigatorKey: appNavigatorKey,
       errorBuilder: (context, state) =>
-          appStateNotifier.loggedIn ? HomeScreenWidget() : LoginPageWidget(),
+          appStateNotifier.loggedIn ? DashboardPageWidget() : LoginPageWidget(),
       routes: [
         FFRoute(
           name: '_initialize',
           path: '/',
           builder: (context, _) => appStateNotifier.loggedIn
-              ? HomeScreenWidget()
+              ? DashboardPageWidget()
               : LoginPageWidget(),
         ),
         FFRoute(
-          name: HomeScreenWidget.routeName,
-          path: HomeScreenWidget.routePath,
-          builder: (context, params) => HomeScreenWidget(),
+          name: DashboardPageWidget.routeName,
+          path: DashboardPageWidget.routePath,
+          builder: (context, params) => DashboardPageWidget(),
         ),
         FFRoute(
           name: LoginPageWidget.routeName,
@@ -95,14 +95,24 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
           builder: (context, params) => LoginPageWidget(),
         ),
         FFRoute(
-          name: CreateaccountWidget.routeName,
-          path: CreateaccountWidget.routePath,
-          builder: (context, params) => CreateaccountWidget(),
+          name: CreateaccountPageWidget.routeName,
+          path: CreateaccountPageWidget.routePath,
+          builder: (context, params) => CreateaccountPageWidget(),
         ),
         FFRoute(
-          name: LandingPageWidget.routeName,
-          path: LandingPageWidget.routePath,
-          builder: (context, params) => LandingPageWidget(),
+          name: FAQsPageWidget.routeName,
+          path: FAQsPageWidget.routePath,
+          builder: (context, params) => FAQsPageWidget(),
+        ),
+        FFRoute(
+          name: ProfilePageWidget.routeName,
+          path: ProfilePageWidget.routePath,
+          builder: (context, params) => ProfilePageWidget(),
+        ),
+        FFRoute(
+          name: SettingsPageWidget.routeName,
+          path: SettingsPageWidget.routePath,
+          builder: (context, params) => SettingsPageWidget(),
         )
       ].map((r) => r.toRoute(appStateNotifier)).toList(),
     );

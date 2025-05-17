@@ -1,12 +1,13 @@
 import '/flutter_flow/flutter_flow_util.dart';
-import '/index.dart';
-import 'home_screen_widget.dart' show HomeScreenWidget;
+import 'f_a_qs_page_widget.dart' show FAQsPageWidget;
 import 'package:flutter/material.dart';
 
-class HomeScreenModel extends FlutterFlowModel<HomeScreenWidget> {
+class FAQsPageModel extends FlutterFlowModel<FAQsPageWidget> {
   ///  Local state fields for this page.
 
-  bool showMenu = true;
+  double? earn = 45000.0;
+
+  double? goal = 80000.0;
 
   @override
   void initState(BuildContext context) {}

@@ -117,12 +117,31 @@ class _MenuPageWidgetState extends State<MenuPageWidget> {
                                   color: FlutterFlowTheme.of(context).primary,
                                   size: 24.0,
                                 ),
-                                Text(
-                                  'Profile',
-                                  style: FlutterFlowTheme.of(context)
-                                      .bodyLarge
-                                      .override(
-                                        font: GoogleFonts.inter(
+                                InkWell(
+                                  splashColor: Colors.transparent,
+                                  focusColor: Colors.transparent,
+                                  hoverColor: Colors.transparent,
+                                  highlightColor: Colors.transparent,
+                                  onTap: () async {
+                                    context
+                                        .pushNamed(ProfilePageWidget.routeName);
+                                  },
+                                  child: Text(
+                                    'Profile',
+                                    style: FlutterFlowTheme.of(context)
+                                        .bodyLarge
+                                        .override(
+                                          font: GoogleFonts.inter(
+                                            fontWeight:
+                                                FlutterFlowTheme.of(context)
+                                                    .bodyLarge
+                                                    .fontWeight,
+                                            fontStyle:
+                                                FlutterFlowTheme.of(context)
+                                                    .bodyLarge
+                                                    .fontStyle,
+                                          ),
+                                          letterSpacing: 0.0,
                                           fontWeight:
                                               FlutterFlowTheme.of(context)
                                                   .bodyLarge
@@ -132,14 +151,7 @@ class _MenuPageWidgetState extends State<MenuPageWidget> {
                                                   .bodyLarge
                                                   .fontStyle,
                                         ),
-                                        letterSpacing: 0.0,
-                                        fontWeight: FlutterFlowTheme.of(context)
-                                            .bodyLarge
-                                            .fontWeight,
-                                        fontStyle: FlutterFlowTheme.of(context)
-                                            .bodyLarge
-                                            .fontStyle,
-                                      ),
+                                  ),
                                 ),
                               ].divide(SizedBox(width: 12.0)),
                             ),
@@ -162,8 +174,7 @@ class _MenuPageWidgetState extends State<MenuPageWidget> {
                                   hoverColor: Colors.transparent,
                                   highlightColor: Colors.transparent,
                                   onTap: () async {
-                                    context
-                                        .pushNamed(LandingPageWidget.routeName);
+                                    context.pushNamed(FAQsPageWidget.routeName);
                                   },
                                   child: Text(
                                     'FAQs',
@@ -207,12 +218,31 @@ class _MenuPageWidgetState extends State<MenuPageWidget> {
                                   color: FlutterFlowTheme.of(context).primary,
                                   size: 24.0,
                                 ),
-                                Text(
-                                  'Settings',
-                                  style: FlutterFlowTheme.of(context)
-                                      .bodyLarge
-                                      .override(
-                                        font: GoogleFonts.inter(
+                                InkWell(
+                                  splashColor: Colors.transparent,
+                                  focusColor: Colors.transparent,
+                                  hoverColor: Colors.transparent,
+                                  highlightColor: Colors.transparent,
+                                  onTap: () async {
+                                    context.pushNamed(
+                                        SettingsPageWidget.routeName);
+                                  },
+                                  child: Text(
+                                    'Settings',
+                                    style: FlutterFlowTheme.of(context)
+                                        .bodyLarge
+                                        .override(
+                                          font: GoogleFonts.inter(
+                                            fontWeight:
+                                                FlutterFlowTheme.of(context)
+                                                    .bodyLarge
+                                                    .fontWeight,
+                                            fontStyle:
+                                                FlutterFlowTheme.of(context)
+                                                    .bodyLarge
+                                                    .fontStyle,
+                                          ),
+                                          letterSpacing: 0.0,
                                           fontWeight:
                                               FlutterFlowTheme.of(context)
                                                   .bodyLarge
@@ -222,14 +252,7 @@ class _MenuPageWidgetState extends State<MenuPageWidget> {
                                                   .bodyLarge
                                                   .fontStyle,
                                         ),
-                                        letterSpacing: 0.0,
-                                        fontWeight: FlutterFlowTheme.of(context)
-                                            .bodyLarge
-                                            .fontWeight,
-                                        fontStyle: FlutterFlowTheme.of(context)
-                                            .bodyLarge
-                                            .fontStyle,
-                                      ),
+                                  ),
                                 ),
                               ].divide(SizedBox(width: 12.0)),
                             ),

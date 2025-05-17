@@ -474,7 +474,7 @@ class _LoginPageWidgetState extends State<LoginPageWidget> {
                                         }
 
                                         context.goNamedAuth(
-                                            HomeScreenWidget.routeName,
+                                            DashboardPageWidget.routeName,
                                             context.mounted);
                                       },
                                       text: 'Sign In',
@@ -535,7 +535,7 @@ class _LoginPageWidgetState extends State<LoginPageWidget> {
                                           highlightColor: Colors.transparent,
                                           onTap: () async {
                                             context.pushNamed(
-                                                HomeScreenWidget.routeName);
+                                                DashboardPageWidget.routeName);
                                           },
                                           child: Text(
                                             'Learn About Mera-Pay',
@@ -689,7 +689,7 @@ class _LoginPageWidgetState extends State<LoginPageWidget> {
                                               recognizer: TapGestureRecognizer()
                                                 ..onTap = () async {
                                                   context.pushNamed(
-                                                      CreateaccountWidget
+                                                      CreateaccountPageWidget
                                                           .routeName);
                                                 },
                                             )
