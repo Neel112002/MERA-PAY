@@ -315,9 +315,6 @@ class _CreateaccountPageWidgetState extends State<CreateaccountPageWidget> {
                                         validator: _model
                                             .phonenumberTextControllerValidator
                                             .asValidator(context),
-                                        inputFormatters: [
-                                          _model.phonenumberMask
-                                        ],
                                       ),
                                     ),
                                   ),

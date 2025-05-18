@@ -3,7 +3,6 @@ import '/flutter_flow/form_field_controller.dart';
 import '/index.dart';
 import 'createaccount_page_widget.dart' show CreateaccountPageWidget;
 import 'package:flutter/material.dart';
-import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 
 class CreateaccountPageModel extends FlutterFlowModel<CreateaccountPageWidget> {
   ///  Local state fields for this page.
@@ -31,7 +30,6 @@ class CreateaccountPageModel extends FlutterFlowModel<CreateaccountPageWidget> {
   // State field(s) for phonenumber widget.
   FocusNode? phonenumberFocusNode;
   TextEditingController? phonenumberTextController;
-  final phonenumberMask = MaskTextInputFormatter(mask: '+91 ##########');
   String? Function(BuildContext, String?)? phonenumberTextControllerValidator;
   // State field(s) for username widget.
   FocusNode? usernameFocusNode;
