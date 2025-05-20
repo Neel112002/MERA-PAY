@@ -1,5 +1,4 @@
 import '/flutter_flow/flutter_flow_util.dart';
-import '/index.dart';
 import 'dashboard_page_widget.dart' show DashboardPageWidget;
 import 'package:flutter/material.dart';
 

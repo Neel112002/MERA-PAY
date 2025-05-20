@@ -1101,6 +1101,12 @@ class _CreateaccountPageWidgetState extends State<CreateaccountPageWidget> {
                                           _navigate = () => context.goNamedAuth(
                                               DashboardPageWidget.routeName,
                                               context.mounted);
+
+                                          await currentUserReference!
+                                              .update(createUsersRecordData(
+                                            photoUrl:
+                                                'https://firebasestorage.googleapis.com/v0/b/mera-pay-5abc3.firebasestorage.app/o/profile.png?alt=media&token=d712bebe-c32f-4227-85a0-eff266da05bc',
+                                          ));
                                         } else {
                                           ScaffoldMessenger.of(context)
                                               .showSnackBar(

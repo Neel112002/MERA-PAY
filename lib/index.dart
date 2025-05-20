@@ -9,3 +9,5 @@ export '/menupages/profile_page/profile_page_widget.dart'
     show ProfilePageWidget;
 export '/menupages/settings_page/settings_page_widget.dart'
     show SettingsPageWidget;
+export '/auth_pages/forgot_password/forgot_password_widget.dart'
+    show ForgotPasswordWidget;
