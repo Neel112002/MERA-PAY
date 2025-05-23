@@ -11,3 +11,5 @@ export '/menupages/settings_page/settings_page_widget.dart'
     show SettingsPageWidget;
 export '/auth_pages/forgot_password/forgot_password_widget.dart'
     show ForgotPasswordWidget;
+export '/auth_pages/change_email/change_email_widget.dart'
+    show ChangeEmailWidget;

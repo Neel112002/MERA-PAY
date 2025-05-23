@@ -174,6 +174,7 @@ class _SettingsPageWidgetState extends State<SettingsPageWidget> {
                                                       .bodyLarge
                                                       .fontStyle,
                                             ),
+                                            fontSize: 14.0,
                                             letterSpacing: 0.0,
                                             fontWeight:
                                                 FlutterFlowTheme.of(context)
@@ -241,6 +242,7 @@ class _SettingsPageWidgetState extends State<SettingsPageWidget> {
                                                       .bodyLarge
                                                       .fontStyle,
                                             ),
+                                            fontSize: 14.0,
                                             letterSpacing: 0.0,
                                             fontWeight:
                                                 FlutterFlowTheme.of(context)
@@ -384,6 +386,7 @@ class _SettingsPageWidgetState extends State<SettingsPageWidget> {
                                                       .bodyLarge
                                                       .fontStyle,
                                             ),
+                                            fontSize: 14.0,
                                             letterSpacing: 0.0,
                                             fontWeight:
                                                 FlutterFlowTheme.of(context)
@@ -395,7 +398,7 @@ class _SettingsPageWidgetState extends State<SettingsPageWidget> {
                                                     .fontStyle,
                                           ),
                                     ),
-                                  ].divide(SizedBox(width: 12.0)),
+                                  ].divide(SizedBox(width: 1.0)),
                                 ),
                                 Switch(
                                   value: _model.switchValue2!,
@@ -444,6 +447,7 @@ class _SettingsPageWidgetState extends State<SettingsPageWidget> {
                                                       .bodyLarge
                                                       .fontStyle,
                                             ),
+                                            fontSize: 14.0,
                                             letterSpacing: 0.0,
                                             fontWeight:
                                                 FlutterFlowTheme.of(context)
@@ -455,7 +459,7 @@ class _SettingsPageWidgetState extends State<SettingsPageWidget> {
                                                     .fontStyle,
                                           ),
                                     ),
-                                  ].divide(SizedBox(width: 12.0)),
+                                  ].divide(SizedBox(width: 1.0)),
                                 ),
                                 Switch(
                                   value: _model.switchValue3!,
@@ -482,6 +486,7 @@ class _SettingsPageWidgetState extends State<SettingsPageWidget> {
                               children: [
                                 Row(
                                   mainAxisSize: MainAxisSize.max,
+                                  mainAxisAlignment: MainAxisAlignment.start,
                                   children: [
                                     Icon(
                                       Icons.verified_user_outlined,
@@ -489,12 +494,26 @@ class _SettingsPageWidgetState extends State<SettingsPageWidget> {
                                           .primaryText,
                                       size: 24.0,
                                     ),
-                                    Text(
-                                      'Two-Factor Authentication',
-                                      style: FlutterFlowTheme.of(context)
-                                          .bodyLarge
-                                          .override(
-                                            font: GoogleFonts.inter(
+                                    Align(
+                                      alignment: AlignmentDirectional(0.0, 0.0),
+                                      child: Text(
+                                        'Two-Factor Authentication',
+                                        textAlign: TextAlign.center,
+                                        style: FlutterFlowTheme.of(context)
+                                            .bodyLarge
+                                            .override(
+                                              font: GoogleFonts.inter(
+                                                fontWeight:
+                                                    FlutterFlowTheme.of(context)
+                                                        .bodyLarge
+                                                        .fontWeight,
+                                                fontStyle:
+                                                    FlutterFlowTheme.of(context)
+                                                        .bodyLarge
+                                                        .fontStyle,
+                                              ),
+                                              fontSize: 14.0,
+                                              letterSpacing: 0.0,
                                               fontWeight:
                                                   FlutterFlowTheme.of(context)
                                                       .bodyLarge
@@ -504,18 +523,9 @@ class _SettingsPageWidgetState extends State<SettingsPageWidget> {
                                                       .bodyLarge
                                                       .fontStyle,
                                             ),
-                                            letterSpacing: 0.0,
-                                            fontWeight:
-                                                FlutterFlowTheme.of(context)
-                                                    .bodyLarge
-                                                    .fontWeight,
-                                            fontStyle:
-                                                FlutterFlowTheme.of(context)
-                                                    .bodyLarge
-                                                    .fontStyle,
-                                          ),
+                                      ),
                                     ),
-                                  ].divide(SizedBox(width: 12.0)),
+                                  ].divide(SizedBox(width: 1.0)),
                                 ),
                                 Switch(
                                   value: _model.switchValue4!,
@@ -614,6 +624,7 @@ class _SettingsPageWidgetState extends State<SettingsPageWidget> {
                                                       .bodyLarge
                                                       .fontStyle,
                                             ),
+                                            fontSize: 14.0,
                                             letterSpacing: 0.0,
                                             fontWeight:
                                                 FlutterFlowTheme.of(context)
@@ -674,6 +685,7 @@ class _SettingsPageWidgetState extends State<SettingsPageWidget> {
                                                       .bodyLarge
                                                       .fontStyle,
                                             ),
+                                            fontSize: 14.0,
                                             letterSpacing: 0.0,
                                             fontWeight:
                                                 FlutterFlowTheme.of(context)
@@ -734,6 +746,7 @@ class _SettingsPageWidgetState extends State<SettingsPageWidget> {
                                                       .bodyLarge
                                                       .fontStyle,
                                             ),
+                                            fontSize: 14.0,
                                             letterSpacing: 0.0,
                                             fontWeight:
                                                 FlutterFlowTheme.of(context)

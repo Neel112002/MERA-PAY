@@ -65,13 +65,20 @@ class _MenuPageWidgetState extends State<MenuPageWidget> {
                     width: 2.0,
                   ),
                 ),
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(50.0),
-                  child: Image.network(
-                    '',
-                    width: 100.0,
-                    height: 100.0,
-                    fit: BoxFit.cover,
+                child: AuthUserStreamWidget(
+                  builder: (context) => ClipRRect(
+                    borderRadius: BorderRadius.circular(50.0),
+                    child: Image.network(
+                      valueOrDefault<String>(
+                        currentUserPhoto != ''
+                            ? currentUserPhoto
+                            : 'https://cdn-icons-png.flaticon.com/512/6522/6522516.png',
+                        'https://cdn-icons-png.flaticon.com/512/6522/6522516.png',
+                      ),
+                      width: 100.0,
+                      height: 100.0,
+                      fit: BoxFit.cover,
+                    ),
                   ),
                 ),
               ),
