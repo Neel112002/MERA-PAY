@@ -122,7 +122,7 @@ class _MenuPageWidgetState extends State<MenuPageWidget> {
                               children: [
                                 Icon(
                                   Icons.person_outline,
-                                  color: FlutterFlowTheme.of(context).primary,
+                                  color: Color(0xFF22D846),
                                   size: 24.0,
                                 ),
                                 InkWell(
@@ -173,7 +173,7 @@ class _MenuPageWidgetState extends State<MenuPageWidget> {
                               children: [
                                 Icon(
                                   Icons.help_outline,
-                                  color: FlutterFlowTheme.of(context).primary,
+                                  color: Color(0xFF22D846),
                                   size: 24.0,
                                 ),
                                 InkWell(
@@ -223,7 +223,7 @@ class _MenuPageWidgetState extends State<MenuPageWidget> {
                               children: [
                                 Icon(
                                   Icons.settings_outlined,
-                                  color: FlutterFlowTheme.of(context).primary,
+                                  color: Color(0xFF22D846),
                                   size: 24.0,
                                 ),
                                 InkWell(
@@ -274,7 +274,7 @@ class _MenuPageWidgetState extends State<MenuPageWidget> {
                               children: [
                                 Icon(
                                   Icons.contact_support_outlined,
-                                  color: FlutterFlowTheme.of(context).primary,
+                                  color: Color(0xFF22D846),
                                   size: 24.0,
                                 ),
                                 Text(
@@ -313,7 +313,7 @@ class _MenuPageWidgetState extends State<MenuPageWidget> {
                               children: [
                                 Icon(
                                   Icons.share_outlined,
-                                  color: FlutterFlowTheme.of(context).primary,
+                                  color: Color(0xFF22D846),
                                   size: 24.0,
                                 ),
                                 Text(

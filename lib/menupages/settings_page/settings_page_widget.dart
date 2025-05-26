@@ -8,10 +8,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'settings_page_model.dart';
 export 'settings_page_model.dart';
 
-/// I want a page where there is a  option for light mode dark mode , privacy
-/// mode toggle , notifications on off toggle , biometirc 2FA toggle , font
-/// option , Re-Kyc option everthying should be in list and design it properly
-/// and nicely
 class SettingsPageWidget extends StatefulWidget {
   const SettingsPageWidget({super.key});
 

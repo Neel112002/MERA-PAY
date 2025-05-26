@@ -7,33 +7,32 @@ import '/flutter_flow/flutter_flow_widgets.dart';
 import 'package:easy_debounce/easy_debounce.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'change_email_model.dart';
-export 'change_email_model.dart';
+import 'change_phone_no_model.dart';
+export 'change_phone_no_model.dart';
 
-/// I want a three text field here which are current email , new email ,
-/// password field and a button update email
-class ChangeEmailWidget extends StatefulWidget {
-  const ChangeEmailWidget({super.key});
+///
+class ChangePhoneNoWidget extends StatefulWidget {
+  const ChangePhoneNoWidget({super.key});
 
-  static String routeName = 'ChangeEmail';
-  static String routePath = '/changeEmail';
+  static String routeName = 'ChangePhoneNo';
+  static String routePath = '/changePhoneNo';
 
   @override
-  State<ChangeEmailWidget> createState() => _ChangeEmailWidgetState();
+  State<ChangePhoneNoWidget> createState() => _ChangePhoneNoWidgetState();
 }
 
-class _ChangeEmailWidgetState extends State<ChangeEmailWidget> {
-  late ChangeEmailModel _model;
+class _ChangePhoneNoWidgetState extends State<ChangePhoneNoWidget> {
+  late ChangePhoneNoModel _model;
 
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   void initState() {
     super.initState();
-    _model = createModel(context, () => ChangeEmailModel());
+    _model = createModel(context, () => ChangePhoneNoModel());
 
     _model.currentEmailTextController ??=
-        TextEditingController(text: currentUserEmail);
+        TextEditingController(text: currentPhoneNumber);
     _model.currentEmailFocusNode ??= FocusNode();
 
     _model.newEmailTextController ??= TextEditingController();
@@ -58,7 +57,7 @@ class _ChangeEmailWidgetState extends State<ChangeEmailWidget> {
       },
       child: Scaffold(
         key: scaffoldKey,
-        backgroundColor: FlutterFlowTheme.of(context).secondaryBackground,
+        backgroundColor: FlutterFlowTheme.of(context).primaryBackground,
         body: SafeArea(
           top: true,
           child: Padding(
@@ -84,7 +83,7 @@ class _ChangeEmailWidgetState extends State<ChangeEmailWidget> {
                       },
                     ),
                     Text(
-                      'Update Email',
+                      'Update Number',
                       style:
                           FlutterFlowTheme.of(context).headlineMedium.override(
                                 font: GoogleFonts.interTight(
@@ -117,16 +116,6 @@ class _ChangeEmailWidgetState extends State<ChangeEmailWidget> {
                     width: double.infinity,
                     decoration: BoxDecoration(
                       color: FlutterFlowTheme.of(context).secondaryBackground,
-                      boxShadow: [
-                        BoxShadow(
-                          blurRadius: 4.0,
-                          color: Color(0x4A000000),
-                          offset: Offset(
-                            0.0,
-                            2.0,
-                          ),
-                        )
-                      ],
                       borderRadius: BorderRadius.circular(12.0),
                     ),
                     child: Padding(
@@ -136,15 +125,70 @@ class _ChangeEmailWidgetState extends State<ChangeEmailWidget> {
                         mainAxisSize: MainAxisSize.min,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          TextFormField(
-                            controller: _model.currentEmailTextController,
-                            focusNode: _model.currentEmailFocusNode,
-                            autofocus: false,
-                            readOnly: true,
-                            obscureText: false,
-                            decoration: InputDecoration(
-                              hintText: 'Current Email',
-                              hintStyle: FlutterFlowTheme.of(context)
+                          AuthUserStreamWidget(
+                            builder: (context) => TextFormField(
+                              controller: _model.currentEmailTextController,
+                              focusNode: _model.currentEmailFocusNode,
+                              autofocus: false,
+                              readOnly: true,
+                              obscureText: false,
+                              decoration: InputDecoration(
+                                hintText: 'Current Email',
+                                hintStyle: FlutterFlowTheme.of(context)
+                                    .bodyMedium
+                                    .override(
+                                      font: GoogleFonts.inter(
+                                        fontWeight: FlutterFlowTheme.of(context)
+                                            .bodyMedium
+                                            .fontWeight,
+                                        fontStyle: FlutterFlowTheme.of(context)
+                                            .bodyMedium
+                                            .fontStyle,
+                                      ),
+                                      color: FlutterFlowTheme.of(context)
+                                          .secondaryText,
+                                      letterSpacing: 0.0,
+                                      fontWeight: FlutterFlowTheme.of(context)
+                                          .bodyMedium
+                                          .fontWeight,
+                                      fontStyle: FlutterFlowTheme.of(context)
+                                          .bodyMedium
+                                          .fontStyle,
+                                    ),
+                                enabledBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                    color:
+                                        FlutterFlowTheme.of(context).alternate,
+                                    width: 1.0,
+                                  ),
+                                  borderRadius: BorderRadius.circular(8.0),
+                                ),
+                                focusedBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                    color: Color(0x00000000),
+                                    width: 1.0,
+                                  ),
+                                  borderRadius: BorderRadius.circular(8.0),
+                                ),
+                                errorBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                    color: Color(0x00000000),
+                                    width: 1.0,
+                                  ),
+                                  borderRadius: BorderRadius.circular(8.0),
+                                ),
+                                focusedErrorBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                    color: Color(0x00000000),
+                                    width: 1.0,
+                                  ),
+                                  borderRadius: BorderRadius.circular(8.0),
+                                ),
+                                suffixIcon: Icon(
+                                  Icons.email,
+                                ),
+                              ),
+                              style: FlutterFlowTheme.of(context)
                                   .bodyMedium
                                   .override(
                                     font: GoogleFonts.inter(
@@ -156,7 +200,7 @@ class _ChangeEmailWidgetState extends State<ChangeEmailWidget> {
                                           .fontStyle,
                                     ),
                                     color: FlutterFlowTheme.of(context)
-                                        .secondaryText,
+                                        .primaryText,
                                     letterSpacing: 0.0,
                                     fontWeight: FlutterFlowTheme.of(context)
                                         .bodyMedium
@@ -165,63 +209,11 @@ class _ChangeEmailWidgetState extends State<ChangeEmailWidget> {
                                         .bodyMedium
                                         .fontStyle,
                                   ),
-                              enabledBorder: OutlineInputBorder(
-                                borderSide: BorderSide(
-                                  color: FlutterFlowTheme.of(context).alternate,
-                                  width: 1.0,
-                                ),
-                                borderRadius: BorderRadius.circular(8.0),
-                              ),
-                              focusedBorder: OutlineInputBorder(
-                                borderSide: BorderSide(
-                                  color: Color(0x00000000),
-                                  width: 1.0,
-                                ),
-                                borderRadius: BorderRadius.circular(8.0),
-                              ),
-                              errorBorder: OutlineInputBorder(
-                                borderSide: BorderSide(
-                                  color: Color(0x00000000),
-                                  width: 1.0,
-                                ),
-                                borderRadius: BorderRadius.circular(8.0),
-                              ),
-                              focusedErrorBorder: OutlineInputBorder(
-                                borderSide: BorderSide(
-                                  color: Color(0x00000000),
-                                  width: 1.0,
-                                ),
-                                borderRadius: BorderRadius.circular(8.0),
-                              ),
-                              suffixIcon: Icon(
-                                Icons.email,
-                              ),
+                              keyboardType: TextInputType.emailAddress,
+                              validator: _model
+                                  .currentEmailTextControllerValidator
+                                  .asValidator(context),
                             ),
-                            style: FlutterFlowTheme.of(context)
-                                .bodyMedium
-                                .override(
-                                  font: GoogleFonts.inter(
-                                    fontWeight: FlutterFlowTheme.of(context)
-                                        .bodyMedium
-                                        .fontWeight,
-                                    fontStyle: FlutterFlowTheme.of(context)
-                                        .bodyMedium
-                                        .fontStyle,
-                                  ),
-                                  color:
-                                      FlutterFlowTheme.of(context).primaryText,
-                                  letterSpacing: 0.0,
-                                  fontWeight: FlutterFlowTheme.of(context)
-                                      .bodyMedium
-                                      .fontWeight,
-                                  fontStyle: FlutterFlowTheme.of(context)
-                                      .bodyMedium
-                                      .fontStyle,
-                                ),
-                            keyboardType: TextInputType.emailAddress,
-                            validator: _model
-                                .currentEmailTextControllerValidator
-                                .asValidator(context),
                           ),
                           TextFormField(
                             controller: _model.newEmailTextController,
@@ -230,15 +222,14 @@ class _ChangeEmailWidgetState extends State<ChangeEmailWidget> {
                               '_model.newEmailTextController',
                               Duration(milliseconds: 0),
                               () async {
-                                _model.newEmail =
-                                    _model.newEmailTextController.text;
+                                _model.newNumber = _model.newNumber;
                                 safeSetState(() {});
                               },
                             ),
                             autofocus: false,
                             obscureText: false,
                             decoration: InputDecoration(
-                              hintText: 'New Email',
+                              hintText: 'New Phone number ',
                               hintStyle: FlutterFlowTheme.of(context)
                                   .bodyMedium
                                   .override(
@@ -313,37 +304,20 @@ class _ChangeEmailWidgetState extends State<ChangeEmailWidget> {
                                       .bodyMedium
                                       .fontStyle,
                                 ),
-                            keyboardType: TextInputType.emailAddress,
+                            keyboardType: TextInputType.phone,
                             validator: _model.newEmailTextControllerValidator
                                 .asValidator(context),
                           ),
                           FFButtonWidget(
                             onPressed: () async {
-                              if (_model.newEmailTextController.text.isEmpty) {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(
-                                    content: Text(
-                                      'Email required!',
-                                    ),
-                                  ),
-                                );
-                                return;
-                              }
-
-                              await authManager.updateEmail(
-                                email: _model.newEmailTextController.text,
-                                context: context,
-                              );
-                              safeSetState(() {});
-
                               await currentUserReference!
                                   .update(createUsersRecordData(
-                                email: _model.newEmailTextController.text,
+                                phoneNumber: _model.newEmailTextController.text,
                               ));
                               ScaffoldMessenger.of(context).showSnackBar(
                                 SnackBar(
                                   content: Text(
-                                    'Email Updated Successfully',
+                                    'Phone number updated  successfully ',
                                     style: TextStyle(
                                       color: FlutterFlowTheme.of(context)
                                           .primaryText,
@@ -355,7 +329,7 @@ class _ChangeEmailWidgetState extends State<ChangeEmailWidget> {
                                 ),
                               );
                             },
-                            text: 'Update Email',
+                            text: 'Update Number ',
                             options: FFButtonOptions(
                               width: double.infinity,
                               height: 50.0,

@@ -13,3 +13,8 @@ export '/auth_pages/forgot_password/forgot_password_widget.dart'
     show ForgotPasswordWidget;
 export '/auth_pages/change_email/change_email_widget.dart'
     show ChangeEmailWidget;
+export '/profile_pages/change_phone_no/change_phone_no_widget.dart'
+    show ChangePhoneNoWidget;
+export '/kyc/kyc_step_1/kyc_step1_widget.dart' show KycStep1Widget;
+export '/kyc/kyc_step_2/kyc_step2_widget.dart' show KycStep2Widget;
+export '/kyc/kyc_step_3/kyc_step3_widget.dart' show KycStep3Widget;

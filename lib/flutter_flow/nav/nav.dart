@@ -123,6 +123,40 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
           name: ChangeEmailWidget.routeName,
           path: ChangeEmailWidget.routePath,
           builder: (context, params) => ChangeEmailWidget(),
+        ),
+        FFRoute(
+          name: ChangePhoneNoWidget.routeName,
+          path: ChangePhoneNoWidget.routePath,
+          builder: (context, params) => ChangePhoneNoWidget(),
+        ),
+        FFRoute(
+          name: KycStep1Widget.routeName,
+          path: KycStep1Widget.routePath,
+          builder: (context, params) => KycStep1Widget(),
+        ),
+        FFRoute(
+          name: KycStep2Widget.routeName,
+          path: KycStep2Widget.routePath,
+          builder: (context, params) => KycStep2Widget(
+            step2DocRef: params.getParam(
+              'step2DocRef',
+              ParamType.DocumentReference,
+              isList: false,
+              collectionNamePath: ['EmployeeInformation'],
+            ),
+          ),
+        ),
+        FFRoute(
+          name: KycStep3Widget.routeName,
+          path: KycStep3Widget.routePath,
+          builder: (context, params) => KycStep3Widget(
+            docRefspet2: params.getParam(
+              'docRefspet2',
+              ParamType.DocumentReference,
+              isList: false,
+              collectionNamePath: ['EmployeeInformation'],
+            ),
+          ),
         )
       ].map((r) => r.toRoute(appStateNotifier)).toList(),
     );

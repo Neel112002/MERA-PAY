@@ -260,6 +260,7 @@ class _CreateaccountPageWidgetState extends State<CreateaccountPageWidget> {
                                                           .bodyMedium
                                                           .fontStyle,
                                                 ),
+                                                fontSize: 16.0,
                                                 letterSpacing: 0.0,
                                                 fontWeight:
                                                     FlutterFlowTheme.of(context)
@@ -488,7 +489,7 @@ class _CreateaccountPageWidgetState extends State<CreateaccountPageWidget> {
                                         autofocus: true,
                                         obscureText: false,
                                         decoration: InputDecoration(
-                                          labelText: 'UserName',
+                                          labelText: 'Username',
                                           labelStyle: FlutterFlowTheme.of(
                                                   context)
                                               .labelLarge
