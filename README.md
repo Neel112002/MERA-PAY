@@ -1,6 +1,6 @@
 # MERA-PAY
 
-A fintech Mobile Application allow users to user their par day earning whenever they want 
+A new Flutter project.
 
 ## Getting Started
 

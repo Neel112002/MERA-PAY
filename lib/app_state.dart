@@ -40,6 +40,12 @@ class FFAppState extends ChangeNotifier {
     _KYCwizardStep1 = value;
     prefs.setBool('ff_KYCwizardStep1', value);
   }
+
+  String _aadharNumber = '';
+  String get aadharNumber => _aadharNumber;
+  set aadharNumber(String value) {
+    _aadharNumber = value;
+  }
 }
 
 void _safeInit(Function() initializeField) {

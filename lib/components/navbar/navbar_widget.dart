@@ -349,7 +349,7 @@ class _NavbarWidgetState extends State<NavbarWidget> {
                                       highlightColor: Colors.transparent,
                                       onTap: () async {
                                         context.pushNamed(
-                                          KycStep1Widget.routeName,
+                                          KycWidget.routeName,
                                           extra: <String, dynamic>{
                                             kTransitionInfoKey: TransitionInfo(
                                               hasTransition: true,
@@ -417,7 +417,7 @@ class _NavbarWidgetState extends State<NavbarWidget> {
                                       highlightColor: Colors.transparent,
                                       onTap: () async {
                                         context.pushNamed(
-                                          KycStep1Widget.routeName,
+                                          KycWidget.routeName,
                                           extra: <String, dynamic>{
                                             kTransitionInfoKey: TransitionInfo(
                                               hasTransition: true,

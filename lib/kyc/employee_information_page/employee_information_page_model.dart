@@ -4,10 +4,12 @@ import '/components/navbar/navbar_widget.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/form_field_controller.dart';
 import '/index.dart';
-import 'kyc_step2_widget.dart' show KycStep2Widget;
+import 'employee_information_page_widget.dart'
+    show EmployeeInformationPageWidget;
 import 'package:flutter/material.dart';
 
-class KycStep2Model extends FlutterFlowModel<KycStep2Widget> {
+class EmployeeInformationPageModel
+    extends FlutterFlowModel<EmployeeInformationPageWidget> {
   ///  Local state fields for this page.
 
   double progressStat = 0.0;

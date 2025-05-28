@@ -130,14 +130,14 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
           builder: (context, params) => ChangePhoneNoWidget(),
         ),
         FFRoute(
-          name: KycStep1Widget.routeName,
-          path: KycStep1Widget.routePath,
-          builder: (context, params) => KycStep1Widget(),
+          name: KycWidget.routeName,
+          path: KycWidget.routePath,
+          builder: (context, params) => KycWidget(),
         ),
         FFRoute(
-          name: KycStep2Widget.routeName,
-          path: KycStep2Widget.routePath,
-          builder: (context, params) => KycStep2Widget(
+          name: EmployeeInformationPageWidget.routeName,
+          path: EmployeeInformationPageWidget.routePath,
+          builder: (context, params) => EmployeeInformationPageWidget(
             step2DocRef: params.getParam(
               'step2DocRef',
               ParamType.DocumentReference,
@@ -147,9 +147,9 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
           ),
         ),
         FFRoute(
-          name: KycStep3Widget.routeName,
-          path: KycStep3Widget.routePath,
-          builder: (context, params) => KycStep3Widget(
+          name: IdentityVerificationPageWidget.routeName,
+          path: IdentityVerificationPageWidget.routePath,
+          builder: (context, params) => IdentityVerificationPageWidget(
             docRefspet2: params.getParam(
               'docRefspet2',
               ParamType.DocumentReference,

@@ -15,6 +15,8 @@ export '/auth_pages/change_email/change_email_widget.dart'
     show ChangeEmailWidget;
 export '/profile_pages/change_phone_no/change_phone_no_widget.dart'
     show ChangePhoneNoWidget;
-export '/kyc/kyc_step_1/kyc_step1_widget.dart' show KycStep1Widget;
-export '/kyc/kyc_step_2/kyc_step2_widget.dart' show KycStep2Widget;
-export '/kyc/kyc_step_3/kyc_step3_widget.dart' show KycStep3Widget;
+export '/kyc/kyc/kyc_widget.dart' show KycWidget;
+export '/kyc/employee_information_page/employee_information_page_widget.dart'
+    show EmployeeInformationPageWidget;
+export '/kyc/identity_verification_page/identity_verification_page_widget.dart'
+    show IdentityVerificationPageWidget;
