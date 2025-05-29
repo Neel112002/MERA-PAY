@@ -7,6 +7,7 @@ import '/flutter_flow/flutter_flow_util.dart';
 import '/index.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 import 'kyc_model.dart';
 export 'kyc_model.dart';
 
@@ -42,6 +43,8 @@ class _KycWidgetState extends State<KycWidget> {
 
   @override
   Widget build(BuildContext context) {
+    context.watch<FFAppState>();
+
     return GestureDetector(
       onTap: () {
         FocusScope.of(context).unfocus();
@@ -143,8 +146,13 @@ class _KycWidgetState extends State<KycWidget> {
                               context.pushNamed(
                                   EmployeeInformationPageWidget.routeName);
                             } else {
-                              context.pushNamed(
-                                  IdentityVerificationPageWidget.routeName);
+                              if (FFAppState().kycStep2 == false) {
+                                context.pushNamed(
+                                    IdentityVerificationPageWidget.routeName);
+                              } else {
+                                context
+                                    .goNamed(KYCCompletePageWidget.routeName);
+                              }
                             }
                           },
                           child: Container(

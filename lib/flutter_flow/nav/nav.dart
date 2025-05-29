@@ -157,6 +157,18 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
               collectionNamePath: ['EmployeeInformation'],
             ),
           ),
+        ),
+        FFRoute(
+          name: KYCCompletePageWidget.routeName,
+          path: KYCCompletePageWidget.routePath,
+          builder: (context, params) => KYCCompletePageWidget(
+            docRefspet2: params.getParam(
+              'docRefspet2',
+              ParamType.DocumentReference,
+              isList: false,
+              collectionNamePath: ['EmployeeInformation'],
+            ),
+          ),
         )
       ].map((r) => r.toRoute(appStateNotifier)).toList(),
     );

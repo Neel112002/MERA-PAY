@@ -144,8 +144,9 @@ class _ProfilePageWidgetState extends State<ProfilePageWidget> {
                                         selectedMedia.every((m) =>
                                             validateFileFormat(
                                                 m.storagePath, context))) {
-                                      safeSetState(
-                                          () => _model.isDataUploading = true);
+                                      safeSetState(() =>
+                                          _model.isDataUploading_uploadDataKes =
+                                              true);
                                       var selectedUploadedFiles =
                                           <FFUploadedFile>[];
 
@@ -180,16 +181,17 @@ class _ProfilePageWidgetState extends State<ProfilePageWidget> {
                                       } finally {
                                         ScaffoldMessenger.of(context)
                                             .hideCurrentSnackBar();
-                                        _model.isDataUploading = false;
+                                        _model.isDataUploading_uploadDataKes =
+                                            false;
                                       }
                                       if (selectedUploadedFiles.length ==
                                               selectedMedia.length &&
                                           downloadUrls.length ==
                                               selectedMedia.length) {
                                         safeSetState(() {
-                                          _model.uploadedLocalFile =
+                                          _model.uploadedLocalFile_uploadDataKes =
                                               selectedUploadedFiles.first;
-                                          _model.uploadedFileUrl =
+                                          _model.uploadedFileUrl_uploadDataKes =
                                               downloadUrls.first;
                                         });
                                         showUploadMessage(context, 'Success!');
@@ -203,7 +205,8 @@ class _ProfilePageWidgetState extends State<ProfilePageWidget> {
 
                                     await currentUserReference!
                                         .update(createUsersRecordData(
-                                      photoUrl: _model.uploadedFileUrl,
+                                      photoUrl:
+                                          _model.uploadedFileUrl_uploadDataKes,
                                     ));
                                   },
                                   child: ClipRRect(

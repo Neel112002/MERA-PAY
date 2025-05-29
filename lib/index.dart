@@ -20,3 +20,5 @@ export '/kyc/employee_information_page/employee_information_page_widget.dart'
     show EmployeeInformationPageWidget;
 export '/kyc/identity_verification_page/identity_verification_page_widget.dart'
     show IdentityVerificationPageWidget;
+export '/kyc/k_y_c_complete_page/k_y_c_complete_page_widget.dart'
+    show KYCCompletePageWidget;
