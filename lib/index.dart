@@ -22,3 +22,16 @@ export '/kyc/identity_verification_page/identity_verification_page_widget.dart'
     show IdentityVerificationPageWidget;
 export '/kyc/k_y_c_complete_page/k_y_c_complete_page_widget.dart'
     show KYCCompletePageWidget;
+export '/dashboard_pages/withdrwa_page/withdrwa_page_widget.dart'
+    show WithdrwaPageWidget;
+export '/dashboard_pages/attendance_page/attendance_page_widget.dart'
+    show AttendancePageWidget;
+export '/profile_pages/bank_details_page/bank_details_page_widget.dart'
+    show BankDetailsPageWidget;
+export '/profile_pages/change_address_page/change_address_page_widget.dart'
+    show ChangeAddressPageWidget;
+export '/profile_pages/current_title_page/current_title_page_widget.dart'
+    show CurrentTitlePageWidget;
+export '/profile_pages/current_company_page/current_company_page_widget.dart'
+    show CurrentCompanyPageWidget;
+export '/dashboard_pages/shop_page/shop_page_widget.dart' show ShopPageWidget;

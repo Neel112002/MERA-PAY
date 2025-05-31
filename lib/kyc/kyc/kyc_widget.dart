@@ -1,7 +1,7 @@
+import '/auth/firebase_auth/auth_util.dart';
 import '/backend/backend.dart';
 import '/components/kyc_app_bar/kyc_app_bar_widget.dart';
 import '/components/navbar/navbar_widget.dart';
-import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/index.dart';
@@ -55,6 +55,11 @@ class _KycWidgetState extends State<KycWidget> {
         backgroundColor: FlutterFlowTheme.of(context).primaryBackground,
         body: FutureBuilder<List<EmployeeInformationRecord>>(
           future: queryEmployeeInformationRecordOnce(
+            queryBuilder: (employeeInformationRecord) =>
+                employeeInformationRecord.where(
+              'uid',
+              isEqualTo: currentUserUid,
+            ),
             singleRecord: true,
           ),
           builder: (context, snapshot) {
@@ -143,15 +148,22 @@ class _KycWidgetState extends State<KycWidget> {
                           onTap: () async {
                             if (columnEmployeeInformationRecord?.wizardStep1 ==
                                 false) {
-                              context.pushNamed(
+                              context.goNamed(
                                   EmployeeInformationPageWidget.routeName);
                             } else {
                               if (FFAppState().kycStep2 == false) {
-                                context.pushNamed(
+                                context.goNamed(
                                     IdentityVerificationPageWidget.routeName);
                               } else {
-                                context
-                                    .goNamed(KYCCompletePageWidget.routeName);
+                                if (columnEmployeeInformationRecord
+                                        ?.wizardStep1 ==
+                                    null) {
+                                  context.goNamed(
+                                      EmployeeInformationPageWidget.routeName);
+                                } else {
+                                  context
+                                      .goNamed(KYCCompletePageWidget.routeName);
+                                }
                               }
                             }
                           },
@@ -164,7 +176,7 @@ class _KycWidgetState extends State<KycWidget> {
                             ),
                             child: Padding(
                               padding: EdgeInsetsDirectional.fromSTEB(
-                                  12.0, 0.0, 12.0, 0.0),
+                                  12.0, 0.0, 18.0, 0.0),
                               child: Row(
                                 mainAxisSize: MainAxisSize.max,
                                 mainAxisAlignment:
@@ -191,18 +203,11 @@ class _KycWidgetState extends State<KycWidget> {
                                                   .fontStyle,
                                         ),
                                   ),
-                                  FlutterFlowIconButton(
-                                    borderRadius: 8.0,
-                                    buttonSize: 38.0,
-                                    icon: Icon(
-                                      Icons.arrow_forward_ios,
-                                      color: FlutterFlowTheme.of(context)
-                                          .primaryText,
-                                      size: 20.0,
-                                    ),
-                                    onPressed: () {
-                                      print('IconButton pressed ...');
-                                    },
+                                  Icon(
+                                    Icons.arrow_forward_ios,
+                                    color: FlutterFlowTheme.of(context)
+                                        .primaryText,
+                                    size: 24.0,
                                   ),
                                 ],
                               ),
@@ -233,7 +238,7 @@ class _KycWidgetState extends State<KycWidget> {
                             ),
                             child: Padding(
                               padding: EdgeInsetsDirectional.fromSTEB(
-                                  12.0, 0.0, 12.0, 0.0),
+                                  12.0, 0.0, 18.0, 0.0),
                               child: Row(
                                 mainAxisSize: MainAxisSize.max,
                                 mainAxisAlignment:
@@ -260,18 +265,11 @@ class _KycWidgetState extends State<KycWidget> {
                                                   .fontStyle,
                                         ),
                                   ),
-                                  FlutterFlowIconButton(
-                                    borderRadius: 8.0,
-                                    buttonSize: 38.0,
-                                    icon: Icon(
-                                      Icons.arrow_forward_ios,
-                                      color: FlutterFlowTheme.of(context)
-                                          .primaryText,
-                                      size: 20.0,
-                                    ),
-                                    onPressed: () {
-                                      print('IconButton pressed ...');
-                                    },
+                                  Icon(
+                                    Icons.arrow_forward_ios,
+                                    color: FlutterFlowTheme.of(context)
+                                        .primaryText,
+                                    size: 24.0,
                                   ),
                                 ],
                               ),

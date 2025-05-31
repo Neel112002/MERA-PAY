@@ -169,6 +169,41 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
               collectionNamePath: ['EmployeeInformation'],
             ),
           ),
+        ),
+        FFRoute(
+          name: WithdrwaPageWidget.routeName,
+          path: WithdrwaPageWidget.routePath,
+          builder: (context, params) => WithdrwaPageWidget(),
+        ),
+        FFRoute(
+          name: AttendancePageWidget.routeName,
+          path: AttendancePageWidget.routePath,
+          builder: (context, params) => AttendancePageWidget(),
+        ),
+        FFRoute(
+          name: BankDetailsPageWidget.routeName,
+          path: BankDetailsPageWidget.routePath,
+          builder: (context, params) => BankDetailsPageWidget(),
+        ),
+        FFRoute(
+          name: ChangeAddressPageWidget.routeName,
+          path: ChangeAddressPageWidget.routePath,
+          builder: (context, params) => ChangeAddressPageWidget(),
+        ),
+        FFRoute(
+          name: CurrentTitlePageWidget.routeName,
+          path: CurrentTitlePageWidget.routePath,
+          builder: (context, params) => CurrentTitlePageWidget(),
+        ),
+        FFRoute(
+          name: CurrentCompanyPageWidget.routeName,
+          path: CurrentCompanyPageWidget.routePath,
+          builder: (context, params) => CurrentCompanyPageWidget(),
+        ),
+        FFRoute(
+          name: ShopPageWidget.routeName,
+          path: ShopPageWidget.routePath,
+          builder: (context, params) => ShopPageWidget(),
         )
       ].map((r) => r.toRoute(appStateNotifier)).toList(),
     );

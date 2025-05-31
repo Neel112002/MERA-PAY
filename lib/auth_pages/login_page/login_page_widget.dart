@@ -2,6 +2,8 @@ import '/auth/firebase_auth/auth_util.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
+import 'dart:async';
+import '/custom_code/actions/index.dart' as actions;
 import '/index.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/gestures.dart';
@@ -460,22 +462,46 @@ class _LoginPageWidgetState extends State<LoginPageWidget> {
                                         0.0, 0.0, 0.0, 16.0),
                                     child: FFButtonWidget(
                                       onPressed: () async {
-                                        GoRouter.of(context).prepareAuthEvent();
+                                        await authManager.refreshUser();
+                                        Function() _navigate = () {};
+                                        if (currentUserEmailVerified == true) {
+                                          GoRouter.of(context)
+                                              .prepareAuthEvent();
 
-                                        final user =
-                                            await authManager.signInWithEmail(
-                                          context,
-                                          _model
-                                              .emailAddressTextController.text,
-                                          _model.passwordTextController.text,
-                                        );
-                                        if (user == null) {
-                                          return;
+                                          final user =
+                                              await authManager.signInWithEmail(
+                                            context,
+                                            _model.emailAddressTextController
+                                                .text,
+                                            _model.passwordTextController.text,
+                                          );
+                                          if (user == null) {
+                                            return;
+                                          }
+
+                                          _navigate = () => context.goNamedAuth(
+                                              DashboardPageWidget.routeName,
+                                              context.mounted);
+                                        } else {
+                                          await authManager
+                                              .sendEmailVerification();
+                                          unawaited(
+                                            () async {
+                                              await actions.showTopSnackBar(
+                                                context,
+                                                'Your email is currently under verification. Please complete the verification through your registered email address.',
+                                                FlutterFlowTheme.of(context)
+                                                    .secondary,
+                                                FlutterFlowTheme.of(context)
+                                                    .secondaryBackground,
+                                                3000,
+                                                14.0,
+                                              );
+                                            }(),
+                                          );
                                         }
 
-                                        context.goNamedAuth(
-                                            DashboardPageWidget.routeName,
-                                            context.mounted);
+                                        _navigate();
                                       },
                                       text: 'Sign In',
                                       options: FFButtonOptions(

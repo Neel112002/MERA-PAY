@@ -4,7 +4,11 @@ import '/components/navbar/navbar_widget.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
+import 'dart:async';
+import '/custom_code/actions/index.dart' as actions;
+import '/index.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 import 'dashboard_page_model.dart';
@@ -31,6 +35,39 @@ class _DashboardPageWidgetState extends State<DashboardPageWidget> {
   void initState() {
     super.initState();
     _model = createModel(context, () => DashboardPageModel());
+
+    // On page load action.
+    SchedulerBinding.instance.addPostFrameCallback((_) async {
+      await authManager.refreshUser();
+      if (currentUserEmailVerified != true) {
+        unawaited(
+          () async {
+            context.pushNamed(
+              LoginPageWidget.routeName,
+              extra: <String, dynamic>{
+                kTransitionInfoKey: TransitionInfo(
+                  hasTransition: true,
+                  transitionType: PageTransitionType.fade,
+                  duration: Duration(milliseconds: 0),
+                ),
+              },
+            );
+          }(),
+        );
+        unawaited(
+          () async {
+            await actions.showTopSnackBar(
+              context,
+              'Your email is currently under verification. Please complete the verification through your registered email address.',
+              FlutterFlowTheme.of(context).secondary,
+              FlutterFlowTheme.of(context).secondaryBackground,
+              3000,
+              14.0,
+            );
+          }(),
+        );
+      }
+    });
 
     WidgetsBinding.instance.addPostFrameCallback((_) => safeSetState(() {}));
   }
@@ -615,7 +652,7 @@ class _DashboardPageWidgetState extends State<DashboardPageWidget> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    'Upcoming Meetings',
+                                    'Avaiable To Withdraw',
                                     style: FlutterFlowTheme.of(context)
                                         .headlineSmall
                                         .override(
@@ -725,8 +762,10 @@ class _DashboardPageWidgetState extends State<DashboardPageWidget> {
                                         children: [
                                           Expanded(
                                             child: FFButtonWidget(
-                                              onPressed: () {
-                                                print('Button pressed ...');
+                                              onPressed: () async {
+                                                context.pushNamed(
+                                                    WithdrwaPageWidget
+                                                        .routeName);
                                               },
                                               text: 'Withdraw Salary',
                                               options: FFButtonOptions(
