@@ -7,7 +7,6 @@ import '/flutter_flow/flutter_flow_util.dart';
 import '/index.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:provider/provider.dart';
 import 'kyc_model.dart';
 export 'kyc_model.dart';
 
@@ -43,8 +42,6 @@ class _KycWidgetState extends State<KycWidget> {
 
   @override
   Widget build(BuildContext context) {
-    context.watch<FFAppState>();
-
     return GestureDetector(
       onTap: () {
         FocusScope.of(context).unfocus();
@@ -53,54 +50,57 @@ class _KycWidgetState extends State<KycWidget> {
       child: Scaffold(
         key: scaffoldKey,
         backgroundColor: FlutterFlowTheme.of(context).primaryBackground,
-        body: FutureBuilder<List<EmployeeInformationRecord>>(
-          future: queryEmployeeInformationRecordOnce(
-            queryBuilder: (employeeInformationRecord) =>
-                employeeInformationRecord.where(
-              'uid',
-              isEqualTo: currentUserUid,
+        body: Column(
+          mainAxisSize: MainAxisSize.max,
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            wrapWithModel(
+              model: _model.kycAppBarModel,
+              updateCallback: () => safeSetState(() {}),
+              child: KycAppBarWidget(
+                title: 'Affiliation Check',
+                showIcons: false,
+              ),
             ),
-            singleRecord: true,
-          ),
-          builder: (context, snapshot) {
-            // Customize what your widget looks like when it's loading.
-            if (!snapshot.hasData) {
-              return Center(
-                child: SizedBox(
-                  width: 50.0,
-                  height: 50.0,
-                  child: CircularProgressIndicator(
-                    valueColor: AlwaysStoppedAnimation<Color>(
-                      FlutterFlowTheme.of(context).primary,
+            Flexible(
+              child: Padding(
+                padding: EdgeInsetsDirectional.fromSTEB(12.0, 0.0, 12.0, 0.0),
+                child: FutureBuilder<List<VerificationsRecord>>(
+                  future: queryVerificationsRecordOnce(
+                    queryBuilder: (verificationsRecord) =>
+                        verificationsRecord.where(
+                      'uid',
+                      isEqualTo: currentUserUid,
                     ),
+                    singleRecord: true,
                   ),
-                ),
-              );
-            }
-            List<EmployeeInformationRecord>
-                columnEmployeeInformationRecordList = snapshot.data!;
-            final columnEmployeeInformationRecord =
-                columnEmployeeInformationRecordList.isNotEmpty
-                    ? columnEmployeeInformationRecordList.first
-                    : null;
+                  builder: (context, snapshot) {
+                    // Customize what your widget looks like when it's loading.
+                    if (!snapshot.hasData) {
+                      return Center(
+                        child: SizedBox(
+                          width: 50.0,
+                          height: 50.0,
+                          child: CircularProgressIndicator(
+                            valueColor: AlwaysStoppedAnimation<Color>(
+                              FlutterFlowTheme.of(context).primary,
+                            ),
+                          ),
+                        ),
+                      );
+                    }
+                    List<VerificationsRecord> columnVerificationsRecordList =
+                        snapshot.data!;
+                    // Return an empty Container when the item does not exist.
+                    if (snapshot.data!.isEmpty) {
+                      return Container();
+                    }
+                    final columnVerificationsRecord =
+                        columnVerificationsRecordList.isNotEmpty
+                            ? columnVerificationsRecordList.first
+                            : null;
 
-            return Column(
-              mainAxisSize: MainAxisSize.max,
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                wrapWithModel(
-                  model: _model.kycAppBarModel,
-                  updateCallback: () => safeSetState(() {}),
-                  child: KycAppBarWidget(
-                    title: 'Affiliation Check',
-                    showIcons: false,
-                  ),
-                ),
-                Flexible(
-                  child: Padding(
-                    padding:
-                        EdgeInsetsDirectional.fromSTEB(12.0, 0.0, 12.0, 0.0),
-                    child: Column(
+                    return Column(
                       mainAxisSize: MainAxisSize.max,
                       children: [
                         Flexible(
@@ -146,17 +146,17 @@ class _KycWidgetState extends State<KycWidget> {
                           hoverColor: Colors.transparent,
                           highlightColor: Colors.transparent,
                           onTap: () async {
-                            if (columnEmployeeInformationRecord?.wizardStep1 ==
+                            if (columnVerificationsRecord?.wizardStep1 ==
                                 false) {
                               context.goNamed(
                                   EmployeeInformationPageWidget.routeName);
                             } else {
-                              if (FFAppState().kycStep2 == false) {
+                              if (columnVerificationsRecord?.wizardstep2 ==
+                                  false) {
                                 context.goNamed(
                                     IdentityVerificationPageWidget.routeName);
                               } else {
-                                if (columnEmployeeInformationRecord
-                                        ?.wizardStep1 ==
+                                if (columnVerificationsRecord?.wizardStep1 ==
                                     null) {
                                   context.goNamed(
                                       EmployeeInformationPageWidget.routeName);
@@ -220,13 +220,25 @@ class _KycWidgetState extends State<KycWidget> {
                           hoverColor: Colors.transparent,
                           highlightColor: Colors.transparent,
                           onTap: () async {
-                            if (columnEmployeeInformationRecord?.wizardStep1 ==
+                            if (columnVerificationsRecord?.wizardStep1 ==
                                 false) {
-                              context.pushNamed(
+                              context.goNamed(
                                   EmployeeInformationPageWidget.routeName);
                             } else {
-                              context.pushNamed(
-                                  IdentityVerificationPageWidget.routeName);
+                              if (columnVerificationsRecord?.wizardstep2 ==
+                                  false) {
+                                context.goNamed(
+                                    IdentityVerificationPageWidget.routeName);
+                              } else {
+                                if (columnVerificationsRecord?.wizardStep1 ==
+                                    null) {
+                                  context.goNamed(
+                                      EmployeeInformationPageWidget.routeName);
+                                } else {
+                                  context
+                                      .goNamed(KYCCompletePageWidget.routeName);
+                                }
+                              }
                             }
                           },
                           child: Container(
@@ -280,19 +292,19 @@ class _KycWidgetState extends State<KycWidget> {
                           .divide(SizedBox(height: 12.0))
                           .addToStart(SizedBox(height: 18.0))
                           .addToEnd(SizedBox(height: 12.0)),
-                    ),
-                  ),
+                    );
+                  },
                 ),
-                wrapWithModel(
-                  model: _model.navbarModel,
-                  updateCallback: () => safeSetState(() {}),
-                  child: NavbarWidget(
-                    pageIndex: 3,
-                  ),
-                ),
-              ],
-            );
-          },
+              ),
+            ),
+            wrapWithModel(
+              model: _model.navbarModel,
+              updateCallback: () => safeSetState(() {}),
+              child: NavbarWidget(
+                pageIndex: 3,
+              ),
+            ),
+          ],
         ),
       ),
     );

@@ -171,9 +171,9 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
           ),
         ),
         FFRoute(
-          name: WithdrwaPageWidget.routeName,
-          path: WithdrwaPageWidget.routePath,
-          builder: (context, params) => WithdrwaPageWidget(),
+          name: WithdrawPageWidget.routeName,
+          path: WithdrawPageWidget.routePath,
+          builder: (context, params) => WithdrawPageWidget(),
         ),
         FFRoute(
           name: AttendancePageWidget.routeName,

@@ -40,12 +40,18 @@ class AadhaarCardsRecord extends FirestoreRecord {
   String get aadharNumber => _aadharNumber ?? '';
   bool hasAadharNumber() => _aadharNumber != null;
 
+  // "uid" field.
+  String? _uid;
+  String get uid => _uid ?? '';
+  bool hasUid() => _uid != null;
+
   void _initializeFields() {
     _frontImageUrl = snapshotData['frontImageUrl'] as String?;
     _backImageUrl = snapshotData['backImageUrl'] as String?;
     _updatedAt = snapshotData['updatedAt'] as DateTime?;
     _isVerified = snapshotData['isVerified'] as bool?;
     _aadharNumber = snapshotData['aadharNumber'] as String?;
+    _uid = snapshotData['uid'] as String?;
   }
 
   static CollectionReference get collection =>
@@ -88,6 +94,7 @@ Map<String, dynamic> createAadhaarCardsRecordData({
   DateTime? updatedAt,
   bool? isVerified,
   String? aadharNumber,
+  String? uid,
 }) {
   final firestoreData = mapToFirestore(
     <String, dynamic>{
@@ -96,6 +103,7 @@ Map<String, dynamic> createAadhaarCardsRecordData({
       'updatedAt': updatedAt,
       'isVerified': isVerified,
       'aadharNumber': aadharNumber,
+      'uid': uid,
     }.withoutNulls,
   );
 
@@ -112,7 +120,8 @@ class AadhaarCardsRecordDocumentEquality
         e1?.backImageUrl == e2?.backImageUrl &&
         e1?.updatedAt == e2?.updatedAt &&
         e1?.isVerified == e2?.isVerified &&
-        e1?.aadharNumber == e2?.aadharNumber;
+        e1?.aadharNumber == e2?.aadharNumber &&
+        e1?.uid == e2?.uid;
   }
 
   @override
@@ -121,7 +130,8 @@ class AadhaarCardsRecordDocumentEquality
         e?.backImageUrl,
         e?.updatedAt,
         e?.isVerified,
-        e?.aadharNumber
+        e?.aadharNumber,
+        e?.uid
       ]);
 
   @override

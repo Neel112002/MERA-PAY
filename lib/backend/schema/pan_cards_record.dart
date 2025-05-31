@@ -40,12 +40,18 @@ class PanCardsRecord extends FirestoreRecord {
   DateTime? get updatedAt => _updatedAt;
   bool hasUpdatedAt() => _updatedAt != null;
 
+  // "uid" field.
+  String? _uid;
+  String get uid => _uid ?? '';
+  bool hasUid() => _uid != null;
+
   void _initializeFields() {
     _frontImageUrl = snapshotData['frontImageUrl'] as String?;
     _backImageUrl = snapshotData['backImageUrl'] as String?;
     _panNumber = snapshotData['panNumber'] as String?;
     _isVerified = snapshotData['isVerified'] as bool?;
     _updatedAt = snapshotData['updatedAt'] as DateTime?;
+    _uid = snapshotData['uid'] as String?;
   }
 
   static CollectionReference get collection =>
@@ -88,6 +94,7 @@ Map<String, dynamic> createPanCardsRecordData({
   String? panNumber,
   bool? isVerified,
   DateTime? updatedAt,
+  String? uid,
 }) {
   final firestoreData = mapToFirestore(
     <String, dynamic>{
@@ -96,6 +103,7 @@ Map<String, dynamic> createPanCardsRecordData({
       'panNumber': panNumber,
       'isVerified': isVerified,
       'updatedAt': updatedAt,
+      'uid': uid,
     }.withoutNulls,
   );
 
@@ -111,7 +119,8 @@ class PanCardsRecordDocumentEquality implements Equality<PanCardsRecord> {
         e1?.backImageUrl == e2?.backImageUrl &&
         e1?.panNumber == e2?.panNumber &&
         e1?.isVerified == e2?.isVerified &&
-        e1?.updatedAt == e2?.updatedAt;
+        e1?.updatedAt == e2?.updatedAt &&
+        e1?.uid == e2?.uid;
   }
 
   @override
@@ -120,7 +129,8 @@ class PanCardsRecordDocumentEquality implements Equality<PanCardsRecord> {
         e?.backImageUrl,
         e?.panNumber,
         e?.isVerified,
-        e?.updatedAt
+        e?.updatedAt,
+        e?.uid
       ]);
 
   @override

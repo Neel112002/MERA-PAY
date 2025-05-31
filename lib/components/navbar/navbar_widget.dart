@@ -61,33 +61,34 @@ class _NavbarWidgetState extends State<NavbarWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      mainAxisAlignment: MainAxisAlignment.end,
-      children: [
-        Divider(
-          height: 0.5,
-          thickness: 0.5,
-          indent: 0.0,
-          endIndent: 0.0,
-          color: Color(0xFFE5E7EB),
-        ),
-        Align(
-          alignment: AlignmentDirectional(0.0, 1.0),
-          child: Material(
-            color: Colors.transparent,
-            elevation: 10.0,
-            child: Container(
-              height: isiOS ? 80.0 : 60.0,
-              decoration: BoxDecoration(
-                color: FlutterFlowTheme.of(context).secondaryBackground,
-              ),
-              alignment: AlignmentDirectional(0.0, -1.0),
-              child: Stack(
-                children: [
-                  if (!(isWeb
-                      ? MediaQuery.viewInsetsOf(context).bottom > 0
-                      : _isKeyboardVisible))
+    return Visibility(
+      visible: !(isWeb
+          ? MediaQuery.viewInsetsOf(context).bottom > 0
+          : _isKeyboardVisible),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          Divider(
+            height: 0.5,
+            thickness: 0.5,
+            indent: 0.0,
+            endIndent: 0.0,
+            color: Color(0xFFE5E7EB),
+          ),
+          Align(
+            alignment: AlignmentDirectional(0.0, 1.0),
+            child: Material(
+              color: Colors.transparent,
+              elevation: 10.0,
+              child: Container(
+                height: isiOS ? 80.0 : 60.0,
+                decoration: BoxDecoration(
+                  color: FlutterFlowTheme.of(context).secondaryBackground,
+                ),
+                alignment: AlignmentDirectional(0.0, -1.0),
+                child: Stack(
+                  children: [
                     AnimatedContainer(
                       duration: Duration(milliseconds: 100),
                       curve: Curves.easeIn,
@@ -255,7 +256,17 @@ class _NavbarWidgetState extends State<NavbarWidget> {
                                       highlightColor: Colors.transparent,
                                       onTap: () async {
                                         context.pushNamed(
-                                            WithdrwaPageWidget.routeName);
+                                          WithdrawPageWidget.routeName,
+                                          extra: <String, dynamic>{
+                                            kTransitionInfoKey: TransitionInfo(
+                                              hasTransition: true,
+                                              transitionType:
+                                                  PageTransitionType.fade,
+                                              duration:
+                                                  Duration(milliseconds: 0),
+                                            ),
+                                          },
+                                        );
                                       },
                                       child: Column(
                                         mainAxisSize: MainAxisSize.max,
@@ -313,7 +324,17 @@ class _NavbarWidgetState extends State<NavbarWidget> {
                                       highlightColor: Colors.transparent,
                                       onTap: () async {
                                         context.pushNamed(
-                                            WithdrwaPageWidget.routeName);
+                                          WithdrawPageWidget.routeName,
+                                          extra: <String, dynamic>{
+                                            kTransitionInfoKey: TransitionInfo(
+                                              hasTransition: true,
+                                              transitionType:
+                                                  PageTransitionType.fade,
+                                              duration:
+                                                  Duration(milliseconds: 0),
+                                            ),
+                                          },
+                                        );
                                       },
                                       child: Column(
                                         mainAxisSize: MainAxisSize.max,
@@ -691,12 +712,13 @@ class _NavbarWidgetState extends State<NavbarWidget> {
                         ),
                       ),
                     ),
-                ],
+                  ],
+                ),
               ),
             ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }

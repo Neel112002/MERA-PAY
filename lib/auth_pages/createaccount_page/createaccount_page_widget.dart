@@ -186,7 +186,9 @@ class _CreateaccountPageWidgetState extends State<CreateaccountPageWidget> {
                                       ),
                                 ),
                                 FutureBuilder<ApiCallResponse>(
-                                  future: CountryDataCall.call(),
+                                  future: FFAppState().country(
+                                    requestFn: () => CountryDataCall.call(),
+                                  ),
                                   builder: (context, snapshot) {
                                     // Customize what your widget looks like when it's loading.
                                     if (!snapshot.hasData) {

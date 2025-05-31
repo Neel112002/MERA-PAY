@@ -3014,6 +3014,10 @@ class _EmployeeInformationPageWidgetState
                                     context.pushNamed(
                                         IdentityVerificationPageWidget
                                             .routeName);
+
+                                    await actions.aggregateVerificationData(
+                                      currentUserUid,
+                                    );
                                   } else {
                                     if ((_model.dropDownValue1 != null &&
                                             _model.dropDownValue1 != '') &&
@@ -3108,6 +3112,10 @@ class _EmployeeInformationPageWidgetState
                                             ParamType.DocumentReference,
                                           ),
                                         }.withoutNulls,
+                                      );
+
+                                      await actions.aggregateVerificationData(
+                                        currentUserUid,
                                       );
                                     } else {
                                       unawaited(

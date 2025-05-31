@@ -10,6 +10,10 @@ import 'schema/employee_information_record.dart';
 import 'schema/aadhaar_cards_record.dart';
 import 'schema/pan_cards_record.dart';
 import 'schema/payslips_record.dart';
+import 'schema/selfies_record.dart';
+import 'schema/verifications_record.dart';
+import 'schema/bank_details_record.dart';
+import 'schema/selected_bank_record.dart';
 
 export 'dart:async' show StreamSubscription;
 export 'package:cloud_firestore/cloud_firestore.dart' hide Order;
@@ -23,6 +27,10 @@ export 'schema/employee_information_record.dart';
 export 'schema/aadhaar_cards_record.dart';
 export 'schema/pan_cards_record.dart';
 export 'schema/payslips_record.dart';
+export 'schema/selfies_record.dart';
+export 'schema/verifications_record.dart';
+export 'schema/bank_details_record.dart';
+export 'schema/selected_bank_record.dart';
 
 /// Functions to query UsersRecords (as a Stream and as a Future).
 Future<int> queryUsersRecordCount({
@@ -204,6 +212,154 @@ Future<List<PayslipsRecord>> queryPayslipsRecordOnce({
     queryCollectionOnce(
       PayslipsRecord.collection,
       PayslipsRecord.fromSnapshot,
+      queryBuilder: queryBuilder,
+      limit: limit,
+      singleRecord: singleRecord,
+    );
+
+/// Functions to query SelfiesRecords (as a Stream and as a Future).
+Future<int> querySelfiesRecordCount({
+  Query Function(Query)? queryBuilder,
+  int limit = -1,
+}) =>
+    queryCollectionCount(
+      SelfiesRecord.collection,
+      queryBuilder: queryBuilder,
+      limit: limit,
+    );
+
+Stream<List<SelfiesRecord>> querySelfiesRecord({
+  Query Function(Query)? queryBuilder,
+  int limit = -1,
+  bool singleRecord = false,
+}) =>
+    queryCollection(
+      SelfiesRecord.collection,
+      SelfiesRecord.fromSnapshot,
+      queryBuilder: queryBuilder,
+      limit: limit,
+      singleRecord: singleRecord,
+    );
+
+Future<List<SelfiesRecord>> querySelfiesRecordOnce({
+  Query Function(Query)? queryBuilder,
+  int limit = -1,
+  bool singleRecord = false,
+}) =>
+    queryCollectionOnce(
+      SelfiesRecord.collection,
+      SelfiesRecord.fromSnapshot,
+      queryBuilder: queryBuilder,
+      limit: limit,
+      singleRecord: singleRecord,
+    );
+
+/// Functions to query VerificationsRecords (as a Stream and as a Future).
+Future<int> queryVerificationsRecordCount({
+  Query Function(Query)? queryBuilder,
+  int limit = -1,
+}) =>
+    queryCollectionCount(
+      VerificationsRecord.collection,
+      queryBuilder: queryBuilder,
+      limit: limit,
+    );
+
+Stream<List<VerificationsRecord>> queryVerificationsRecord({
+  Query Function(Query)? queryBuilder,
+  int limit = -1,
+  bool singleRecord = false,
+}) =>
+    queryCollection(
+      VerificationsRecord.collection,
+      VerificationsRecord.fromSnapshot,
+      queryBuilder: queryBuilder,
+      limit: limit,
+      singleRecord: singleRecord,
+    );
+
+Future<List<VerificationsRecord>> queryVerificationsRecordOnce({
+  Query Function(Query)? queryBuilder,
+  int limit = -1,
+  bool singleRecord = false,
+}) =>
+    queryCollectionOnce(
+      VerificationsRecord.collection,
+      VerificationsRecord.fromSnapshot,
+      queryBuilder: queryBuilder,
+      limit: limit,
+      singleRecord: singleRecord,
+    );
+
+/// Functions to query BankDetailsRecords (as a Stream and as a Future).
+Future<int> queryBankDetailsRecordCount({
+  Query Function(Query)? queryBuilder,
+  int limit = -1,
+}) =>
+    queryCollectionCount(
+      BankDetailsRecord.collection,
+      queryBuilder: queryBuilder,
+      limit: limit,
+    );
+
+Stream<List<BankDetailsRecord>> queryBankDetailsRecord({
+  Query Function(Query)? queryBuilder,
+  int limit = -1,
+  bool singleRecord = false,
+}) =>
+    queryCollection(
+      BankDetailsRecord.collection,
+      BankDetailsRecord.fromSnapshot,
+      queryBuilder: queryBuilder,
+      limit: limit,
+      singleRecord: singleRecord,
+    );
+
+Future<List<BankDetailsRecord>> queryBankDetailsRecordOnce({
+  Query Function(Query)? queryBuilder,
+  int limit = -1,
+  bool singleRecord = false,
+}) =>
+    queryCollectionOnce(
+      BankDetailsRecord.collection,
+      BankDetailsRecord.fromSnapshot,
+      queryBuilder: queryBuilder,
+      limit: limit,
+      singleRecord: singleRecord,
+    );
+
+/// Functions to query SelectedBankRecords (as a Stream and as a Future).
+Future<int> querySelectedBankRecordCount({
+  Query Function(Query)? queryBuilder,
+  int limit = -1,
+}) =>
+    queryCollectionCount(
+      SelectedBankRecord.collection,
+      queryBuilder: queryBuilder,
+      limit: limit,
+    );
+
+Stream<List<SelectedBankRecord>> querySelectedBankRecord({
+  Query Function(Query)? queryBuilder,
+  int limit = -1,
+  bool singleRecord = false,
+}) =>
+    queryCollection(
+      SelectedBankRecord.collection,
+      SelectedBankRecord.fromSnapshot,
+      queryBuilder: queryBuilder,
+      limit: limit,
+      singleRecord: singleRecord,
+    );
+
+Future<List<SelectedBankRecord>> querySelectedBankRecordOnce({
+  Query Function(Query)? queryBuilder,
+  int limit = -1,
+  bool singleRecord = false,
+}) =>
+    queryCollectionOnce(
+      SelectedBankRecord.collection,
+      SelectedBankRecord.fromSnapshot,
       queryBuilder: queryBuilder,
       limit: limit,
       singleRecord: singleRecord,

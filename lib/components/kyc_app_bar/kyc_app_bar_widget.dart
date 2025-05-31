@@ -1,6 +1,8 @@
 import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
+import '/flutter_flow/flutter_flow_widgets.dart';
+import '/withdraw/bank_accounts/bank_accounts_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'kyc_app_bar_model.dart';
@@ -11,10 +13,13 @@ class KycAppBarWidget extends StatefulWidget {
     super.key,
     this.title,
     bool? showIcons,
-  }) : this.showIcons = showIcons ?? false;
+    bool? addbank,
+  })  : this.showIcons = showIcons ?? false,
+        this.addbank = addbank ?? false;
 
   final String? title;
   final bool showIcons;
+  final bool addbank;
 
   @override
   State<KycAppBarWidget> createState() => _KycAppBarWidgetState();
@@ -82,8 +87,8 @@ class _KycAppBarWidgetState extends State<KycAppBarWidget> {
             padding: EdgeInsetsDirectional.fromSTEB(
                 0.0,
                 valueOrDefault<double>(
-                  isAndroid ? 28.0 : 48.0,
-                  44.0,
+                  isAndroid ? 32.0 : 50.0,
+                  50.0,
                 ),
                 0.0,
                 0.0),
@@ -92,7 +97,6 @@ class _KycAppBarWidgetState extends State<KycAppBarWidget> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Flexible(
-                  flex: 2,
                   child: Row(
                     mainAxisSize: MainAxisSize.max,
                     children: [
@@ -140,26 +144,76 @@ class _KycAppBarWidgetState extends State<KycAppBarWidget> {
                     ].addToStart(SizedBox(width: 28.0)),
                   ),
                 ),
-                Flexible(
-                  child: Row(
-                    mainAxisSize: MainAxisSize.max,
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      if (widget.showIcons == true)
-                        FlutterFlowIconButton(
-                          borderRadius: 8.0,
-                          buttonSize: 40.0,
-                          icon: Icon(
-                            Icons.add,
-                            color: FlutterFlowTheme.of(context).primary,
-                            size: 24.0,
-                          ),
-                          onPressed: () {
-                            print('IconButton pressed ...');
-                          },
+                Row(
+                  mainAxisSize: MainAxisSize.max,
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    if (widget.showIcons == true)
+                      FlutterFlowIconButton(
+                        borderRadius: 8.0,
+                        buttonSize: 40.0,
+                        icon: Icon(
+                          Icons.add,
+                          color: FlutterFlowTheme.of(context).primary,
+                          size: 24.0,
                         ),
-                    ].addToEnd(SizedBox(width: 28.0)),
-                  ),
+                        onPressed: () {
+                          print('IconButton pressed ...');
+                        },
+                      ),
+                    if (widget.addbank == true)
+                      FFButtonWidget(
+                        onPressed: () async {
+                          await showModalBottomSheet(
+                            isScrollControlled: true,
+                            backgroundColor: Colors.transparent,
+                            useSafeArea: true,
+                            context: context,
+                            builder: (context) {
+                              return Padding(
+                                padding: MediaQuery.viewInsetsOf(context),
+                                child: BankAccountsWidget(),
+                              );
+                            },
+                          ).then((value) => safeSetState(() {}));
+                        },
+                        text: 'Select Bank',
+                        icon: Icon(
+                          Icons.add,
+                          size: 15.0,
+                        ),
+                        options: FFButtonOptions(
+                          height: 40.0,
+                          padding: EdgeInsetsDirectional.fromSTEB(
+                              16.0, 0.0, 16.0, 0.0),
+                          iconPadding: EdgeInsetsDirectional.fromSTEB(
+                              0.0, 0.0, 0.0, 0.0),
+                          color: Color(0xFF22D846),
+                          textStyle:
+                              FlutterFlowTheme.of(context).titleSmall.override(
+                                    font: GoogleFonts.interTight(
+                                      fontWeight: FlutterFlowTheme.of(context)
+                                          .titleSmall
+                                          .fontWeight,
+                                      fontStyle: FlutterFlowTheme.of(context)
+                                          .titleSmall
+                                          .fontStyle,
+                                    ),
+                                    color: Colors.white,
+                                    fontSize: 12.0,
+                                    letterSpacing: 0.0,
+                                    fontWeight: FlutterFlowTheme.of(context)
+                                        .titleSmall
+                                        .fontWeight,
+                                    fontStyle: FlutterFlowTheme.of(context)
+                                        .titleSmall
+                                        .fontStyle,
+                                  ),
+                          elevation: 0.0,
+                          borderRadius: BorderRadius.circular(10.0),
+                        ),
+                      ),
+                  ].addToEnd(SizedBox(width: 28.0)),
                 ),
               ],
             ),

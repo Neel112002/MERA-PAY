@@ -2,10 +2,10 @@ import '/components/kyc_app_bar/kyc_app_bar_widget.dart';
 import '/components/navbar/navbar_widget.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/form_field_controller.dart';
-import 'withdrwa_page_widget.dart' show WithdrwaPageWidget;
+import 'withdraw_page_widget.dart' show WithdrawPageWidget;
 import 'package:flutter/material.dart';
 
-class WithdrwaPageModel extends FlutterFlowModel<WithdrwaPageWidget> {
+class WithdrawPageModel extends FlutterFlowModel<WithdrawPageWidget> {
   ///  State fields for stateful widgets in this page.
 
   // Model for KYC_APP_BAR component.

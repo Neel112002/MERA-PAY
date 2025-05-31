@@ -22,8 +22,8 @@ export '/kyc/identity_verification_page/identity_verification_page_widget.dart'
     show IdentityVerificationPageWidget;
 export '/kyc/k_y_c_complete_page/k_y_c_complete_page_widget.dart'
     show KYCCompletePageWidget;
-export '/dashboard_pages/withdrwa_page/withdrwa_page_widget.dart'
-    show WithdrwaPageWidget;
+export '/withdraw/withdraw_page/withdraw_page_widget.dart'
+    show WithdrawPageWidget;
 export '/dashboard_pages/attendance_page/attendance_page_widget.dart'
     show AttendancePageWidget;
 export '/profile_pages/bank_details_page/bank_details_page_widget.dart'

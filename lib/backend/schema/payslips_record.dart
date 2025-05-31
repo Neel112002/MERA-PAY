@@ -155,6 +155,16 @@ class PayslipsRecord extends FirestoreRecord {
   DateTime? get paydate1 => _paydate1;
   bool hasPaydate1() => _paydate1 != null;
 
+  // "NetSalary" field.
+  String? _netSalary;
+  String get netSalary => _netSalary ?? '';
+  bool hasNetSalary() => _netSalary != null;
+
+  // "uid" field.
+  String? _uid;
+  String get uid => _uid ?? '';
+  bool hasUid() => _uid != null;
+
   void _initializeFields() {
     _month1ImageUrl = snapshotData['month1ImageUrl'] as String?;
     _month1PayPeriod = snapshotData['month1PayPeriod'] as String?;
@@ -184,6 +194,8 @@ class PayslipsRecord extends FirestoreRecord {
     _month3IsVerified = snapshotData['month3IsVerified'] as bool?;
     _month3UpdatedAt = snapshotData['month3UpdatedAt'] as DateTime?;
     _paydate1 = snapshotData['Paydate1'] as DateTime?;
+    _netSalary = snapshotData['NetSalary'] as String?;
+    _uid = snapshotData['uid'] as String?;
   }
 
   static CollectionReference get collection =>
@@ -249,6 +261,8 @@ Map<String, dynamic> createPayslipsRecordData({
   bool? month3IsVerified,
   DateTime? month3UpdatedAt,
   DateTime? paydate1,
+  String? netSalary,
+  String? uid,
 }) {
   final firestoreData = mapToFirestore(
     <String, dynamic>{
@@ -280,6 +294,8 @@ Map<String, dynamic> createPayslipsRecordData({
       'month3IsVerified': month3IsVerified,
       'month3UpdatedAt': month3UpdatedAt,
       'Paydate1': paydate1,
+      'NetSalary': netSalary,
+      'uid': uid,
     }.withoutNulls,
   );
 
@@ -318,7 +334,9 @@ class PayslipsRecordDocumentEquality implements Equality<PayslipsRecord> {
         e1?.month3OfficeBranch == e2?.month3OfficeBranch &&
         e1?.month3IsVerified == e2?.month3IsVerified &&
         e1?.month3UpdatedAt == e2?.month3UpdatedAt &&
-        e1?.paydate1 == e2?.paydate1;
+        e1?.paydate1 == e2?.paydate1 &&
+        e1?.netSalary == e2?.netSalary &&
+        e1?.uid == e2?.uid;
   }
 
   @override
@@ -350,7 +368,9 @@ class PayslipsRecordDocumentEquality implements Equality<PayslipsRecord> {
         e?.month3OfficeBranch,
         e?.month3IsVerified,
         e?.month3UpdatedAt,
-        e?.paydate1
+        e?.paydate1,
+        e?.netSalary,
+        e?.uid
       ]);
 
   @override
