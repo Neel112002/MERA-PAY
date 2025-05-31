@@ -145,7 +145,7 @@ class _DashboardPageWidgetState extends State<DashboardPageWidget> {
                       0,
                       0,
                       0,
-                      30.0,
+                      29.0,
                     ),
                     shrinkWrap: true,
                     scrollDirection: Axis.vertical,
