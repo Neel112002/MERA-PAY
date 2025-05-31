@@ -13,8 +13,6 @@ import 'index.dart'; // Imports other custom widgets
 
 import 'index.dart'; // Imports other custom widgets
 
-import 'index.dart'; // Imports other custom widgets
-
 import 'package:provider/provider.dart';
 import '../../app_state.dart';
 
@@ -420,7 +418,7 @@ class _ScanOCRState extends State<ScanOCR> {
       final uploadTask = await storageRef.putFile(imageFile);
       final downloadUrl = await uploadTask.ref.getDownloadURL();
 
-      // Update Firestore with the image URL
+      // Update Firestore with the image URL and uid
       if (_isPayslip) {
         // For payslips, store with month prefix
         final month = _currentPayslipMonth + 1;
@@ -428,6 +426,7 @@ class _ScanOCRState extends State<ScanOCR> {
             .collection(_documentTypeString)
             .doc(widget.userId)
             .set({
+          'uid': widget.userId, // Add uid
           'month${month}ImageUrl': downloadUrl,
           'updatedAt': FieldValue.serverTimestamp(),
         }, SetOptions(merge: true));
@@ -437,6 +436,7 @@ class _ScanOCRState extends State<ScanOCR> {
             .collection(_documentTypeString)
             .doc(widget.userId)
             .set({
+          'uid': widget.userId, // Add uid
           '${side}ImageUrl': downloadUrl,
           if (side == 'front' && _requiresBackSide) 'backImageUrl': null,
           'updatedAt': FieldValue.serverTimestamp(),
@@ -793,14 +793,9 @@ class _ScanOCRState extends State<ScanOCR> {
         final month = _currentPayslipMonth + 1;
         final monthPrefix = 'month$month';
         final payslipData = <String, dynamic>{
+          'uid': widget.userId, // Add uid
           '${monthPrefix}ImageUrl': _frontImageUrl,
-          '${monthPrefix}PayPeriod': fields['payPeriod'] ?? '',
-          '${monthPrefix}EmployeeNumber': fields['employeeNumber'] ?? '',
-          '${monthPrefix}EmployeeName': fields['employeeName'] ?? '',
-          '${monthPrefix}DateOfJoining': fields['dateOfJoining'] ?? '',
-          '${monthPrefix}ResignationDate': fields['resignationDate'] ?? '',
-          '${monthPrefix}OfficeBranch': fields['officeBranch'] ?? '',
-          '${monthPrefix}IsVerified': true,
+          // '${monthPrefix}IsVerified': false, // Set to false on upload
           '${monthPrefix}UpdatedAt': FieldValue.serverTimestamp(),
         };
         print('Uploading to Firestore:');
@@ -809,6 +804,7 @@ class _ScanOCRState extends State<ScanOCR> {
       } else {
         // Existing Aadhaar and PAN saving logic
         await docRef.set({
+          'uid': widget.userId, // Add uid
           'frontImageUrl': _frontImageUrl,
           'backImageUrl': _backImageUrl,
           'updatedAt': FieldValue.serverTimestamp(),

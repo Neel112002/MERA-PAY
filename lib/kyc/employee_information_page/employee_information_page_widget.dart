@@ -76,7 +76,7 @@ class _EmployeeInformationPageWidgetState
         safeSetState(() {});
       },
     );
-    _model.textController5 ??= TextEditingController();
+
     _model.textFieldFocusNode5 ??= FocusNode();
 
     _model.textFieldFocusNode6 ??= FocusNode();
@@ -193,6 +193,11 @@ class _EmployeeInformationPageWidgetState
                 padding: EdgeInsetsDirectional.fromSTEB(12.0, 0.0, 12.0, 0.0),
                 child: FutureBuilder<List<EmployeeInformationRecord>>(
                   future: queryEmployeeInformationRecordOnce(
+                    queryBuilder: (employeeInformationRecord) =>
+                        employeeInformationRecord.where(
+                      'uid',
+                      isEqualTo: currentUserUid,
+                    ),
                     singleRecord: true,
                   ),
                   builder: (context, snapshot) {
@@ -265,7 +270,14 @@ class _EmployeeInformationPageWidgetState
                                               FormFieldController<String>(
                                         _model.dropDownValue1 ??=
                                             columnEmployeeInformationRecord
-                                                ?.organization,
+                                                            ?.organization !=
+                                                        null &&
+                                                    columnEmployeeInformationRecord
+                                                            ?.organization !=
+                                                        ''
+                                                ? columnEmployeeInformationRecord
+                                                    ?.organization
+                                                : '',
                                       ),
                                       options: List<String>.from(
                                           ['1', '2', '3', '4', '5', '6']),
@@ -556,9 +568,16 @@ class _EmployeeInformationPageWidgetState
                                             },
                                             controller: _model
                                                     .radioButtonValueController ??=
-                                                FormFieldController<String>(
-                                                    columnEmployeeInformationRecord!
-                                                        .annualIncome),
+                                                FormFieldController<
+                                                    String>(columnEmployeeInformationRecord
+                                                                ?.annualIncome !=
+                                                            null &&
+                                                        columnEmployeeInformationRecord
+                                                                ?.annualIncome !=
+                                                            ''
+                                                    ? columnEmployeeInformationRecord!
+                                                        .annualIncome
+                                                    : ''),
                                             optionHeight: 32.0,
                                             textStyle:
                                                 FlutterFlowTheme.of(context)
@@ -733,9 +752,15 @@ class _EmployeeInformationPageWidgetState
                                                     controller: _model
                                                             .textController2 ??=
                                                         TextEditingController(
-                                                      text:
-                                                          columnEmployeeInformationRecord
-                                                              ?.firstName,
+                                                      text: columnEmployeeInformationRecord
+                                                                      ?.firstName !=
+                                                                  null &&
+                                                              columnEmployeeInformationRecord
+                                                                      ?.firstName !=
+                                                                  ''
+                                                          ? columnEmployeeInformationRecord
+                                                              ?.firstName
+                                                          : '',
                                                     ),
                                                     focusNode: _model
                                                         .textFieldFocusNode2,
@@ -947,9 +972,15 @@ class _EmployeeInformationPageWidgetState
                                                     controller: _model
                                                             .textController3 ??=
                                                         TextEditingController(
-                                                      text:
-                                                          columnEmployeeInformationRecord
-                                                              ?.middleName,
+                                                      text: columnEmployeeInformationRecord
+                                                                      ?.middleName !=
+                                                                  null &&
+                                                              columnEmployeeInformationRecord
+                                                                      ?.middleName !=
+                                                                  ''
+                                                          ? columnEmployeeInformationRecord
+                                                              ?.middleName
+                                                          : '',
                                                     ),
                                                     focusNode: _model
                                                         .textFieldFocusNode3,
@@ -1161,9 +1192,15 @@ class _EmployeeInformationPageWidgetState
                                                     controller: _model
                                                             .textController4 ??=
                                                         TextEditingController(
-                                                      text:
-                                                          columnEmployeeInformationRecord
-                                                              ?.lastName,
+                                                      text: columnEmployeeInformationRecord
+                                                                      ?.lastName !=
+                                                                  null &&
+                                                              columnEmployeeInformationRecord
+                                                                      ?.lastName !=
+                                                                  ''
+                                                          ? columnEmployeeInformationRecord
+                                                              ?.lastName
+                                                          : '',
                                                     ),
                                                     focusNode: _model
                                                         .textFieldFocusNode4,
@@ -1375,7 +1412,18 @@ class _EmployeeInformationPageWidgetState
                                                       width: 200.0,
                                                       child: TextFormField(
                                                         controller: _model
-                                                            .textController5,
+                                                                .textController5 ??=
+                                                            TextEditingController(
+                                                          text: columnEmployeeInformationRecord
+                                                                          ?.dateofBirth !=
+                                                                      null &&
+                                                                  columnEmployeeInformationRecord
+                                                                          ?.dateofBirth !=
+                                                                      ''
+                                                              ? columnEmployeeInformationRecord
+                                                                  ?.dateofBirth
+                                                              : '',
+                                                        ),
                                                         focusNode: _model
                                                             .textFieldFocusNode5,
                                                         autofocus: false,
@@ -1713,7 +1761,14 @@ class _EmployeeInformationPageWidgetState
                                                               String>(
                                                         _model.dropDownValue2 ??=
                                                             columnEmployeeInformationRecord
-                                                                ?.gender,
+                                                                            ?.gender !=
+                                                                        null &&
+                                                                    columnEmployeeInformationRecord
+                                                                            ?.gender !=
+                                                                        ''
+                                                                ? columnEmployeeInformationRecord
+                                                                    ?.gender
+                                                                : '',
                                                       ),
                                                       options:
                                                           List<String>.from(
@@ -1851,9 +1906,15 @@ class _EmployeeInformationPageWidgetState
                                                     controller: _model
                                                             .textController6 ??=
                                                         TextEditingController(
-                                                      text:
-                                                          columnEmployeeInformationRecord
-                                                              ?.city,
+                                                      text: columnEmployeeInformationRecord
+                                                                      ?.city !=
+                                                                  null &&
+                                                              columnEmployeeInformationRecord
+                                                                      ?.city !=
+                                                                  ''
+                                                          ? columnEmployeeInformationRecord
+                                                              ?.city
+                                                          : '',
                                                     ),
                                                     focusNode: _model
                                                         .textFieldFocusNode6,
@@ -2065,9 +2126,15 @@ class _EmployeeInformationPageWidgetState
                                                     controller: _model
                                                             .textController7 ??=
                                                         TextEditingController(
-                                                      text:
-                                                          columnEmployeeInformationRecord
-                                                              ?.postalCode,
+                                                      text: columnEmployeeInformationRecord
+                                                                      ?.postalCode !=
+                                                                  null &&
+                                                              columnEmployeeInformationRecord
+                                                                      ?.postalCode !=
+                                                                  ''
+                                                          ? columnEmployeeInformationRecord
+                                                              ?.postalCode
+                                                          : '',
                                                     ),
                                                     focusNode: _model
                                                         .textFieldFocusNode7,
@@ -2279,9 +2346,15 @@ class _EmployeeInformationPageWidgetState
                                                     controller: _model
                                                             .textController8 ??=
                                                         TextEditingController(
-                                                      text:
-                                                          columnEmployeeInformationRecord
-                                                              ?.streetAddress,
+                                                      text: columnEmployeeInformationRecord
+                                                                      ?.streetAddress !=
+                                                                  null &&
+                                                              columnEmployeeInformationRecord
+                                                                      ?.streetAddress !=
+                                                                  ''
+                                                          ? columnEmployeeInformationRecord
+                                                              ?.streetAddress
+                                                          : '',
                                                     ),
                                                     focusNode: _model
                                                         .textFieldFocusNode8,
@@ -2495,9 +2568,15 @@ class _EmployeeInformationPageWidgetState
                                                     controller: _model
                                                             .textController9 ??=
                                                         TextEditingController(
-                                                      text:
-                                                          columnEmployeeInformationRecord
-                                                              ?.fathersName,
+                                                      text: columnEmployeeInformationRecord
+                                                                      ?.fathersName !=
+                                                                  null &&
+                                                              columnEmployeeInformationRecord
+                                                                      ?.fathersName !=
+                                                                  ''
+                                                          ? columnEmployeeInformationRecord
+                                                              ?.fathersName
+                                                          : '',
                                                     ),
                                                     focusNode: _model
                                                         .textFieldFocusNode9,
@@ -2709,9 +2788,15 @@ class _EmployeeInformationPageWidgetState
                                                     controller: _model
                                                             .textController10 ??=
                                                         TextEditingController(
-                                                      text:
-                                                          columnEmployeeInformationRecord
-                                                              ?.mothersName,
+                                                      text: columnEmployeeInformationRecord
+                                                                      ?.mothersName !=
+                                                                  null &&
+                                                              columnEmployeeInformationRecord
+                                                                      ?.mothersName !=
+                                                                  ''
+                                                          ? columnEmployeeInformationRecord
+                                                              ?.mothersName
+                                                          : '',
                                                     ),
                                                     focusNode: _model
                                                         .textFieldFocusNode10,
@@ -2929,6 +3014,10 @@ class _EmployeeInformationPageWidgetState
                                     context.pushNamed(
                                         IdentityVerificationPageWidget
                                             .routeName);
+
+                                    await actions.aggregateVerificationData(
+                                      currentUserUid,
+                                    );
                                   } else {
                                     if ((_model.dropDownValue1 != null &&
                                             _model.dropDownValue1 != '') &&
@@ -3023,6 +3112,10 @@ class _EmployeeInformationPageWidgetState
                                             ParamType.DocumentReference,
                                           ),
                                         }.withoutNulls,
+                                      );
+
+                                      await actions.aggregateVerificationData(
+                                        currentUserUid,
                                       );
                                     } else {
                                       unawaited(

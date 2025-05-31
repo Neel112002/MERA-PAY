@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'flutter_flow/request_manager.dart';
+import '/backend/api_requests/api_manager.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class FFAppState extends ChangeNotifier {
@@ -86,6 +88,21 @@ class FFAppState extends ChangeNotifier {
     _kycStep2 = value;
     prefs.setBool('ff_kycStep2', value);
   }
+
+  final _countryManager = FutureRequestManager<ApiCallResponse>();
+  Future<ApiCallResponse> country({
+    String? uniqueQueryKey,
+    bool? overrideCache,
+    required Future<ApiCallResponse> Function() requestFn,
+  }) =>
+      _countryManager.performRequest(
+        uniqueQueryKey: uniqueQueryKey,
+        overrideCache: overrideCache,
+        requestFn: requestFn,
+      );
+  void clearCountryCache() => _countryManager.clear();
+  void clearCountryCacheKey(String? uniqueKey) =>
+      _countryManager.clearRequest(uniqueKey);
 }
 
 void _safeInit(Function() initializeField) {

@@ -73,7 +73,7 @@ class _KYCCompletePageWidgetState extends State<KYCCompletePageWidget> {
               model: _model.kycAppBarModel,
               updateCallback: () => safeSetState(() {}),
               child: KycAppBarWidget(
-                title: 'Identity Verification',
+                title: 'Verification Success',
                 showIcons: false,
               ),
             ),
