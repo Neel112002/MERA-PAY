@@ -81,9 +81,12 @@ double? calculatePercentageAmount(
 double addStringAndDouble(
   String value1,
   double value2,
+  String value3,
 ) {
   final parsedValue1 = double.tryParse(value1) ?? 0.0;
-  return double.parse((parsedValue1 + value2).toStringAsFixed(2));
+  final parsedValue3 = double.tryParse(value3) ?? 0.0;
+  return double.parse(
+      (parsedValue1 + value2 + parsedValue3).toStringAsFixed(2));
 }
 
 double subtractStringValues(
@@ -93,4 +96,16 @@ double subtractStringValues(
   final num1 = double.tryParse(value1) ?? 0.0;
   final num2 = double.tryParse(value2) ?? 0.0;
   return double.parse((num1 - num2).toStringAsFixed(2));
+}
+
+String getNextMonth(String monthYear) {
+  try {
+    // Normalize input to "Month yyyy" format (e.g., March 2024)
+    final formattedInput = toBeginningOfSentenceCase(monthYear.toLowerCase());
+    final parsedDate = DateFormat('MMMM yyyy').parse(formattedInput!);
+    final nextMonth = DateTime(parsedDate.year, parsedDate.month + 1);
+    return DateFormat('MMMM yyyy').format(nextMonth);
+  } catch (e) {
+    return '';
+  }
 }

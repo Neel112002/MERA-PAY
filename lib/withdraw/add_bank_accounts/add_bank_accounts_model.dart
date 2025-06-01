@@ -24,6 +24,8 @@ class AddBankAccountsModel extends FlutterFlowModel<AddBankAccountsWidget> {
   String? Function(BuildContext, String?)? textController4Validator;
   // Stores action output result for [Firestore Query - Query a collection] action in Button widget.
   BankDetailsRecord? readBank;
+  // Stores action output result for [Backend Call - Create Document] action in Button widget.
+  BankDetailsRecord? bankAdded;
 
   @override
   void initState(BuildContext context) {}

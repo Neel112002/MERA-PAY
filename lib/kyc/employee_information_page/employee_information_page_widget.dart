@@ -59,8 +59,8 @@ class _EmployeeInformationPageWidgetState
       },
     );
 
-    _model.textFieldFocusNode3 ??= FocusNode();
-    _model.textFieldFocusNode3!.addListener(
+    _model.textFieldMiddlenameFocusNode ??= FocusNode();
+    _model.textFieldMiddlenameFocusNode!.addListener(
       () async {
         _model.progressStat = 0.60;
         _model.progressPercentage = '60%';
@@ -68,8 +68,8 @@ class _EmployeeInformationPageWidgetState
       },
     );
 
-    _model.textFieldFocusNode4 ??= FocusNode();
-    _model.textFieldFocusNode4!.addListener(
+    _model.textFieldFocusNode3 ??= FocusNode();
+    _model.textFieldFocusNode3!.addListener(
       () async {
         _model.progressStat = 0.65;
         _model.progressPercentage = '65%';
@@ -77,10 +77,10 @@ class _EmployeeInformationPageWidgetState
       },
     );
 
-    _model.textFieldFocusNode5 ??= FocusNode();
+    _model.textFieldFocusNode4 ??= FocusNode();
 
-    _model.textFieldFocusNode6 ??= FocusNode();
-    _model.textFieldFocusNode6!.addListener(
+    _model.textFieldFocusNode5 ??= FocusNode();
+    _model.textFieldFocusNode5!.addListener(
       () async {
         _model.progressStat = 0.80;
         _model.progressPercentage = '80%';
@@ -88,8 +88,8 @@ class _EmployeeInformationPageWidgetState
       },
     );
 
-    _model.textFieldFocusNode7 ??= FocusNode();
-    _model.textFieldFocusNode7!.addListener(
+    _model.textFieldFocusNode6 ??= FocusNode();
+    _model.textFieldFocusNode6!.addListener(
       () async {
         _model.progressStat = 0.85;
         _model.progressPercentage = '85%';
@@ -97,8 +97,8 @@ class _EmployeeInformationPageWidgetState
       },
     );
 
-    _model.textFieldFocusNode8 ??= FocusNode();
-    _model.textFieldFocusNode8!.addListener(
+    _model.textFieldFocusNode7 ??= FocusNode();
+    _model.textFieldFocusNode7!.addListener(
       () async {
         _model.progressStat = 0.90;
         _model.progressPercentage = '90%';
@@ -106,8 +106,8 @@ class _EmployeeInformationPageWidgetState
       },
     );
 
-    _model.textFieldFocusNode9 ??= FocusNode();
-    _model.textFieldFocusNode9!.addListener(
+    _model.textFieldFocusNode8 ??= FocusNode();
+    _model.textFieldFocusNode8!.addListener(
       () async {
         _model.progressStat = 0.95;
         _model.progressPercentage = '95%';
@@ -115,8 +115,8 @@ class _EmployeeInformationPageWidgetState
       },
     );
 
-    _model.textFieldFocusNode10 ??= FocusNode();
-    _model.textFieldFocusNode10!.addListener(
+    _model.textFieldFocusNode9 ??= FocusNode();
+    _model.textFieldFocusNode9!.addListener(
       () async {
         _model.progressStat = 1.0;
         _model.progressPercentage = '100 %';
@@ -970,7 +970,7 @@ class _EmployeeInformationPageWidgetState
                                                   width: 200.0,
                                                   child: TextFormField(
                                                     controller: _model
-                                                            .textController3 ??=
+                                                            .textFieldMiddlenameTextController ??=
                                                         TextEditingController(
                                                       text: columnEmployeeInformationRecord
                                                                       ?.middleName !=
@@ -983,7 +983,7 @@ class _EmployeeInformationPageWidgetState
                                                           : '',
                                                     ),
                                                     focusNode: _model
-                                                        .textFieldFocusNode3,
+                                                        .textFieldMiddlenameFocusNode,
                                                     autofocus: false,
                                                     obscureText: false,
                                                     decoration: InputDecoration(
@@ -1133,7 +1133,7 @@ class _EmployeeInformationPageWidgetState
                                                                 context)
                                                             .primaryText,
                                                     validator: _model
-                                                        .textController3Validator
+                                                        .textFieldMiddlenameTextControllerValidator
                                                         .asValidator(context),
                                                   ),
                                                 ),
@@ -1203,7 +1203,7 @@ class _EmployeeInformationPageWidgetState
                                                           : '',
                                                     ),
                                                     focusNode: _model
-                                                        .textFieldFocusNode4,
+                                                        .textFieldFocusNode3,
                                                     autofocus: false,
                                                     obscureText: false,
                                                     decoration: InputDecoration(
@@ -1425,7 +1425,7 @@ class _EmployeeInformationPageWidgetState
                                                               : '',
                                                         ),
                                                         focusNode: _model
-                                                            .textFieldFocusNode5,
+                                                            .textFieldFocusNode4,
                                                         autofocus: false,
                                                         readOnly: true,
                                                         obscureText: false,
@@ -1917,7 +1917,7 @@ class _EmployeeInformationPageWidgetState
                                                           : '',
                                                     ),
                                                     focusNode: _model
-                                                        .textFieldFocusNode6,
+                                                        .textFieldFocusNode5,
                                                     autofocus: false,
                                                     obscureText: false,
                                                     decoration: InputDecoration(
@@ -2137,7 +2137,7 @@ class _EmployeeInformationPageWidgetState
                                                           : '',
                                                     ),
                                                     focusNode: _model
-                                                        .textFieldFocusNode7,
+                                                        .textFieldFocusNode6,
                                                     autofocus: false,
                                                     obscureText: false,
                                                     decoration: InputDecoration(
@@ -2357,7 +2357,7 @@ class _EmployeeInformationPageWidgetState
                                                           : '',
                                                     ),
                                                     focusNode: _model
-                                                        .textFieldFocusNode8,
+                                                        .textFieldFocusNode7,
                                                     autofocus: false,
                                                     obscureText: false,
                                                     decoration: InputDecoration(
@@ -2579,7 +2579,7 @@ class _EmployeeInformationPageWidgetState
                                                           : '',
                                                     ),
                                                     focusNode: _model
-                                                        .textFieldFocusNode9,
+                                                        .textFieldFocusNode8,
                                                     autofocus: false,
                                                     obscureText: false,
                                                     decoration: InputDecoration(
@@ -2799,7 +2799,7 @@ class _EmployeeInformationPageWidgetState
                                                           : '',
                                                     ),
                                                     focusNode: _model
-                                                        .textFieldFocusNode10,
+                                                        .textFieldFocusNode9,
                                                     autofocus: false,
                                                     obscureText: false,
                                                     decoration: InputDecoration(
@@ -2981,12 +2981,8 @@ class _EmployeeInformationPageWidgetState
                                               _model.radioButtonValue != '') &&
                                           (_model.textController2.text !=
                                                   '') &&
-                                          (_model.textController3.text !=
-                                                  '') &&
                                           (_model.textController4.text !=
                                                   '') &&
-                                          (_model.dateofBirth != null &&
-                                              _model.dateofBirth != '') &&
                                           (_model.dropDownValue2 != null &&
                                               _model.dropDownValue2 != '') &&
                                           (_model.textController6.text !=
@@ -2997,7 +2993,8 @@ class _EmployeeInformationPageWidgetState
                                                   '') &&
                                           (_model.textController9.text !=
                                                   '') &&
-                                          (_model.textController10.text != '')
+                                          (_model.textController10.text !=
+                                                  '')
                                       ? true
                                       : false;
                                   safeSetState(() {});
@@ -3025,12 +3022,8 @@ class _EmployeeInformationPageWidgetState
                                             _model.radioButtonValue != '') &&
                                         (_model.textController2.text !=
                                                 '') &&
-                                        (_model.textController3.text !=
-                                                '') &&
                                         (_model.textController4.text !=
                                                 '') &&
-                                        (_model.dateofBirth != null &&
-                                            _model.dateofBirth != '') &&
                                         (_model.dropDownValue2 != null &&
                                             _model.dropDownValue2 != '') &&
                                         (_model.textController6.text !=
@@ -3052,9 +3045,16 @@ class _EmployeeInformationPageWidgetState
                                         organization: _model.dropDownValue1,
                                         annualIncome: _model.radioButtonValue,
                                         firstName: _model.textController2.text,
-                                        middleName: _model.textController3.text,
+                                        middleName: _model
+                                            .textFieldMiddlenameTextController
+                                            .text,
                                         lastName: _model.textController4.text,
-                                        dateofBirth: _model.dateofBirth,
+                                        dateofBirth: _model.dateofBirth !=
+                                                    null &&
+                                                _model.dateofBirth != ''
+                                            ? _model.dateofBirth
+                                            : columnEmployeeInformationRecord
+                                                ?.dateofBirth,
                                         gender: _model.dropDownValue2,
                                         city: _model.textController6.text,
                                         postalCode: _model.textController7.text,
@@ -3079,11 +3079,18 @@ class _EmployeeInformationPageWidgetState
                                                     _model.radioButtonValue,
                                                 firstName:
                                                     _model.textController2.text,
-                                                middleName:
-                                                    _model.textController3.text,
+                                                middleName: _model
+                                                    .textFieldMiddlenameTextController
+                                                    .text,
                                                 lastName:
                                                     _model.textController4.text,
-                                                dateofBirth: _model.dateofBirth,
+                                                dateofBirth: _model
+                                                                .dateofBirth !=
+                                                            null &&
+                                                        _model.dateofBirth != ''
+                                                    ? _model.dateofBirth
+                                                    : columnEmployeeInformationRecord
+                                                        ?.dateofBirth,
                                                 gender: _model.dropDownValue2,
                                                 city:
                                                     _model.textController6.text,

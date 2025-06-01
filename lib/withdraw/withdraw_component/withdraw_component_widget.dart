@@ -300,7 +300,8 @@ class _WithdrawComponentWidgetState extends State<WithdrawComponentWidget> {
                                   functions.calculatePercentageAmount(
                                       widget.amount!, 1.0),
                                   0.0,
-                                ))
+                                ),
+                                '0')
                             .toString(),
                         '-',
                       ),
@@ -557,12 +558,13 @@ class _WithdrawComponentWidgetState extends State<WithdrawComponentWidget> {
                                         functions.calculatePercentageAmount(
                                             widget.amount!, 1.0),
                                         0.0,
-                                      ))
+                                      ),
+                                      columnSelectedBankRecord!.moneyWithdrawed)
                                   .toString(),
                               '-',
                             ),
                             uid: currentUserUid,
-                            bankName: columnSelectedBankRecord?.bankName,
+                            bankName: columnSelectedBankRecord.bankName,
                           ));
                           _model.bankDetials =
                               SelectedBankRecord.getDocumentFromData(
@@ -576,13 +578,15 @@ class _WithdrawComponentWidgetState extends State<WithdrawComponentWidget> {
                                                     .calculatePercentageAmount(
                                                         widget.amount!, 1.0),
                                                 0.0,
-                                              ))
+                                              ),
+                                              columnSelectedBankRecord
+                                                  .moneyWithdrawed)
                                           .toString(),
                                       '-',
                                     ),
                                     uid: currentUserUid,
                                     bankName:
-                                        columnSelectedBankRecord?.bankName,
+                                        columnSelectedBankRecord.bankName,
                                   ),
                                   selectedBankRecordReference);
                           unawaited(

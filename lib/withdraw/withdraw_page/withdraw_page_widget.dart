@@ -236,11 +236,29 @@ class _WithdrawPageWidgetState extends State<WithdrawPageWidget> {
                                                         ),
                                                   ),
                                                   Text(
-                                                    '\$${valueOrDefault<String>(
-                                                      columnVerificationsRecord
-                                                          ?.payslipNetSalary,
-                                                      '0',
-                                                    )}',
+                                                    valueOrDefault<String>(
+                                                      valueOrDefault<
+                                                                      String>(
+                                                                    columnVerificationsRecord
+                                                                        ?.payslipNetSalary,
+                                                                    '0',
+                                                                  ) !=
+                                                                  ''
+                                                          ? valueOrDefault<
+                                                              String>(
+                                                              '\$ ${valueOrDefault<String>(
+                                                                functions
+                                                                    .getDailyAmount(
+                                                                        columnVerificationsRecord!
+                                                                            .payslipNetSalary)
+                                                                    .toString(),
+                                                                '0',
+                                                              )}',
+                                                              '0',
+                                                            )
+                                                          : '\$0',
+                                                      '\$0',
+                                                    ),
                                                     style: FlutterFlowTheme.of(
                                                             context)
                                                         .headlineSmall
@@ -319,24 +337,37 @@ class _WithdrawPageWidgetState extends State<WithdrawPageWidget> {
                                                   ),
                                                   Text(
                                                     valueOrDefault<String>(
-                                                      '\$${valueOrDefault<String>(
-                                                        functions
-                                                            .subtractStringValues(
-                                                                valueOrDefault<
-                                                                    String>(
-                                                                  functions
-                                                                      .getDailyAmount(
-                                                                          columnVerificationsRecord!
-                                                                              .payslipNetSalary)
-                                                                      .toString(),
-                                                                  '0',
-                                                                ),
-                                                                columnSelectedBankRecord!
-                                                                    .moneyWithdrawed)
-                                                            .toString(),
-                                                        '0',
-                                                      )}',
-                                                      '0',
+                                                      columnSelectedBankRecord
+                                                                      ?.moneyWithdrawed !=
+                                                                  null &&
+                                                              columnSelectedBankRecord
+                                                                      ?.moneyWithdrawed !=
+                                                                  ''
+                                                          ? valueOrDefault<
+                                                              String>(
+                                                              '\$${valueOrDefault<String>(
+                                                                functions
+                                                                    .subtractStringValues(
+                                                                        valueOrDefault<
+                                                                            String>(
+                                                                          functions
+                                                                              .getDailyAmount(columnVerificationsRecord!.payslipNetSalary)
+                                                                              .toString(),
+                                                                          '0',
+                                                                        ),
+                                                                        valueOrDefault<
+                                                                            String>(
+                                                                          columnSelectedBankRecord
+                                                                              ?.moneyWithdrawed,
+                                                                          '0',
+                                                                        ))
+                                                                    .toString(),
+                                                                '0',
+                                                              )}',
+                                                              '0',
+                                                            )
+                                                          : '\$0',
+                                                      '\$0',
                                                     ),
                                                     style: FlutterFlowTheme.of(
                                                             context)
@@ -747,8 +778,18 @@ class _WithdrawPageWidgetState extends State<WithdrawPageWidget> {
                                           children: [
                                             Text(
                                               valueOrDefault<String>(
-                                                columnSelectedBankRecord
-                                                    .bankName,
+                                                valueOrDefault<String>(
+                                                              columnSelectedBankRecord
+                                                                  ?.bankName,
+                                                              '-',
+                                                            ) !=
+                                                            ''
+                                                    ? valueOrDefault<String>(
+                                                        columnSelectedBankRecord
+                                                            ?.bankName,
+                                                        '-',
+                                                      )
+                                                    : '-',
                                                 '-',
                                               ),
                                               style:

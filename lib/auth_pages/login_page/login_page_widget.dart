@@ -1,4 +1,5 @@
 import '/auth/firebase_auth/auth_util.dart';
+import '/backend/backend.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
@@ -6,6 +7,7 @@ import 'dart:async';
 import '/custom_code/actions/index.dart' as actions;
 import '/index.dart';
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:collection/collection.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -482,6 +484,179 @@ class _LoginPageWidgetState extends State<LoginPageWidget> {
                                           _navigate = () => context.goNamedAuth(
                                               DashboardPageWidget.routeName,
                                               context.mounted);
+                                          _model.checkIfVerificationExists =
+                                              await queryVerificationsRecordOnce(
+                                            queryBuilder:
+                                                (verificationsRecord) =>
+                                                    verificationsRecord.where(
+                                              'uid',
+                                              isEqualTo: currentUserUid,
+                                            ),
+                                            singleRecord: true,
+                                          ).then((s) => s.firstOrNull);
+                                          if (!(_model
+                                                  .checkIfVerificationExists !=
+                                              null)) {
+                                            var verificationsRecordReference =
+                                                VerificationsRecord.collection
+                                                    .doc(currentUserUid);
+                                            await verificationsRecordReference
+                                                .set(
+                                                    createVerificationsRecordData(
+                                              uid: currentUserUid,
+                                              updatedAt: getCurrentTimestamp,
+                                              aadhaarVerified: false,
+                                              aadhaarNumber: '',
+                                              aadhaarFrontUrl: '',
+                                              aadhaarBackUrl: '',
+                                              panVerified: false,
+                                              panNumber: '',
+                                              panFrontUrl: '',
+                                              panBackUrl: '',
+                                              payslipVerified: false,
+                                              payslipPayPeriod: '',
+                                              payslipEmployeeNumber: '',
+                                              payslipEmployeeName: '',
+                                              payslipDateOfJoining: '',
+                                              payslipOfficeBranch: '',
+                                              payslipImageUrl: '',
+                                              payslipPayDate: '',
+                                              payslipNetSalary: '',
+                                              selfieVerified: false,
+                                              selfieImageUrl: '',
+                                              allVerified: false,
+                                              wizardstep2: false,
+                                              organization: '',
+                                              annualIncome: '',
+                                              firstName: '',
+                                              middleName: '',
+                                              lastName: '',
+                                              dateofBirth: '',
+                                              gender: '',
+                                              city: '',
+                                              postalCode: '',
+                                              streetAddress: '',
+                                              fathersName: '',
+                                              mothersName: '',
+                                              companyName: '',
+                                              wizardStep1: false,
+                                            ));
+                                            _model.verifyTableCreated =
+                                                VerificationsRecord.getDocumentFromData(
+                                                    createVerificationsRecordData(
+                                                      uid: currentUserUid,
+                                                      updatedAt:
+                                                          getCurrentTimestamp,
+                                                      aadhaarVerified: false,
+                                                      aadhaarNumber: '',
+                                                      aadhaarFrontUrl: '',
+                                                      aadhaarBackUrl: '',
+                                                      panVerified: false,
+                                                      panNumber: '',
+                                                      panFrontUrl: '',
+                                                      panBackUrl: '',
+                                                      payslipVerified: false,
+                                                      payslipPayPeriod: '',
+                                                      payslipEmployeeNumber: '',
+                                                      payslipEmployeeName: '',
+                                                      payslipDateOfJoining: '',
+                                                      payslipOfficeBranch: '',
+                                                      payslipImageUrl: '',
+                                                      payslipPayDate: '',
+                                                      payslipNetSalary: '',
+                                                      selfieVerified: false,
+                                                      selfieImageUrl: '',
+                                                      allVerified: false,
+                                                      wizardstep2: false,
+                                                      organization: '',
+                                                      annualIncome: '',
+                                                      firstName: '',
+                                                      middleName: '',
+                                                      lastName: '',
+                                                      dateofBirth: '',
+                                                      gender: '',
+                                                      city: '',
+                                                      postalCode: '',
+                                                      streetAddress: '',
+                                                      fathersName: '',
+                                                      mothersName: '',
+                                                      companyName: '',
+                                                      wizardStep1: false,
+                                                    ),
+                                                    verificationsRecordReference);
+                                          }
+                                          _model.selectedBankExists =
+                                              await querySelectedBankRecordOnce(
+                                            queryBuilder:
+                                                (selectedBankRecord) =>
+                                                    selectedBankRecord.where(
+                                              'uid',
+                                              isEqualTo: currentUserUid,
+                                            ),
+                                            singleRecord: true,
+                                          ).then((s) => s.firstOrNull);
+                                          if (!(_model.selectedBankExists !=
+                                              null)) {
+                                            var selectedBankRecordReference =
+                                                SelectedBankRecord.collection
+                                                    .doc(currentUserUid);
+                                            await selectedBankRecordReference
+                                                .set(
+                                                    createSelectedBankRecordData(
+                                              uid: currentUserUid,
+                                              bankName: '',
+                                              accountNumber: '',
+                                              iFSCCode: '',
+                                              branchName: '',
+                                              moneyWithdrawed: '',
+                                              totalWithdraw: '',
+                                            ));
+                                            _model.selectedBank = SelectedBankRecord
+                                                .getDocumentFromData(
+                                                    createSelectedBankRecordData(
+                                                      uid: currentUserUid,
+                                                      bankName: '',
+                                                      accountNumber: '',
+                                                      iFSCCode: '',
+                                                      branchName: '',
+                                                      moneyWithdrawed: '',
+                                                      totalWithdraw: '',
+                                                    ),
+                                                    selectedBankRecordReference);
+                                          }
+                                          _model.serfieTableExists =
+                                              await querySelfiesRecordOnce(
+                                            queryBuilder: (selfiesRecord) =>
+                                                selfiesRecord.where(
+                                              'uid',
+                                              isEqualTo: currentUserUid,
+                                            ),
+                                            singleRecord: true,
+                                          ).then((s) => s.firstOrNull);
+                                          if (!(_model.serfieTableExists !=
+                                              null)) {
+                                            var selfiesRecordReference =
+                                                SelfiesRecord.collection
+                                                    .doc(currentUserUid);
+                                            await selfiesRecordReference
+                                                .set(createSelfiesRecordData(
+                                              uid: currentUserUid,
+                                              imageUrl: '',
+                                              isVerified: false,
+                                              updatedAt: getCurrentTimestamp,
+                                            ));
+                                            _model.selfietablecreated =
+                                                SelfiesRecord
+                                                    .getDocumentFromData(
+                                                        createSelfiesRecordData(
+                                                          uid: currentUserUid,
+                                                          imageUrl: '',
+                                                          isVerified: false,
+                                                          updatedAt:
+                                                              getCurrentTimestamp,
+                                                        ),
+                                                        selfiesRecordReference);
+                                          }
                                         } else {
                                           await authManager
                                               .sendEmailVerification();
@@ -502,6 +677,8 @@ class _LoginPageWidgetState extends State<LoginPageWidget> {
                                         }
 
                                         _navigate();
+
+                                        safeSetState(() {});
                                       },
                                       text: 'Sign In',
                                       options: FFButtonOptions(
