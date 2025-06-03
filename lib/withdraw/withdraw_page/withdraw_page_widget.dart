@@ -48,7 +48,7 @@ class _WithdrawPageWidgetState extends State<WithdrawPageWidget> {
       });
     }
 
-    _model.textController ??= TextEditingController();
+    _model.textController ??= TextEditingController(text: '0');
     _model.textFieldFocusNode ??= FocusNode();
 
     WidgetsBinding.instance.addPostFrameCallback((_) => safeSetState(() {}));
@@ -856,9 +856,31 @@ class _WithdrawPageWidgetState extends State<WithdrawPageWidget> {
                                                                 context),
                                                         child:
                                                             WithdrawComponentWidget(
-                                                          amount: _model
-                                                              .textController
-                                                              .text,
+                                                          amount: double
+                                                              .tryParse(_model
+                                                                  .textController
+                                                                  .text),
+                                                          availableAmount:
+                                                              valueOrDefault<
+                                                                  double>(
+                                                            functions
+                                                                .subtractStringValues(
+                                                                    valueOrDefault<
+                                                                        String>(
+                                                                      functions
+                                                                          .getDailyAmount(
+                                                                              columnVerificationsRecord!.payslipNetSalary)
+                                                                          .toString(),
+                                                                      '0',
+                                                                    ),
+                                                                    valueOrDefault<
+                                                                        String>(
+                                                                      columnSelectedBankRecord
+                                                                          ?.moneyWithdrawed,
+                                                                      '0',
+                                                                    )),
+                                                            0.0,
+                                                          ),
                                                         ),
                                                       ),
                                                     );

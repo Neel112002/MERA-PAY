@@ -466,24 +466,23 @@ class _LoginPageWidgetState extends State<LoginPageWidget> {
                                       onPressed: () async {
                                         await authManager.refreshUser();
                                         Function() _navigate = () {};
+                                        GoRouter.of(context).prepareAuthEvent();
+
+                                        final user =
+                                            await authManager.signInWithEmail(
+                                          context,
+                                          _model
+                                              .emailAddressTextController.text,
+                                          _model.passwordTextController.text,
+                                        );
+                                        if (user == null) {
+                                          return;
+                                        }
+
+                                        _navigate = () => context.goNamedAuth(
+                                            DashboardPageWidget.routeName,
+                                            context.mounted);
                                         if (currentUserEmailVerified == true) {
-                                          GoRouter.of(context)
-                                              .prepareAuthEvent();
-
-                                          final user =
-                                              await authManager.signInWithEmail(
-                                            context,
-                                            _model.emailAddressTextController
-                                                .text,
-                                            _model.passwordTextController.text,
-                                          );
-                                          if (user == null) {
-                                            return;
-                                          }
-
-                                          _navigate = () => context.goNamedAuth(
-                                              DashboardPageWidget.routeName,
-                                              context.mounted);
                                           _model.checkIfVerificationExists =
                                               await queryVerificationsRecordOnce(
                                             queryBuilder:
@@ -608,7 +607,7 @@ class _LoginPageWidgetState extends State<LoginPageWidget> {
                                               accountNumber: '',
                                               iFSCCode: '',
                                               branchName: '',
-                                              moneyWithdrawed: '',
+                                              moneyWithdrawed: '0',
                                               totalWithdraw: '',
                                             ));
                                             _model.selectedBank = SelectedBankRecord
@@ -619,7 +618,7 @@ class _LoginPageWidgetState extends State<LoginPageWidget> {
                                                       accountNumber: '',
                                                       iFSCCode: '',
                                                       branchName: '',
-                                                      moneyWithdrawed: '',
+                                                      moneyWithdrawed: '0',
                                                       totalWithdraw: '',
                                                     ),
                                                     selectedBankRecordReference);

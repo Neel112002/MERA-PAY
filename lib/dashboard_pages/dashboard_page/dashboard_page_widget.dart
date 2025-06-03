@@ -953,7 +953,10 @@ class _DashboardPageWidgetState extends State<DashboardPageWidget> {
                                                                                   functions.getDailyAmount(listViewVerificationsRecord.payslipNetSalary).toString(),
                                                                                   '0',
                                                                                 ),
-                                                                                columnSelectedBankRecord!.moneyWithdrawed)
+                                                                                valueOrDefault<String>(
+                                                                                  columnSelectedBankRecord?.moneyWithdrawed,
+                                                                                  '0',
+                                                                                ))
                                                                             .toString(),
                                                                         '0',
                                                                       )}',

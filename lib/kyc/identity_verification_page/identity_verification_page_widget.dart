@@ -193,79 +193,80 @@ class _IdentityVerificationPageWidgetState
             Flexible(
               child: Padding(
                 padding: EdgeInsetsDirectional.fromSTEB(12.0, 0.0, 12.0, 0.0),
-                child: Column(
-                  mainAxisSize: MainAxisSize.max,
-                  children: [
-                    Padding(
-                      padding: EdgeInsetsDirectional.fromSTEB(
-                          12.0, 24.0, 12.0, 12.0),
-                      child: LinearPercentIndicator(
-                        percent: _model.progressStat,
-                        lineHeight: 18.0,
-                        animation: true,
-                        animateFromLastPercent: true,
-                        progressColor: Color(0xFF22D846),
-                        backgroundColor: FlutterFlowTheme.of(context).alternate,
-                        center: Text(
-                          _model.progressPercentage,
-                          style: FlutterFlowTheme.of(context)
-                              .headlineSmall
-                              .override(
-                                font: GoogleFonts.interTight(
-                                  fontWeight: FontWeight.w600,
-                                  fontStyle: FlutterFlowTheme.of(context)
-                                      .headlineSmall
-                                      .fontStyle,
-                                ),
-                                fontSize: 12.0,
-                                letterSpacing: 0.0,
-                                fontWeight: FontWeight.w600,
-                                fontStyle: FlutterFlowTheme.of(context)
-                                    .headlineSmall
-                                    .fontStyle,
-                              ),
-                        ),
-                        barRadius: Radius.circular(12.0),
-                        padding: EdgeInsets.zero,
-                      ),
+                child: FutureBuilder<List<VerificationsRecord>>(
+                  future: queryVerificationsRecordOnce(
+                    queryBuilder: (verificationsRecord) =>
+                        verificationsRecord.where(
+                      'uid',
+                      isEqualTo: currentUserUid,
                     ),
-                    Flexible(
-                      child: FutureBuilder<List<VerificationsRecord>>(
-                        future: queryVerificationsRecordOnce(
-                          queryBuilder: (verificationsRecord) =>
-                              verificationsRecord.where(
-                            'uid',
-                            isEqualTo: currentUserUid,
+                    singleRecord: true,
+                  ),
+                  builder: (context, snapshot) {
+                    // Customize what your widget looks like when it's loading.
+                    if (!snapshot.hasData) {
+                      return Center(
+                        child: SizedBox(
+                          width: 50.0,
+                          height: 50.0,
+                          child: CircularProgressIndicator(
+                            valueColor: AlwaysStoppedAnimation<Color>(
+                              FlutterFlowTheme.of(context).primary,
+                            ),
                           ),
-                          singleRecord: true,
                         ),
-                        builder: (context, snapshot) {
-                          // Customize what your widget looks like when it's loading.
-                          if (!snapshot.hasData) {
-                            return Center(
-                              child: SizedBox(
-                                width: 50.0,
-                                height: 50.0,
-                                child: CircularProgressIndicator(
-                                  valueColor: AlwaysStoppedAnimation<Color>(
-                                    FlutterFlowTheme.of(context).primary,
-                                  ),
-                                ),
-                              ),
-                            );
-                          }
-                          List<VerificationsRecord>
-                              columnVerificationsRecordList = snapshot.data!;
-                          // Return an empty Container when the item does not exist.
-                          if (snapshot.data!.isEmpty) {
-                            return Container();
-                          }
-                          final columnVerificationsRecord =
-                              columnVerificationsRecordList.isNotEmpty
-                                  ? columnVerificationsRecordList.first
-                                  : null;
+                      );
+                    }
+                    List<VerificationsRecord> columnVerificationsRecordList =
+                        snapshot.data!;
+                    // Return an empty Container when the item does not exist.
+                    if (snapshot.data!.isEmpty) {
+                      return Container();
+                    }
+                    final columnVerificationsRecord =
+                        columnVerificationsRecordList.isNotEmpty
+                            ? columnVerificationsRecordList.first
+                            : null;
 
-                          return SingleChildScrollView(
+                    return Column(
+                      mainAxisSize: MainAxisSize.max,
+                      children: [
+                        Padding(
+                          padding: EdgeInsetsDirectional.fromSTEB(
+                              12.0, 24.0, 12.0, 12.0),
+                          child: LinearPercentIndicator(
+                            percent: _model.progressStat,
+                            lineHeight: 18.0,
+                            animation: true,
+                            animateFromLastPercent: true,
+                            progressColor: Color(0xFF22D846),
+                            backgroundColor:
+                                FlutterFlowTheme.of(context).alternate,
+                            center: Text(
+                              _model.progressPercentage,
+                              style: FlutterFlowTheme.of(context)
+                                  .headlineSmall
+                                  .override(
+                                    font: GoogleFonts.interTight(
+                                      fontWeight: FontWeight.w600,
+                                      fontStyle: FlutterFlowTheme.of(context)
+                                          .headlineSmall
+                                          .fontStyle,
+                                    ),
+                                    fontSize: 12.0,
+                                    letterSpacing: 0.0,
+                                    fontWeight: FontWeight.w600,
+                                    fontStyle: FlutterFlowTheme.of(context)
+                                        .headlineSmall
+                                        .fontStyle,
+                                  ),
+                            ),
+                            barRadius: Radius.circular(12.0),
+                            padding: EdgeInsets.zero,
+                          ),
+                        ),
+                        Flexible(
+                          child: SingleChildScrollView(
                             child: Column(
                               mainAxisSize: MainAxisSize.max,
                               children: [
@@ -1141,10 +1142,10 @@ class _IdentityVerificationPageWidgetState
                                         if (_model.payslipUpload == true)
                                           Container(
                                             width: double.infinity,
-                                            height: 580.0,
+                                            height: 630.0,
                                             child: custom_widgets.ScanOCR(
                                               width: double.infinity,
-                                              height: 580.0,
+                                              height: 630.0,
                                               userId: currentUserUid,
                                               documentType: 3,
                                             ),
@@ -3182,107 +3183,115 @@ class _IdentityVerificationPageWidgetState
                                   .divide(SizedBox(height: 12.0))
                                   .addToEnd(SizedBox(height: 120.0)),
                             ),
-                          );
-                        },
-                      ),
-                    ),
-                    if (_model.payslipUpload == false)
-                      Row(
-                        mainAxisSize: MainAxisSize.max,
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          FFButtonWidget(
-                            onPressed: () async {
-                              context.pushNamed(
-                                EmployeeInformationPageWidget.routeName,
-                                queryParameters: {
-                                  'step2DocRef': serializeParam(
-                                    widget.docRefspet2,
-                                    ParamType.DocumentReference,
-                                  ),
-                                }.withoutNulls,
-                              );
-                            },
-                            text: 'Previous',
-                            options: FFButtonOptions(
-                              height: 40.0,
-                              padding: EdgeInsetsDirectional.fromSTEB(
-                                  24.0, 0.0, 24.0, 0.0),
-                              iconPadding: EdgeInsetsDirectional.fromSTEB(
-                                  0.0, 0.0, 0.0, 0.0),
-                              color: Color(0xFF22D846),
-                              textStyle: FlutterFlowTheme.of(context)
-                                  .titleSmall
-                                  .override(
-                                    font: GoogleFonts.interTight(
-                                      fontWeight: FlutterFlowTheme.of(context)
-                                          .titleSmall
-                                          .fontWeight,
-                                      fontStyle: FlutterFlowTheme.of(context)
-                                          .titleSmall
-                                          .fontStyle,
-                                    ),
-                                    color: Colors.white,
-                                    letterSpacing: 0.0,
-                                    fontWeight: FlutterFlowTheme.of(context)
-                                        .titleSmall
-                                        .fontWeight,
-                                    fontStyle: FlutterFlowTheme.of(context)
-                                        .titleSmall
-                                        .fontStyle,
-                                  ),
-                              elevation: 0.0,
-                              borderRadius: BorderRadius.circular(10.0),
-                            ),
                           ),
-                          FFButtonWidget(
-                            onPressed: () async {
-                              FFAppState().kycStep2 = true;
-                              safeSetState(() {});
-                              await actions.aggregateVerificationData(
-                                currentUserUid,
-                              );
+                        ),
+                        if ((_model.payslipUpload == false) &&
+                            (_model.aadharUpload == false) &&
+                            (_model.panUpload == false) &&
+                            (_model.uploadSelfie == false))
+                          Row(
+                            mainAxisSize: MainAxisSize.max,
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              FFButtonWidget(
+                                onPressed: () async {
+                                  context.pushNamed(
+                                    EmployeeInformationPageWidget.routeName,
+                                    queryParameters: {
+                                      'step2DocRef': serializeParam(
+                                        widget.docRefspet2,
+                                        ParamType.DocumentReference,
+                                      ),
+                                    }.withoutNulls,
+                                  );
+                                },
+                                text: 'Previous',
+                                options: FFButtonOptions(
+                                  height: 40.0,
+                                  padding: EdgeInsetsDirectional.fromSTEB(
+                                      24.0, 0.0, 24.0, 0.0),
+                                  iconPadding: EdgeInsetsDirectional.fromSTEB(
+                                      0.0, 0.0, 0.0, 0.0),
+                                  color: Color(0xFF22D846),
+                                  textStyle: FlutterFlowTheme.of(context)
+                                      .titleSmall
+                                      .override(
+                                        font: GoogleFonts.interTight(
+                                          fontWeight:
+                                              FlutterFlowTheme.of(context)
+                                                  .titleSmall
+                                                  .fontWeight,
+                                          fontStyle:
+                                              FlutterFlowTheme.of(context)
+                                                  .titleSmall
+                                                  .fontStyle,
+                                        ),
+                                        color: Colors.white,
+                                        letterSpacing: 0.0,
+                                        fontWeight: FlutterFlowTheme.of(context)
+                                            .titleSmall
+                                            .fontWeight,
+                                        fontStyle: FlutterFlowTheme.of(context)
+                                            .titleSmall
+                                            .fontStyle,
+                                      ),
+                                  elevation: 0.0,
+                                  borderRadius: BorderRadius.circular(10.0),
+                                ),
+                              ),
+                              FFButtonWidget(
+                                onPressed: () async {
+                                  FFAppState().kycStep2 = true;
+                                  safeSetState(() {});
+                                  await actions.aggregateVerificationData(
+                                    currentUserUid,
+                                  );
 
-                              context.goNamed(KYCCompletePageWidget.routeName);
-                            },
-                            text: 'Submit',
-                            options: FFButtonOptions(
-                              height: 40.0,
-                              padding: EdgeInsetsDirectional.fromSTEB(
-                                  24.0, 0.0, 24.0, 0.0),
-                              iconPadding: EdgeInsetsDirectional.fromSTEB(
-                                  0.0, 0.0, 0.0, 0.0),
-                              color: Color(0xFF22D846),
-                              textStyle: FlutterFlowTheme.of(context)
-                                  .titleSmall
-                                  .override(
-                                    font: GoogleFonts.interTight(
-                                      fontWeight: FlutterFlowTheme.of(context)
-                                          .titleSmall
-                                          .fontWeight,
-                                      fontStyle: FlutterFlowTheme.of(context)
-                                          .titleSmall
-                                          .fontStyle,
-                                    ),
-                                    color: Colors.white,
-                                    letterSpacing: 0.0,
-                                    fontWeight: FlutterFlowTheme.of(context)
-                                        .titleSmall
-                                        .fontWeight,
-                                    fontStyle: FlutterFlowTheme.of(context)
-                                        .titleSmall
-                                        .fontStyle,
-                                  ),
-                              elevation: 0.0,
-                              borderRadius: BorderRadius.circular(10.0),
-                            ),
+                                  context
+                                      .goNamed(KYCCompletePageWidget.routeName);
+                                },
+                                text: 'Submit',
+                                options: FFButtonOptions(
+                                  height: 40.0,
+                                  padding: EdgeInsetsDirectional.fromSTEB(
+                                      24.0, 0.0, 24.0, 0.0),
+                                  iconPadding: EdgeInsetsDirectional.fromSTEB(
+                                      0.0, 0.0, 0.0, 0.0),
+                                  color: Color(0xFF22D846),
+                                  textStyle: FlutterFlowTheme.of(context)
+                                      .titleSmall
+                                      .override(
+                                        font: GoogleFonts.interTight(
+                                          fontWeight:
+                                              FlutterFlowTheme.of(context)
+                                                  .titleSmall
+                                                  .fontWeight,
+                                          fontStyle:
+                                              FlutterFlowTheme.of(context)
+                                                  .titleSmall
+                                                  .fontStyle,
+                                        ),
+                                        color: Colors.white,
+                                        letterSpacing: 0.0,
+                                        fontWeight: FlutterFlowTheme.of(context)
+                                            .titleSmall
+                                            .fontWeight,
+                                        fontStyle: FlutterFlowTheme.of(context)
+                                            .titleSmall
+                                            .fontStyle,
+                                      ),
+                                  elevation: 0.0,
+                                  borderRadius: BorderRadius.circular(10.0),
+                                ),
+                              ),
+                            ].divide(SizedBox(width: 12.0)),
                           ),
-                        ].divide(SizedBox(width: 12.0)),
-                      ),
-                  ]
-                      .divide(SizedBox(height: 12.0))
-                      .addToStart(SizedBox(height: 12.0))
-                      .addToEnd(SizedBox(height: 12.0)),
+                      ]
+                          .divide(SizedBox(height: 12.0))
+                          .addToStart(SizedBox(height: 12.0))
+                          .addToEnd(SizedBox(height: 12.0)),
+                    );
+                  },
                 ),
               ),
             ),

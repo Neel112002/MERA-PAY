@@ -13,6 +13,8 @@ import 'index.dart'; // Imports other custom widgets
 
 import 'index.dart'; // Imports other custom widgets
 
+import 'index.dart'; // Imports other custom widgets
+
 import 'package:provider/provider.dart';
 import '../../app_state.dart';
 
@@ -26,6 +28,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:path/path.dart' as path;
 import 'package:path_provider/path_provider.dart';
+import 'package:flutter_cached_pdfview/flutter_cached_pdfview.dart';
 
 class ScanOCR extends StatefulWidget {
   const ScanOCR({
@@ -173,9 +176,12 @@ class _ScanOCRState extends State<ScanOCR> {
 
           if (monthImageUrl != null) {
             try {
-              final frontImage = await _downloadImage(monthImageUrl);
-              if (frontImage != null) {
-                await _performOCR(frontImage, frontImage);
+              // Only run OCR if not a PDF
+              if (!monthImageUrl.toLowerCase().endsWith('.pdf')) {
+                final frontImage = await _downloadImage(monthImageUrl);
+                if (frontImage != null) {
+                  await _performOCR(frontImage, frontImage);
+                }
               }
             } catch (e) {
               print('Error processing payslip image: $e');
@@ -653,7 +659,7 @@ class _ScanOCRState extends State<ScanOCR> {
     try {
       final result = await FilePicker.platform.pickFiles(
         type: FileType.custom,
-        allowedExtensions: ['jpg', 'jpeg', 'png', 'pdf'],
+        allowedExtensions: ['jpg', 'jpeg', 'png'],
         allowMultiple: false,
       );
 
@@ -711,6 +717,10 @@ class _ScanOCRState extends State<ScanOCR> {
   }
 
   Future<void> _performOCR(File frontImage, File backImage) async {
+    // Skip OCR for payslip PDFs
+    if (_isPayslip && frontImage.path.toLowerCase().endsWith('.pdf')) {
+      return;
+    }
     setState(() {
       _isProcessing = true;
       _errorMessage = null;
@@ -924,28 +934,31 @@ class _ScanOCRState extends State<ScanOCR> {
             // Image Preview
             if (_isPayslip) ...[
               // Payslip Month Selector
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: List.generate(3, (index) {
-                  return Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 4.0),
-                    child: ChoiceChip(
-                      label: Text(_getPayslipMonthTextForIndex(index)),
-                      selected: _currentPayslipMonth == index,
-                      onSelected: (selected) {
-                        if (selected) {
-                          setState(() {
-                            _currentPayslipMonth = index;
-                            _frontImageUrl = null;
-                            _frontImageFile = null;
-                            _isFrontCaptured = false;
-                          });
-                          _loadExistingImages();
-                        }
-                      },
-                    ),
-                  );
-                }),
+              SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: List.generate(3, (index) {
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 4.0),
+                      child: ChoiceChip(
+                        label: Text(_getPayslipMonthTextForIndex(index)),
+                        selected: _currentPayslipMonth == index,
+                        onSelected: (selected) {
+                          if (selected) {
+                            setState(() {
+                              _currentPayslipMonth = index;
+                              _frontImageUrl = null;
+                              _frontImageFile = null;
+                              _isFrontCaptured = false;
+                            });
+                            _loadExistingImages();
+                          }
+                        },
+                      ),
+                    );
+                  }),
+                ),
               ),
               const SizedBox(height: 16),
             ],
@@ -982,55 +995,68 @@ class _ScanOCRState extends State<ScanOCR> {
                                 ],
                               ),
                             )
-                          : _frontImageUrl != null
-                              ? ClipRRect(
-                                  borderRadius: BorderRadius.circular(16),
-                                  child: Image.network(
-                                    _frontImageUrl!,
-                                    fit: BoxFit.cover,
-                                    width: double.infinity,
-                                    height: 180,
-                                    loadingBuilder:
-                                        (context, child, loadingProgress) {
-                                      if (loadingProgress == null) return child;
-                                      return Center(
-                                        child: CircularProgressIndicator(
-                                          value: loadingProgress
-                                                      .expectedTotalBytes !=
-                                                  null
-                                              ? loadingProgress
-                                                      .cumulativeBytesLoaded /
-                                                  loadingProgress
-                                                      .expectedTotalBytes!
-                                              : null,
-                                        ),
-                                      );
-                                    },
-                                    errorBuilder: (context, error, stackTrace) {
-                                      return Center(
-                                        child: Column(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          children: [
-                                            Icon(
-                                              Icons.error_outline,
-                                              color: Colors.red.shade400,
-                                              size: 48,
+                          : _frontImageUrl != null && _frontImageUrl!.isNotEmpty
+                              ? (_frontImageUrl!.toLowerCase().endsWith('.pdf'))
+                                  ? Container(
+                                      height: 180,
+                                      child: const PDF().fromUrl(
+                                        _frontImageUrl!,
+                                        placeholder: (progress) =>
+                                            Center(child: Text('$progress %')),
+                                        errorWidget: (error) => Center(
+                                            child: Text('Failed to load PDF')),
+                                      ),
+                                    )
+                                  : ClipRRect(
+                                      borderRadius: BorderRadius.circular(16),
+                                      child: Image.network(
+                                        _frontImageUrl!,
+                                        fit: BoxFit.cover,
+                                        width: double.infinity,
+                                        height: 180,
+                                        loadingBuilder:
+                                            (context, child, loadingProgress) {
+                                          if (loadingProgress == null)
+                                            return child;
+                                          return Center(
+                                            child: CircularProgressIndicator(
+                                              value: loadingProgress
+                                                          .expectedTotalBytes !=
+                                                      null
+                                                  ? loadingProgress
+                                                          .cumulativeBytesLoaded /
+                                                      loadingProgress
+                                                          .expectedTotalBytes!
+                                                  : null,
                                             ),
-                                            const SizedBox(height: 8),
-                                            const Text(
-                                              'Failed to load image',
-                                              style: TextStyle(
-                                                color: Colors.red,
-                                                fontSize: 14,
-                                              ),
+                                          );
+                                        },
+                                        errorBuilder:
+                                            (context, error, stackTrace) {
+                                          return Center(
+                                            child: Column(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              children: [
+                                                Icon(
+                                                  Icons.error_outline,
+                                                  color: Colors.red.shade400,
+                                                  size: 48,
+                                                ),
+                                                const SizedBox(height: 8),
+                                                const Text(
+                                                  'Failed to load image',
+                                                  style: TextStyle(
+                                                    color: Colors.red,
+                                                    fontSize: 14,
+                                                  ),
+                                                ),
+                                              ],
                                             ),
-                                          ],
-                                        ),
-                                      );
-                                    },
-                                  ),
-                                )
+                                          );
+                                        },
+                                      ),
+                                    )
                               : Center(
                                   child: Column(
                                     mainAxisAlignment: MainAxisAlignment.center,

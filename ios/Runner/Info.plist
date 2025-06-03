@@ -54,9 +54,9 @@
 	<true/>
 
 	<key>NSCameraUsageDescription</key>
-    <string>To personalise the app</string>
+    <string>To upload images to kyc</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-    <string>To personalise the app</string>
+    <string>To upload images to kyc</string>
 
 
 
