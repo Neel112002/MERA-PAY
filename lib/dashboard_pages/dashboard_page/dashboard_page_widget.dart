@@ -1,11 +1,11 @@
 import '/auth/firebase_auth/auth_util.dart';
 import '/backend/backend.dart';
 import '/components/kyc_app_bar/kyc_app_bar_widget.dart';
-import '/components/menu_page/menu_page_widget.dart';
 import '/components/navbar/navbar_widget.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
+import '/menupages/menu_page/menu_page_widget.dart';
 import 'dart:async';
 import '/custom_code/actions/index.dart' as actions;
 import '/flutter_flow/custom_functions.dart' as functions;
@@ -894,7 +894,7 @@ class _DashboardPageWidgetState extends State<DashboardPageWidget> {
                                             CrossAxisAlignment.start,
                                         children: [
                                           Text(
-                                            'Avaiable To Withdraw',
+                                            'Avaliable To Withdraw',
                                             style: FlutterFlowTheme.of(context)
                                                 .headlineSmall
                                                 .override(
