@@ -11,6 +11,7 @@ import '/custom_code/actions/index.dart' as actions;
 import '/index.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:easy_debounce/easy_debounce.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'createaccount_page_model.dart';
@@ -1493,6 +1494,13 @@ class _CreateaccountPageWidgetState extends State<CreateaccountPageWidget> {
                                                           .bodyMedium
                                                           .fontStyle,
                                                 ),
+                                            mouseCursor:
+                                                SystemMouseCursors.click,
+                                            recognizer: TapGestureRecognizer()
+                                              ..onTap = () async {
+                                                context.pushNamed(
+                                                    LoginPageWidget.routeName);
+                                              },
                                           )
                                         ],
                                         style: FlutterFlowTheme.of(context)

@@ -305,8 +305,8 @@ class _BankAccountsWidgetState extends State<BankAccountsWidget> {
                               mainAxisAlignment: MainAxisAlignment.end,
                               children: [
                                 FFButtonWidget(
-                                  onPressed: () {
-                                    print('Button pressed ...');
+                                  onPressed: () async {
+                                    Navigator.pop(context);
                                   },
                                   text: 'Cancel',
                                   options: FFButtonOptions(

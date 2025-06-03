@@ -725,8 +725,8 @@ class _AddBankAccountsWidgetState extends State<AddBankAccountsWidget> {
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
                         FFButtonWidget(
-                          onPressed: () {
-                            print('Button pressed ...');
+                          onPressed: () async {
+                            Navigator.pop(context);
                           },
                           text: 'Cancel',
                           options: FFButtonOptions(
@@ -770,25 +770,62 @@ class _AddBankAccountsWidgetState extends State<AddBankAccountsWidget> {
                               ),
                               singleRecord: true,
                             ).then((s) => s.firstOrNull);
-
-                            await _model.readBank!.reference.update({
-                              ...createBankDetailsRecordData(
-                                uid: currentUserUid,
-                              ),
-                              ...mapToFirestore(
-                                {
-                                  'BankName': FieldValue.arrayUnion(
-                                      [_model.textController1.text]),
-                                  'AccountNumber': FieldValue.arrayUnion(
-                                      [_model.textController2.text]),
-                                  'BranchName': FieldValue.arrayUnion(
-                                      [_model.textController4.text]),
-                                  'IFSCCode': FieldValue.arrayUnion(
-                                      [_model.textController3.text]),
-                                },
-                              ),
-                            });
-                            Navigator.pop(context);
+                            if (_model.readBank != null) {
+                              await _model.readBank!.reference.update({
+                                ...createBankDetailsRecordData(
+                                  uid: currentUserUid,
+                                ),
+                                ...mapToFirestore(
+                                  {
+                                    'BankName': FieldValue.arrayUnion(
+                                        [_model.textController1.text]),
+                                    'AccountNumber': FieldValue.arrayUnion(
+                                        [_model.textController2.text]),
+                                    'BranchName': FieldValue.arrayUnion(
+                                        [_model.textController4.text]),
+                                    'IFSCCode': FieldValue.arrayUnion(
+                                        [_model.textController3.text]),
+                                  },
+                                ),
+                              });
+                              Navigator.pop(context, true);
+                            } else {
+                              var bankDetailsRecordReference = BankDetailsRecord
+                                  .collection
+                                  .doc(currentUserUid);
+                              await bankDetailsRecordReference.set({
+                                ...createBankDetailsRecordData(
+                                  uid: currentUserUid,
+                                ),
+                                ...mapToFirestore(
+                                  {
+                                    'BankName': [_model.textController1.text],
+                                    'AccountNumber': [
+                                      _model.textController2.text
+                                    ],
+                                    'IFSCCode': [_model.textController3.text],
+                                    'BranchName': [_model.textController4.text],
+                                  },
+                                ),
+                              });
+                              _model.bankAdded =
+                                  BankDetailsRecord.getDocumentFromData({
+                                ...createBankDetailsRecordData(
+                                  uid: currentUserUid,
+                                ),
+                                ...mapToFirestore(
+                                  {
+                                    'BankName': [_model.textController1.text],
+                                    'AccountNumber': [
+                                      _model.textController2.text
+                                    ],
+                                    'IFSCCode': [_model.textController3.text],
+                                    'BranchName': [_model.textController4.text],
+                                  },
+                                ),
+                              }, bankDetailsRecordReference);
+                              Navigator.pop(context, true);
+                            }
 
                             safeSetState(() {});
                           },

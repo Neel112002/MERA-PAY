@@ -54,6 +54,7 @@ dependencies:
   firebase_storage_web: 3.10.5
   flutter_animate: 4.5.0
   flutter_cache_manager: 3.4.1
+  flutter_cached_pdfview: ^0.4.2
   flutter_keyboard_visibility: 6.0.0
   flutter_keyboard_visibility_linux: 1.0.0
   flutter_keyboard_visibility_macos: 1.0.0
