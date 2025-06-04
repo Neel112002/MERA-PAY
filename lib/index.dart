@@ -35,3 +35,5 @@ export '/profile_pages/current_title_page/current_title_page_widget.dart'
 export '/profile_pages/current_company_page/current_company_page_widget.dart'
     show CurrentCompanyPageWidget;
 export '/dashboard_pages/shop_page/shop_page_widget.dart' show ShopPageWidget;
+export '/dashboard_pages/support_page/support_page_widget.dart'
+    show SupportPageWidget;
