@@ -92,7 +92,7 @@ class _ShopPageWidgetState extends State<ShopPageWidget> {
                               child: Container(
                                 width: double.infinity,
                                 decoration: BoxDecoration(
-                                  color: Color(0xBD3DDC5D),
+                                  color: Color(0xFF22D846),
                                   borderRadius: BorderRadius.circular(12.0),
                                 ),
                                 child: Padding(
@@ -1037,7 +1037,7 @@ class _ShopPageWidgetState extends State<ShopPageWidget> {
                                               padding: EdgeInsetsDirectional
                                                   .fromSTEB(2.0, 0.0, 2.0, 0.0),
                                               child: Text(
-                                                '70 credits',
+                                                '30 credits',
                                                 style:
                                                     FlutterFlowTheme.of(context)
                                                         .titleMedium
@@ -1296,7 +1296,7 @@ class _ShopPageWidgetState extends State<ShopPageWidget> {
                                               padding: EdgeInsetsDirectional
                                                   .fromSTEB(2.0, 0.0, 2.0, 0.0),
                                               child: Text(
-                                                '70 credits',
+                                                '10 credits',
                                                 style:
                                                     FlutterFlowTheme.of(context)
                                                         .titleMedium
