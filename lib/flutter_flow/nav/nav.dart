@@ -176,11 +176,6 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
           builder: (context, params) => WithdrawPageWidget(),
         ),
         FFRoute(
-          name: AttendancePageWidget.routeName,
-          path: AttendancePageWidget.routePath,
-          builder: (context, params) => AttendancePageWidget(),
-        ),
-        FFRoute(
           name: BankDetailsPageWidget.routeName,
           path: BankDetailsPageWidget.routePath,
           builder: (context, params) => BankDetailsPageWidget(),
@@ -209,6 +204,11 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
           name: SupportPageWidget.routeName,
           path: SupportPageWidget.routePath,
           builder: (context, params) => SupportPageWidget(),
+        ),
+        FFRoute(
+          name: AttendanceWidget.routeName,
+          path: AttendanceWidget.routePath,
+          builder: (context, params) => AttendanceWidget(),
         )
       ].map((r) => r.toRoute(appStateNotifier)).toList(),
     );

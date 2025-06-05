@@ -24,8 +24,6 @@ export '/kyc/k_y_c_complete_page/k_y_c_complete_page_widget.dart'
     show KYCCompletePageWidget;
 export '/withdraw/withdraw_page/withdraw_page_widget.dart'
     show WithdrawPageWidget;
-export '/dashboard_pages/attendance_page/attendance_page_widget.dart'
-    show AttendancePageWidget;
 export '/profile_pages/bank_details_page/bank_details_page_widget.dart'
     show BankDetailsPageWidget;
 export '/profile_pages/change_address_page/change_address_page_widget.dart'
@@ -37,3 +35,4 @@ export '/profile_pages/current_company_page/current_company_page_widget.dart'
 export '/dashboard_pages/shop_page/shop_page_widget.dart' show ShopPageWidget;
 export '/dashboard_pages/support_page/support_page_widget.dart'
     show SupportPageWidget;
+export '/attendance/attendance/attendance_widget.dart' show AttendanceWidget;
