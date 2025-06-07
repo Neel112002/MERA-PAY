@@ -24,6 +24,13 @@ class FFAppState extends ChangeNotifier {
     _safeInit(() {
       _kycStep2 = prefs.getBool('ff_kycStep2') ?? _kycStep2;
     });
+    _safeInit(() {
+      _progressPercentage =
+          prefs.getString('ff_progressPercentage') ?? _progressPercentage;
+    });
+    _safeInit(() {
+      _progressStat = prefs.getDouble('ff_progressStat') ?? _progressStat;
+    });
   }
 
   void update(VoidCallback callback) {
@@ -87,6 +94,20 @@ class FFAppState extends ChangeNotifier {
   set kycStep2(bool value) {
     _kycStep2 = value;
     prefs.setBool('ff_kycStep2', value);
+  }
+
+  String _progressPercentage = '';
+  String get progressPercentage => _progressPercentage;
+  set progressPercentage(String value) {
+    _progressPercentage = value;
+    prefs.setString('ff_progressPercentage', value);
+  }
+
+  double _progressStat = 0.0;
+  double get progressStat => _progressStat;
+  set progressStat(double value) {
+    _progressStat = value;
+    prefs.setDouble('ff_progressStat', value);
   }
 
   final _countryManager = FutureRequestManager<ApiCallResponse>();

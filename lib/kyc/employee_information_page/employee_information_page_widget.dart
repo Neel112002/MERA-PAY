@@ -10,6 +10,7 @@ import '/flutter_flow/flutter_flow_widgets.dart';
 import '/flutter_flow/form_field_controller.dart';
 import 'dart:async';
 import '/custom_code/actions/index.dart' as actions;
+import '/flutter_flow/custom_functions.dart' as functions;
 import '/index.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
@@ -51,78 +52,23 @@ class _EmployeeInformationPageWidgetState
     _model.textFieldFocusNode1 ??= FocusNode();
 
     _model.textFieldFocusNode2 ??= FocusNode();
-    _model.textFieldFocusNode2!.addListener(
-      () async {
-        _model.progressStat = 0.55;
-        _model.progressPercentage = '55%';
-        safeSetState(() {});
-      },
-    );
 
     _model.textFieldMiddlenameFocusNode ??= FocusNode();
-    _model.textFieldMiddlenameFocusNode!.addListener(
-      () async {
-        _model.progressStat = 0.60;
-        _model.progressPercentage = '60%';
-        safeSetState(() {});
-      },
-    );
 
     _model.textFieldFocusNode3 ??= FocusNode();
-    _model.textFieldFocusNode3!.addListener(
-      () async {
-        _model.progressStat = 0.65;
-        _model.progressPercentage = '65%';
-        safeSetState(() {});
-      },
-    );
 
     _model.textFieldFocusNode4 ??= FocusNode();
 
     _model.textFieldFocusNode5 ??= FocusNode();
-    _model.textFieldFocusNode5!.addListener(
-      () async {
-        _model.progressStat = 0.80;
-        _model.progressPercentage = '80%';
-        safeSetState(() {});
-      },
-    );
 
     _model.textFieldFocusNode6 ??= FocusNode();
-    _model.textFieldFocusNode6!.addListener(
-      () async {
-        _model.progressStat = 0.85;
-        _model.progressPercentage = '85%';
-        safeSetState(() {});
-      },
-    );
 
     _model.textFieldFocusNode7 ??= FocusNode();
-    _model.textFieldFocusNode7!.addListener(
-      () async {
-        _model.progressStat = 0.90;
-        _model.progressPercentage = '90%';
-        safeSetState(() {});
-      },
-    );
 
     _model.textFieldFocusNode8 ??= FocusNode();
-    _model.textFieldFocusNode8!.addListener(
-      () async {
-        _model.progressStat = 0.95;
-        _model.progressPercentage = '95%';
-        safeSetState(() {});
-      },
-    );
 
     _model.textFieldFocusNode9 ??= FocusNode();
-    _model.textFieldFocusNode9!.addListener(
-      () async {
-        _model.progressStat = 1.0;
-        _model.progressPercentage = '100 %';
-        safeSetState(() {});
-      },
-    );
+
     WidgetsBinding.instance.addPostFrameCallback((_) => safeSetState(() {}));
   }
 
@@ -157,37 +103,44 @@ class _EmployeeInformationPageWidgetState
                 showIcons: false,
               ),
             ),
-            Padding(
-              padding: EdgeInsetsDirectional.fromSTEB(12.0, 24.0, 12.0, 12.0),
-              child: LinearPercentIndicator(
-                percent: _model.progressStat,
-                lineHeight: 18.0,
-                animation: true,
-                animateFromLastPercent: true,
-                progressColor: Color(0xFF22D846),
-                backgroundColor: FlutterFlowTheme.of(context).alternate,
-                center: Text(
-                  _model.progressPercentage,
-                  style: FlutterFlowTheme.of(context).headlineSmall.override(
-                        font: GoogleFonts.interTight(
+            if (responsiveVisibility(
+              context: context,
+              phone: false,
+              tablet: false,
+              tabletLandscape: false,
+              desktop: false,
+            ))
+              Padding(
+                padding: EdgeInsetsDirectional.fromSTEB(12.0, 24.0, 12.0, 12.0),
+                child: LinearPercentIndicator(
+                  percent: FFAppState().progressStat,
+                  lineHeight: 18.0,
+                  animation: true,
+                  animateFromLastPercent: true,
+                  progressColor: Color(0xFF22D846),
+                  backgroundColor: FlutterFlowTheme.of(context).alternate,
+                  center: Text(
+                    FFAppState().progressPercentage,
+                    style: FlutterFlowTheme.of(context).headlineSmall.override(
+                          font: GoogleFonts.interTight(
+                            fontWeight: FontWeight.w600,
+                            fontStyle: FlutterFlowTheme.of(context)
+                                .headlineSmall
+                                .fontStyle,
+                          ),
+                          color: FlutterFlowTheme.of(context).secondaryText,
+                          fontSize: 12.0,
+                          letterSpacing: 0.0,
                           fontWeight: FontWeight.w600,
                           fontStyle: FlutterFlowTheme.of(context)
                               .headlineSmall
                               .fontStyle,
                         ),
-                        color: FlutterFlowTheme.of(context).secondaryText,
-                        fontSize: 12.0,
-                        letterSpacing: 0.0,
-                        fontWeight: FontWeight.w600,
-                        fontStyle: FlutterFlowTheme.of(context)
-                            .headlineSmall
-                            .fontStyle,
-                      ),
+                  ),
+                  barRadius: Radius.circular(12.0),
+                  padding: EdgeInsets.zero,
                 ),
-                barRadius: Radius.circular(12.0),
-                padding: EdgeInsets.zero,
               ),
-            ),
             Flexible(
               child: Padding(
                 padding: EdgeInsetsDirectional.fromSTEB(12.0, 0.0, 12.0, 0.0),
@@ -289,13 +242,8 @@ class _EmployeeInformationPageWidgetState
                                         'apple inc',
                                         'Other'
                                       ],
-                                      onChanged: (val) async {
-                                        safeSetState(
-                                            () => _model.dropDownValue1 = val);
-                                        _model.progressStat = 0.25;
-                                        _model.progressPercentage = '25%';
-                                        safeSetState(() {});
-                                      },
+                                      onChanged: (val) => safeSetState(
+                                          () => _model.dropDownValue1 = val),
                                       height: 44.0,
                                       textStyle: FlutterFlowTheme.of(context)
                                           .bodyMedium
@@ -543,8 +491,15 @@ class _EmployeeInformationPageWidgetState
                                     hoverColor: Colors.transparent,
                                     highlightColor: Colors.transparent,
                                     onTap: () async {
-                                      _model.progressStat = 0.50;
-                                      _model.progressPercentage = '50%';
+                                      _model.progressStat =
+                                          functions.addStringAndDouble(
+                                              '0.25',
+                                              0.0,
+                                              _model.progressStat.toString());
+                                      _model.progressPercentage = functions
+                                          .addStringAndDouble('25', 0.0,
+                                              _model.progressPercentage)
+                                          .toString();
                                       safeSetState(() {});
                                     },
                                     child: Row(
@@ -560,12 +515,8 @@ class _EmployeeInformationPageWidgetState
                                               '20,00,000 - 29,99,999.99',
                                               '30,00,000+'
                                             ].toList(),
-                                            onChanged: (val) async {
-                                              safeSetState(() {});
-                                              _model.progressStat = 0.50;
-                                              _model.progressPercentage = '50%';
-                                              safeSetState(() {});
-                                            },
+                                            onChanged: (val) =>
+                                                safeSetState(() {}),
                                             controller: _model
                                                     .radioButtonValueController ??=
                                                 FormFieldController<
@@ -1692,10 +1643,6 @@ class _EmployeeInformationPageWidgetState
                                                       dateTimeFormat("dd-MM-y",
                                                           _model.datePicked);
                                                   safeSetState(() {});
-                                                  _model.progressStat = 0.70;
-                                                  _model.progressPercentage =
-                                                      '70%';
-                                                  safeSetState(() {});
                                                 },
                                                 child: Container(
                                                   width: double.infinity,
@@ -1778,16 +1725,10 @@ class _EmployeeInformationPageWidgetState
                                                         'Female',
                                                         'Other'
                                                       ],
-                                                      onChanged: (val) async {
-                                                        safeSetState(() => _model
-                                                                .dropDownValue2 =
-                                                            val);
-                                                        _model.progressStat =
-                                                            0.75;
-                                                        _model.progressPercentage =
-                                                            '75%';
-                                                        safeSetState(() {});
-                                                      },
+                                                      onChanged: (val) =>
+                                                          safeSetState(() =>
+                                                              _model.dropDownValue2 =
+                                                                  val),
                                                       height: 40.0,
                                                       textStyle:
                                                           FlutterFlowTheme.of(
@@ -3124,6 +3065,9 @@ class _EmployeeInformationPageWidgetState
                                       await actions.aggregateVerificationData(
                                         currentUserUid,
                                       );
+                                      FFAppState().progressPercentage = '50%';
+                                      FFAppState().progressStat = 0.50;
+                                      safeSetState(() {});
                                     } else {
                                       unawaited(
                                         () async {
@@ -3187,7 +3131,7 @@ class _EmployeeInformationPageWidgetState
                           ),
                         ]
                             .divide(SizedBox(height: 12.0))
-                            .addToStart(SizedBox(height: 12.0))
+                            .addToStart(SizedBox(height: 24.0))
                             .addToEnd(SizedBox(height: 12.0)),
                       ),
                     );

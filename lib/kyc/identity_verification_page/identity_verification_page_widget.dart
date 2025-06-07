@@ -231,40 +231,47 @@ class _IdentityVerificationPageWidgetState
                     return Column(
                       mainAxisSize: MainAxisSize.max,
                       children: [
-                        Padding(
-                          padding: EdgeInsetsDirectional.fromSTEB(
-                              12.0, 24.0, 12.0, 12.0),
-                          child: LinearPercentIndicator(
-                            percent: _model.progressStat,
-                            lineHeight: 18.0,
-                            animation: true,
-                            animateFromLastPercent: true,
-                            progressColor: Color(0xFF22D846),
-                            backgroundColor:
-                                FlutterFlowTheme.of(context).alternate,
-                            center: Text(
-                              _model.progressPercentage,
-                              style: FlutterFlowTheme.of(context)
-                                  .headlineSmall
-                                  .override(
-                                    font: GoogleFonts.interTight(
+                        if (responsiveVisibility(
+                          context: context,
+                          phone: false,
+                          tablet: false,
+                          tabletLandscape: false,
+                          desktop: false,
+                        ))
+                          Padding(
+                            padding: EdgeInsetsDirectional.fromSTEB(
+                                12.0, 24.0, 12.0, 12.0),
+                            child: LinearPercentIndicator(
+                              percent: FFAppState().progressStat,
+                              lineHeight: 18.0,
+                              animation: true,
+                              animateFromLastPercent: true,
+                              progressColor: Color(0xFF22D846),
+                              backgroundColor:
+                                  FlutterFlowTheme.of(context).alternate,
+                              center: Text(
+                                FFAppState().progressPercentage,
+                                style: FlutterFlowTheme.of(context)
+                                    .headlineSmall
+                                    .override(
+                                      font: GoogleFonts.interTight(
+                                        fontWeight: FontWeight.w600,
+                                        fontStyle: FlutterFlowTheme.of(context)
+                                            .headlineSmall
+                                            .fontStyle,
+                                      ),
+                                      fontSize: 12.0,
+                                      letterSpacing: 0.0,
                                       fontWeight: FontWeight.w600,
                                       fontStyle: FlutterFlowTheme.of(context)
                                           .headlineSmall
                                           .fontStyle,
                                     ),
-                                    fontSize: 12.0,
-                                    letterSpacing: 0.0,
-                                    fontWeight: FontWeight.w600,
-                                    fontStyle: FlutterFlowTheme.of(context)
-                                        .headlineSmall
-                                        .fontStyle,
-                                  ),
+                              ),
+                              barRadius: Radius.circular(12.0),
+                              padding: EdgeInsets.zero,
                             ),
-                            barRadius: Radius.circular(12.0),
-                            padding: EdgeInsets.zero,
                           ),
-                        ),
                         Flexible(
                           child: SingleChildScrollView(
                             child: Column(
@@ -2961,6 +2968,10 @@ class _IdentityVerificationPageWidgetState
                                                                   );
                                                                 }(),
                                                               );
+                                                              _model.payslipUpload =
+                                                                  false;
+                                                              safeSetState(
+                                                                  () {});
                                                             },
                                                             text:
                                                                 'Submit Payslip Details',
@@ -3249,6 +3260,10 @@ class _IdentityVerificationPageWidgetState
 
                                   context
                                       .goNamed(KYCCompletePageWidget.routeName);
+
+                                  FFAppState().progressPercentage = '100%';
+                                  FFAppState().progressStat = 1.0;
+                                  safeSetState(() {});
                                 },
                                 text: 'Submit',
                                 options: FFButtonOptions(

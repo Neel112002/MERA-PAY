@@ -1,3 +1,4 @@
+import '/custom_code/actions/index.dart' as actions;
 import 'package:provider/provider.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -17,6 +18,10 @@ void main() async {
   usePathUrlStrategy();
 
   await initFirebase();
+
+  // Start initial custom actions code
+  await actions.lockScreenPortrait();
+  // End initial custom actions code
 
   await FlutterFlowTheme.initialize();
 

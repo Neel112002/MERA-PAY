@@ -337,37 +337,35 @@ class _WithdrawPageWidgetState extends State<WithdrawPageWidget> {
                                                   ),
                                                   Text(
                                                     valueOrDefault<String>(
-                                                      columnSelectedBankRecord
-                                                                      ?.moneyWithdrawed !=
-                                                                  null &&
-                                                              columnSelectedBankRecord
-                                                                      ?.moneyWithdrawed !=
-                                                                  ''
-                                                          ? valueOrDefault<
-                                                              String>(
-                                                              '\$${valueOrDefault<String>(
-                                                                functions
-                                                                    .subtractStringValues(
-                                                                        valueOrDefault<
-                                                                            String>(
-                                                                          functions
-                                                                              .getDailyAmount(columnVerificationsRecord!.payslipNetSalary)
-                                                                              .toString(),
-                                                                          '0',
-                                                                        ),
-                                                                        valueOrDefault<
-                                                                            String>(
-                                                                          columnSelectedBankRecord
-                                                                              ?.moneyWithdrawed,
-                                                                          '0',
-                                                                        ))
-                                                                    .toString(),
-                                                                '0',
-                                                              )}',
-                                                              '0',
-                                                            )
-                                                          : '\$0',
-                                                      '\$0',
+                                                      '\$${valueOrDefault<String>(
+                                                        functions
+                                                            .subtractStringValues(
+                                                                valueOrDefault<
+                                                                    String>(
+                                                                  functions
+                                                                      .getDailyAmount(
+                                                                          columnVerificationsRecord!
+                                                                              .payslipNetSalary)
+                                                                      .toString(),
+                                                                  '0',
+                                                                ),
+                                                                valueOrDefault<
+                                                                                String>(
+                                                                              columnSelectedBankRecord?.moneyWithdrawed,
+                                                                              '0',
+                                                                            ) !=
+                                                                            ''
+                                                                    ? valueOrDefault<
+                                                                        String>(
+                                                                        columnSelectedBankRecord
+                                                                            ?.moneyWithdrawed,
+                                                                        '0',
+                                                                      )
+                                                                    : '0')
+                                                            .toString(),
+                                                        '0',
+                                                      )}',
+                                                      '0',
                                                     ),
                                                     style: FlutterFlowTheme.of(
                                                             context)
@@ -558,8 +556,7 @@ class _WithdrawPageWidgetState extends State<WithdrawPageWidget> {
                                         children: [
                                           Flexible(
                                             child: FlutterFlowRadioButton(
-                                              options: ['Instant (Max \$200)']
-                                                  .toList(),
+                                              options: ['Instant'].toList(),
                                               onChanged: (val) =>
                                                   safeSetState(() {}),
                                               controller: _model
@@ -869,7 +866,7 @@ class _WithdrawPageWidgetState extends State<WithdrawPageWidget> {
                                                                         String>(
                                                                       functions
                                                                           .getDailyAmount(
-                                                                              columnVerificationsRecord!.payslipNetSalary)
+                                                                              columnVerificationsRecord.payslipNetSalary)
                                                                           .toString(),
                                                                       '0',
                                                                     ),
@@ -887,6 +884,11 @@ class _WithdrawPageWidgetState extends State<WithdrawPageWidget> {
                                                   },
                                                 ).then((value) =>
                                                     safeSetState(() {}));
+
+                                                safeSetState(() {
+                                                  _model.textController?.text =
+                                                      '0';
+                                                });
                                               },
                                               text: 'Withdraw Funds',
                                               options: FFButtonOptions(

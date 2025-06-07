@@ -89,6 +89,17 @@ double addStringAndDouble(
       (parsedValue1 + value2 + parsedValue3).toStringAsFixed(2));
 }
 
+double subStringAndDouble(
+  String value1,
+  double value2,
+  String value3,
+) {
+  final parsedValue1 = double.tryParse(value1) ?? 0.0;
+  final parsedValue3 = double.tryParse(value3) ?? 0.0;
+  return double.parse(
+      (parsedValue1 - value2 - parsedValue3).toStringAsFixed(2));
+}
+
 double subtractStringValues(
   String value1,
   String value2,
@@ -108,4 +119,47 @@ String getNextMonth(String monthYear) {
   } catch (e) {
     return '';
   }
+}
+
+double convertMinutesToHours(int? minutes) {
+  if (minutes == null) return 0.0;
+  double hours = minutes / 60;
+  return double.parse(hours.toStringAsFixed(2));
+}
+
+String extractTimeFromDateTime(String? dateTimeStr) {
+  if (dateTimeStr == null || dateTimeStr.isEmpty) return '00:00';
+  try {
+    final dateTime = DateTime.parse(dateTimeStr);
+    final hours = dateTime.hour.toString().padLeft(2, '0');
+    final minutes = dateTime.minute.toString().padLeft(2, '0');
+    return '$hours:$minutes';
+  } catch (e) {
+    return '00:00'; // fallback for invalid format
+  }
+}
+
+double calculatePercentageOf22(int value) {
+  if (value == null || value == 0) return 0.0;
+  double percentage = (value / 22) * 100;
+  return double.parse(percentage.toStringAsFixed(2));
+}
+
+double trimToTwoDecimals(double? value) {
+  if (value == null) return 0.0;
+  return double.parse(value.toStringAsFixed(2));
+}
+
+int calculateCredits(double? amount) {
+  if (amount == null) {
+    return 0;
+  }
+  return (amount / 100).floor();
+}
+
+int? addNullableInts(
+  int? a,
+  int? b,
+) {
+  return (a ?? 0) + (b ?? 0);
 }
