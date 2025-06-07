@@ -64,7 +64,7 @@ class _WithdrawComponentWidgetState extends State<WithdrawComponentWidget> {
         ),
       ),
       child: Padding(
-        padding: EdgeInsets.all(16.0),
+        padding: EdgeInsetsDirectional.fromSTEB(16.0, 16.0, 16.0, 24.0),
         child: StreamBuilder<List<SelectedBankRecord>>(
           stream: querySelectedBankRecord(
             queryBuilder: (selectedBankRecord) => selectedBankRecord.where(
@@ -295,19 +295,16 @@ class _WithdrawComponentWidgetState extends State<WithdrawComponentWidget> {
                           ),
                     ),
                     Text(
-                      valueOrDefault<String>(
-                        functions
-                            .addStringAndDouble(
-                                widget.amount!.toString(),
-                                valueOrDefault<double>(
-                                  functions.calculatePercentageAmount(
-                                      widget.amount!.toString(), 1.0),
-                                  0.0,
-                                ),
-                                '0')
-                            .toString(),
-                        '-',
-                      ),
+                      functions
+                          .subStringAndDouble(
+                              widget.amount!.toString(),
+                              valueOrDefault<double>(
+                                functions.calculatePercentageAmount(
+                                    widget.amount!.toString(), 1.0),
+                                0.0,
+                              ),
+                              '0')
+                          .toString(),
                       style: FlutterFlowTheme.of(context).bodyMedium.override(
                             font: GoogleFonts.inter(
                               fontWeight: FlutterFlowTheme.of(context)
@@ -540,98 +537,111 @@ class _WithdrawComponentWidgetState extends State<WithdrawComponentWidget> {
                             }(),
                           );
                         } else {
-                          var confirmDialogResponse = await showDialog<bool>(
-                                context: context,
-                                builder: (alertDialogContext) {
-                                  return AlertDialog(
-                                    title: Text(
-                                        'Withdraw ${widget.amount?.toString()}'),
-                                    content: Text(
-                                        'Are you sure you want to withdraw?'),
-                                    actions: [
-                                      TextButton(
-                                        onPressed: () => Navigator.pop(
-                                            alertDialogContext, false),
-                                        child: Text('Cancel'),
-                                      ),
-                                      TextButton(
-                                        onPressed: () => Navigator.pop(
-                                            alertDialogContext, true),
-                                        child: Text('Confirm'),
-                                      ),
-                                    ],
-                                  );
-                                },
-                              ) ??
-                              false;
-                          if (confirmDialogResponse) {
-                            var selectedBankRecordReference = SelectedBankRecord
-                                .collection
-                                .doc(currentUserUid);
-                            await selectedBankRecordReference
-                                .set(createSelectedBankRecordData(
-                              moneyWithdrawed: valueOrDefault<String>(
-                                functions
+                          if (widget.amount! > 0.0) {
+                            var confirmDialogResponse = await showDialog<bool>(
+                                  context: context,
+                                  builder: (alertDialogContext) {
+                                    return AlertDialog(
+                                      title: Text(
+                                          'Withdraw ${functions.subStringAndDouble(widget.amount!.toString(), valueOrDefault<double>(
+                                                functions
+                                                    .calculatePercentageAmount(
+                                                        widget.amount!
+                                                            .toString(),
+                                                        1.0),
+                                                0.0,
+                                              ), '0').toString()}'),
+                                      content: Text(
+                                          'Are you sure you want to withdraw?'),
+                                      actions: [
+                                        TextButton(
+                                          onPressed: () => Navigator.pop(
+                                              alertDialogContext, false),
+                                          child: Text('Cancel'),
+                                        ),
+                                        TextButton(
+                                          onPressed: () => Navigator.pop(
+                                              alertDialogContext, true),
+                                          child: Text('Confirm'),
+                                        ),
+                                      ],
+                                    );
+                                  },
+                                ) ??
+                                false;
+                            if (confirmDialogResponse) {
+                              var selectedBankRecordReference =
+                                  SelectedBankRecord.collection
+                                      .doc(currentUserUid);
+                              await selectedBankRecordReference
+                                  .set(createSelectedBankRecordData(
+                                moneyWithdrawed: functions
                                     .addStringAndDouble(
                                         widget.amount!.toString(),
-                                        valueOrDefault<double>(
-                                          functions.calculatePercentageAmount(
-                                              widget.amount!.toString(), 1.0),
-                                          0.0,
-                                        ),
+                                        0.0,
                                         columnSelectedBankRecord!
                                             .moneyWithdrawed)
                                     .toString(),
-                                '-',
-                              ),
-                              uid: currentUserUid,
-                              bankName: columnSelectedBankRecord.bankName,
-                            ));
-                            _model.bankDetials =
-                                SelectedBankRecord.getDocumentFromData(
-                                    createSelectedBankRecordData(
-                                      moneyWithdrawed: valueOrDefault<String>(
-                                        functions
+                                uid: currentUserUid,
+                                bankName: columnSelectedBankRecord.bankName,
+                                credits: functions.addNullableInts(
+                                    columnSelectedBankRecord.credits,
+                                    functions.calculateCredits(widget.amount)),
+                              ));
+                              _model.bankDetials =
+                                  SelectedBankRecord.getDocumentFromData(
+                                      createSelectedBankRecordData(
+                                        moneyWithdrawed: functions
                                             .addStringAndDouble(
                                                 widget.amount!.toString(),
-                                                valueOrDefault<double>(
-                                                  functions
-                                                      .calculatePercentageAmount(
-                                                          widget.amount!
-                                                              .toString(),
-                                                          1.0),
-                                                  0.0,
-                                                ),
+                                                0.0,
                                                 columnSelectedBankRecord
                                                     .moneyWithdrawed)
                                             .toString(),
-                                        '-',
+                                        uid: currentUserUid,
+                                        bankName:
+                                            columnSelectedBankRecord.bankName,
+                                        credits: functions.addNullableInts(
+                                            columnSelectedBankRecord.credits,
+                                            functions.calculateCredits(
+                                                widget.amount)),
                                       ),
-                                      uid: currentUserUid,
-                                      bankName:
-                                          columnSelectedBankRecord.bankName,
-                                    ),
-                                    selectedBankRecordReference);
-                            unawaited(
-                              () async {
-                                await actions.showTopSnackBar(
-                                  context,
-                                  'Withdrawal Successfully done',
-                                  FlutterFlowTheme.of(context).secondary,
-                                  FlutterFlowTheme.of(context)
-                                      .secondaryBackground,
-                                  3000,
-                                  14.0,
-                                );
-                              }(),
-                            );
-                            Navigator.pop(context);
+                                      selectedBankRecordReference);
+                              unawaited(
+                                () async {
+                                  await actions.showTopSnackBar(
+                                    context,
+                                    'Withdrawal Successfully done',
+                                    FlutterFlowTheme.of(context).secondary,
+                                    FlutterFlowTheme.of(context)
+                                        .secondaryBackground,
+                                    3000,
+                                    14.0,
+                                  );
+                                }(),
+                              );
+                              Navigator.pop(context);
+                            } else {
+                              unawaited(
+                                () async {
+                                  await actions.showTopSnackBar(
+                                    context,
+                                    'Withdraw Request Cancled',
+                                    FlutterFlowTheme.of(context).error,
+                                    FlutterFlowTheme.of(context)
+                                        .secondaryBackground,
+                                    3000,
+                                    14.0,
+                                  );
+                                }(),
+                              );
+                            }
                           } else {
                             unawaited(
                               () async {
                                 await actions.showTopSnackBar(
                                   context,
-                                  'Withdraw Request Cancled',
+                                  'Please Enter Amount Greater Than 0',
                                   FlutterFlowTheme.of(context).error,
                                   FlutterFlowTheme.of(context)
                                       .secondaryBackground,

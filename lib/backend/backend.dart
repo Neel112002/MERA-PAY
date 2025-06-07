@@ -15,6 +15,7 @@ import 'schema/verifications_record.dart';
 import 'schema/bank_details_record.dart';
 import 'schema/selected_bank_record.dart';
 import 'schema/attendance_record.dart';
+import 'schema/attendance_summaries_record.dart';
 
 export 'dart:async' show StreamSubscription;
 export 'package:cloud_firestore/cloud_firestore.dart' hide Order;
@@ -33,6 +34,7 @@ export 'schema/verifications_record.dart';
 export 'schema/bank_details_record.dart';
 export 'schema/selected_bank_record.dart';
 export 'schema/attendance_record.dart';
+export 'schema/attendance_summaries_record.dart';
 
 /// Functions to query UsersRecords (as a Stream and as a Future).
 Future<int> queryUsersRecordCount({
@@ -399,6 +401,43 @@ Future<List<AttendanceRecord>> queryAttendanceRecordOnce({
     queryCollectionOnce(
       AttendanceRecord.collection,
       AttendanceRecord.fromSnapshot,
+      queryBuilder: queryBuilder,
+      limit: limit,
+      singleRecord: singleRecord,
+    );
+
+/// Functions to query AttendanceSummariesRecords (as a Stream and as a Future).
+Future<int> queryAttendanceSummariesRecordCount({
+  Query Function(Query)? queryBuilder,
+  int limit = -1,
+}) =>
+    queryCollectionCount(
+      AttendanceSummariesRecord.collection,
+      queryBuilder: queryBuilder,
+      limit: limit,
+    );
+
+Stream<List<AttendanceSummariesRecord>> queryAttendanceSummariesRecord({
+  Query Function(Query)? queryBuilder,
+  int limit = -1,
+  bool singleRecord = false,
+}) =>
+    queryCollection(
+      AttendanceSummariesRecord.collection,
+      AttendanceSummariesRecord.fromSnapshot,
+      queryBuilder: queryBuilder,
+      limit: limit,
+      singleRecord: singleRecord,
+    );
+
+Future<List<AttendanceSummariesRecord>> queryAttendanceSummariesRecordOnce({
+  Query Function(Query)? queryBuilder,
+  int limit = -1,
+  bool singleRecord = false,
+}) =>
+    queryCollectionOnce(
+      AttendanceSummariesRecord.collection,
+      AttendanceSummariesRecord.fromSnapshot,
       queryBuilder: queryBuilder,
       limit: limit,
       singleRecord: singleRecord,

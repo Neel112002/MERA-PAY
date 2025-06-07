@@ -7,6 +7,8 @@ import '/flutter_flow/flutter_flow_util.dart';
 import '/index.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:percent_indicator/percent_indicator.dart';
+import 'package:provider/provider.dart';
 import 'kyc_model.dart';
 export 'kyc_model.dart';
 
@@ -42,6 +44,8 @@ class _KycWidgetState extends State<KycWidget> {
 
   @override
   Widget build(BuildContext context) {
+    context.watch<FFAppState>();
+
     return GestureDetector(
       onTap: () {
         FocusScope.of(context).unfocus();
@@ -103,6 +107,40 @@ class _KycWidgetState extends State<KycWidget> {
                     return Column(
                       mainAxisSize: MainAxisSize.max,
                       children: [
+                        Padding(
+                          padding: EdgeInsetsDirectional.fromSTEB(
+                              12.0, 24.0, 12.0, 12.0),
+                          child: LinearPercentIndicator(
+                            percent: FFAppState().progressStat,
+                            lineHeight: 18.0,
+                            animation: true,
+                            animateFromLastPercent: true,
+                            progressColor: Color(0xFF22D846),
+                            backgroundColor:
+                                FlutterFlowTheme.of(context).alternate,
+                            center: Text(
+                              FFAppState().progressPercentage,
+                              style: FlutterFlowTheme.of(context)
+                                  .headlineSmall
+                                  .override(
+                                    font: GoogleFonts.interTight(
+                                      fontWeight: FontWeight.w600,
+                                      fontStyle: FlutterFlowTheme.of(context)
+                                          .headlineSmall
+                                          .fontStyle,
+                                    ),
+                                    fontSize: 12.0,
+                                    letterSpacing: 0.0,
+                                    fontWeight: FontWeight.w600,
+                                    fontStyle: FlutterFlowTheme.of(context)
+                                        .headlineSmall
+                                        .fontStyle,
+                                  ),
+                            ),
+                            barRadius: Radius.circular(12.0),
+                            padding: EdgeInsets.zero,
+                          ),
+                        ),
                         Flexible(
                           child: Row(
                             mainAxisSize: MainAxisSize.max,

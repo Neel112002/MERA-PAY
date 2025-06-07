@@ -9,6 +9,13 @@ import 'package:flutter/material.dart';
 // Begin custom widget code
 // DO NOT REMOVE OR MODIFY THE CODE ABOVE!
 
+import 'index.dart'; // Imports other custom widgets
+
+import 'index.dart'; // Imports other custom widgets
+import 'package:cloud_firestore/cloud_firestore.dart';
+
+import 'index.dart'; // Imports other custom widgets
+
 import 'package:table_calendar/table_calendar.dart';
 import 'package:intl/intl.dart';
 import 'dart:async';
@@ -32,17 +39,19 @@ class AttendanceCalendar extends StatefulWidget {
 class _AttendanceCalendarState extends State<AttendanceCalendar> {
   CalendarFormat _calendarFormat = CalendarFormat.month;
   DateTime _focusedDay = DateTime.now();
-  DateTime? _selectedDay;
+  DateTime? _selectedDay = DateTime.now();
   Map<DateTime, List<AttendanceRecord>> _attendanceEvents = {};
   bool _isLoading = true;
   Timer? _timer;
   Map<DateTime, Duration> _activeDurations = {};
+  Map<String, dynamic> _monthlySummary = {};
+  String _currentMonthKey = '';
 
   @override
   void initState() {
     super.initState();
     _loadAttendanceData();
-    // Start timer for real-time updates
+    _loadMonthlySummary(DateTime.now());
     _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
       _updateActiveDurations();
     });
@@ -59,11 +68,14 @@ class _AttendanceCalendarState extends State<AttendanceCalendar> {
     final Map<DateTime, Duration> newDurations = {};
 
     for (var entry in _attendanceEvents.entries) {
+      Duration totalActive = Duration.zero;
       for (var record in entry.value) {
         if (record.checkOut == null) {
-          final duration = now.difference(record.checkIn);
-          newDurations[entry.key] = duration;
+          totalActive += now.difference(record.checkIn);
         }
+      }
+      if (totalActive > Duration.zero) {
+        newDurations[entry.key] = totalActive;
       }
     }
 
@@ -130,14 +142,164 @@ class _AttendanceCalendarState extends State<AttendanceCalendar> {
     }
   }
 
+  Future<void> _loadMonthlySummary(DateTime date) async {
+    if (widget.userId == null) return;
+    final monthKey = "${date.year}-${date.month.toString().padLeft(2, '0')}";
+    final summaryDocId = "${widget.userId}_$monthKey";
+    final summaryRef = FirebaseFirestore.instance
+        .collection('attendance_summaries')
+        .doc(summaryDocId);
+    final doc = await summaryRef.get();
+    if (doc.exists) {
+      setState(() {
+        _monthlySummary = doc.data() ?? {};
+        _currentMonthKey = monthKey;
+      });
+    } else {
+      setState(() {
+        _monthlySummary = {};
+        _currentMonthKey = monthKey;
+      });
+    }
+  }
+
+  Future<void> updateTodayAndMonthAttendanceSummary(
+      String userId, DateTime date) async {
+    final monthKey = "${date.year}-${date.month.toString().padLeft(2, '0')}";
+    final docId = "${userId}_$monthKey";
+    final summaryRef = FirebaseFirestore.instance
+        .collection('attendance_summaries')
+        .doc(docId);
+
+    // Get today's date string
+    final todayString =
+        "${date.year}-${date.month.toString().padLeft(2, '0')}-${date.day.toString().padLeft(2, '0')}";
+
+    // Fetch all attendance records for this user for the month
+    final startOfMonth = DateTime(date.year, date.month, 1);
+    final endOfMonth = DateTime(date.year, date.month + 1, 0);
+    final attendanceRef = FirebaseFirestore.instance.collection('attendance');
+    final querySnapshot = await attendanceRef
+        .where('userId', isEqualTo: userId)
+        .where('date', isGreaterThanOrEqualTo: Timestamp.fromDate(startOfMonth))
+        .where('date', isLessThanOrEqualTo: Timestamp.fromDate(endOfMonth))
+        .get();
+
+    // Prepare monthly summary
+    int totalMinutes = 0;
+    int totalDaysWorked = 0;
+    int regularDays = 0;
+    int overtimeMinutes = 0;
+    int regularMinutesThisMonth = 0;
+    int overtimeMinutesThisMonth = 0;
+
+    // Prepare today's summary
+    int dayMinutes = 0;
+    DateTime? firstIn;
+    DateTime? lastOut;
+    bool hasActiveCheckIn = false;
+    DateTime? activeCheckInTime;
+
+    // Group records by day
+    Map<String, List<Map<String, dynamic>>> dailyRecords = {};
+    for (var doc in querySnapshot.docs) {
+      final data = doc.data();
+      final dateObj = (data['date'] as Timestamp).toDate();
+      final dayKey =
+          "${dateObj.year}-${dateObj.month.toString().padLeft(2, '0')}-${dateObj.day.toString().padLeft(2, '0')}";
+      dailyRecords.putIfAbsent(dayKey, () => []).add(data);
+    }
+
+    for (var entry in dailyRecords.entries) {
+      int thisDayMinutes = 0;
+      DateTime? thisFirstIn;
+      DateTime? thisLastOut;
+      bool thisHasActiveCheckIn = false;
+      DateTime? thisActiveCheckInTime;
+      for (var record in entry.value) {
+        final checkIn = (record['checkIn'] as Timestamp).toDate();
+        final checkOut = record['checkOut'] != null
+            ? (record['checkOut'] as Timestamp).toDate()
+            : null;
+        if (checkOut != null) {
+          thisDayMinutes += checkOut.difference(checkIn).inMinutes;
+          if (thisFirstIn == null || checkIn.isBefore(thisFirstIn))
+            thisFirstIn = checkIn;
+          if (thisLastOut == null || checkOut.isAfter(thisLastOut))
+            thisLastOut = checkOut;
+        } else {
+          thisHasActiveCheckIn = true;
+          if (thisActiveCheckInTime == null ||
+              checkIn.isBefore(thisActiveCheckInTime))
+            thisActiveCheckInTime = checkIn;
+          if (thisFirstIn == null || checkIn.isBefore(thisFirstIn))
+            thisFirstIn = checkIn;
+        }
+      }
+      bool isRegular = thisDayMinutes >= 480;
+      int overtime = isRegular ? (thisDayMinutes - 480) : 0;
+
+      if (thisDayMinutes > 0) {
+        totalMinutes += thisDayMinutes;
+        totalDaysWorked += 1;
+        if (isRegular) regularDays += 1;
+        overtimeMinutes += overtime;
+        // Calculate regular and overtime work minutes for the month
+        if (thisDayMinutes > 480) {
+          regularMinutesThisMonth += 480;
+          overtimeMinutesThisMonth += (thisDayMinutes - 480);
+        } else {
+          regularMinutesThisMonth += thisDayMinutes;
+        }
+      }
+
+      // If this is today, set today's summary
+      if (entry.key == todayString) {
+        dayMinutes = thisDayMinutes;
+        firstIn = thisFirstIn;
+        lastOut = thisLastOut;
+        hasActiveCheckIn = thisHasActiveCheckIn;
+        activeCheckInTime = thisActiveCheckInTime;
+      }
+    }
+
+    bool isRegularToday = dayMinutes >= 480;
+    int overtimeToday = isRegularToday ? (dayMinutes - 480) : 0;
+    double totalWorkHours = totalMinutes / 60.0;
+    double regularWorkHours = regularMinutesThisMonth / 60.0;
+    double overtimeWorkHours = overtimeMinutesThisMonth / 60.0;
+
+    await summaryRef.set({
+      "userId": userId,
+      "month": monthKey,
+      "date": todayString,
+      "minutesWorked": dayMinutes,
+      "clockInTime": hasActiveCheckIn
+          ? activeCheckInTime?.toIso8601String()
+          : firstIn?.toIso8601String(),
+      "clockOutTime": lastOut?.toIso8601String(),
+      "status": hasActiveCheckIn
+          ? "working"
+          : (dayMinutes > 0 ? "worked" : "not working"),
+      "overtime": overtimeToday,
+      "isRegular": isRegularToday,
+      "lastUpdated": FieldValue.serverTimestamp(),
+      // Monthly summary:
+      "totalMinutesWorked": totalMinutes,
+      "totalWorkHours": totalWorkHours,
+      "regularWorkHours": regularWorkHours,
+      "overtimeWorkHours": overtimeWorkHours,
+      "totalDaysWorked": totalDaysWorked,
+      "regularDays": regularDays,
+      "overtimeMinutes": overtimeMinutes,
+    }, SetOptions(merge: true));
+  }
+
   Future<void> _recordAttendance(DateTime date, bool isCheckIn) async {
     if (widget.userId == null) return;
-
     final now = DateTime.now();
     final today = DateTime(now.year, now.month, now.day);
     final selectedDate = DateTime(date.year, date.month, date.day);
-
-    // Only allow check-in/check-out for today
     if (selectedDate != today) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
@@ -147,13 +309,10 @@ class _AttendanceCalendarState extends State<AttendanceCalendar> {
       );
       return;
     }
-
     final normalizedDate = DateTime(date.year, date.month, date.day);
     final attendanceRef = FirebaseFirestore.instance.collection('attendance');
-
     try {
       if (isCheckIn) {
-        // Fetch all records for today and filter in Dart for active check-in
         final querySnapshot = await attendanceRef
             .where('userId', isEqualTo: widget.userId)
             .where('date',
@@ -165,7 +324,6 @@ class _AttendanceCalendarState extends State<AttendanceCalendar> {
             .get();
         final activeCheckIn =
             querySnapshot.docs.where((doc) => doc['checkOut'] == null).toList();
-
         if (activeCheckIn.isNotEmpty) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
@@ -175,7 +333,6 @@ class _AttendanceCalendarState extends State<AttendanceCalendar> {
           );
           return;
         }
-
         await attendanceRef.add({
           'userId': widget.userId,
           'date': Timestamp.fromDate(now),
@@ -183,8 +340,31 @@ class _AttendanceCalendarState extends State<AttendanceCalendar> {
           'checkOut': null,
           'createdAt': FieldValue.serverTimestamp(),
         });
+        // After check-in, set firstCheckInTime to earliest for today (only if not set or earlier)
+        final monthKey = "${now.year}-${now.month.toString().padLeft(2, '0')}";
+        final docId = "${widget.userId}_$monthKey";
+        final summaryRef = FirebaseFirestore.instance
+            .collection('attendance_summaries')
+            .doc(docId);
+        final summaryDoc = await summaryRef.get();
+        DateTime? existingFirstCheckIn;
+        if (summaryDoc.exists &&
+            summaryDoc.data()?['firstCheckInTime'] != null) {
+          existingFirstCheckIn =
+              DateTime.tryParse(summaryDoc.data()!['firstCheckInTime']);
+        }
+        DateTime newCheckInTime = now;
+        DateTime? firstCheckInToSet = existingFirstCheckIn;
+        if (existingFirstCheckIn == null ||
+            newCheckInTime.isBefore(existingFirstCheckIn)) {
+          firstCheckInToSet = newCheckInTime;
+        }
+        await summaryRef.set({
+          "clockOutTime": null,
+          "clockInTime": firstCheckInToSet?.toIso8601String(),
+          "firstCheckInTime": firstCheckInToSet?.toIso8601String(),
+        }, SetOptions(merge: true));
       } else {
-        // Fetch all records for today and filter in Dart for active check-in
         final querySnapshot = await attendanceRef
             .where('userId', isEqualTo: widget.userId)
             .where('date',
@@ -196,7 +376,6 @@ class _AttendanceCalendarState extends State<AttendanceCalendar> {
             .get();
         final activeCheckInDocs =
             querySnapshot.docs.where((doc) => doc['checkOut'] == null).toList();
-
         if (activeCheckInDocs.isEmpty) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
@@ -206,13 +385,36 @@ class _AttendanceCalendarState extends State<AttendanceCalendar> {
           );
           return;
         }
-
         await activeCheckInDocs.first.reference.update({
           'checkOut': Timestamp.fromDate(now),
         });
+        // After check-out, set lastCheckOutTime to latest for today (only if not set or later)
+        final monthKey = "${now.year}-${now.month.toString().padLeft(2, '0')}";
+        final docId = "${widget.userId}_$monthKey";
+        final summaryRef = FirebaseFirestore.instance
+            .collection('attendance_summaries')
+            .doc(docId);
+        final summaryDoc = await summaryRef.get();
+        DateTime? existingLastCheckOut;
+        if (summaryDoc.exists &&
+            summaryDoc.data()?['lastCheckOutTime'] != null) {
+          existingLastCheckOut =
+              DateTime.tryParse(summaryDoc.data()!['lastCheckOutTime']);
+        }
+        DateTime newCheckOutTime = now;
+        DateTime? lastCheckOutToSet = existingLastCheckOut;
+        if (existingLastCheckOut == null ||
+            newCheckOutTime.isAfter(existingLastCheckOut)) {
+          lastCheckOutToSet = newCheckOutTime;
+        }
+        await summaryRef.set({
+          "lastCheckOutTime": lastCheckOutToSet?.toIso8601String(),
+          "clockOutTime": lastCheckOutToSet?.toIso8601String(),
+        }, SetOptions(merge: true));
       }
-
       await _loadAttendanceData();
+      await updateTodayAndMonthAttendanceSummary(
+          widget.userId!, DateTime.now());
     } catch (e) {
       print('Error recording attendance: $e');
       ScaffoldMessenger.of(context).showSnackBar(
@@ -225,26 +427,17 @@ class _AttendanceCalendarState extends State<AttendanceCalendar> {
   }
 
   String _getTotalHoursForDay(DateTime day) {
-    final normalizedDay = DateTime(day.year, day.month, day.day);
-    final records = _attendanceEvents[normalizedDay] ?? [];
-
-    if (records.isEmpty) return '';
-
-    Duration totalDuration = Duration.zero;
-    for (var record in records) {
-      if (record.checkOut != null) {
-        totalDuration += record.checkOut!.difference(record.checkIn);
-      } else {
-        // Add active duration for records without check-out
-        totalDuration += _activeDurations[normalizedDay] ?? Duration.zero;
-      }
-    }
-
-    if (totalDuration.inHours == 0 && totalDuration.inMinutes == 0) return '';
-
-    final hours = totalDuration.inHours;
-    final minutes = totalDuration.inMinutes.remainder(60);
-    return '$hours hrs $minutes mins';
+    final dayKey =
+        "${day.year}-${day.month.toString().padLeft(2, '0')}-${day.day.toString().padLeft(2, '0')}";
+    final dailySummaries = _monthlySummary['dailySummaries'] ?? {};
+    if (dailySummaries[dayKey] == null) return '';
+    final minutes = dailySummaries[dayKey]['minutesWorked'] ?? 0;
+    if (minutes == 0) return '';
+    final hours = minutes ~/ 60;
+    final mins = minutes % 60;
+    return hours > 0
+        ? '${hours.toString().padLeft(2, '0')}:${mins.toString().padLeft(2, '0')}'
+        : '${mins.toString().padLeft(2, '0')} mins';
   }
 
   @override
@@ -257,6 +450,20 @@ class _AttendanceCalendarState extends State<AttendanceCalendar> {
           ),
         ),
       );
+    }
+
+    final now = DateTime.now();
+    final today = DateTime(now.year, now.month, now.day);
+    final isTodaySelected = _selectedDay != null &&
+        _selectedDay!.year == today.year &&
+        _selectedDay!.month == today.month &&
+        _selectedDay!.day == today.day;
+
+    // Determine if user has active check-in for today
+    bool hasActiveCheckIn = false;
+    if (_attendanceEvents[today] != null) {
+      hasActiveCheckIn =
+          _attendanceEvents[today]!.any((record) => record.checkOut == null);
     }
 
     return Container(
@@ -275,176 +482,75 @@ class _AttendanceCalendarState extends State<AttendanceCalendar> {
       ),
       child: Column(
         children: [
-          TableCalendar(
-            firstDay: DateTime.utc(2024, 1, 1),
-            lastDay: DateTime.utc(2025, 12, 31),
-            focusedDay: _focusedDay,
-            calendarFormat: _calendarFormat,
-            selectedDayPredicate: (day) => isSameDay(_selectedDay, day),
-            onDaySelected: (selectedDay, focusedDay) {
-              setState(() {
-                _selectedDay = selectedDay;
-                _focusedDay = focusedDay;
-              });
-            },
-            onFormatChanged: (format) {
-              setState(() {
-                _calendarFormat = format;
-              });
-            },
-            onPageChanged: (focusedDay) {
-              _focusedDay = focusedDay;
-              _loadAttendanceData();
-            },
-            calendarStyle: CalendarStyle(
-              markersMaxCount: 1,
-              markerDecoration: BoxDecoration(
-                color: FlutterFlowTheme.of(context).primary,
-                shape: BoxShape.circle,
-              ),
-              selectedDecoration: BoxDecoration(
-                color: FlutterFlowTheme.of(context).primary,
-                shape: BoxShape.circle,
-              ),
-              todayDecoration: BoxDecoration(
-                color: FlutterFlowTheme.of(context).primary.withOpacity(0.2),
-                shape: BoxShape.circle,
-              ),
-            ),
-            headerStyle: HeaderStyle(
-              formatButtonVisible: true,
-              titleCentered: true,
-              formatButtonShowsNext: false,
-              formatButtonDecoration: BoxDecoration(
-                color: FlutterFlowTheme.of(context).primary.withOpacity(0.1),
-                borderRadius: BorderRadius.circular(8),
-              ),
-              formatButtonTextStyle: TextStyle(
-                color: FlutterFlowTheme.of(context).primary,
-              ),
-            ),
-            calendarBuilders: CalendarBuilders(
-              defaultBuilder: (context, date, _) {
-                final totalHours = _getTotalHoursForDay(date);
-                if (totalHours.isEmpty) return null;
-
-                return Container(
-                  margin: const EdgeInsets.only(top: 4),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Text(
-                        date.day.toString(),
-                        style: FlutterFlowTheme.of(context).bodyMedium,
-                      ),
-                      const SizedBox(height: 2),
-                      Container(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 4, vertical: 2),
-                        decoration: BoxDecoration(
-                          color: FlutterFlowTheme.of(context)
-                              .primary
-                              .withOpacity(0.1),
-                          borderRadius: BorderRadius.circular(4),
-                        ),
-                        child: Text(
-                          totalHours,
-                          style: TextStyle(
-                            fontSize: 10,
-                            color: FlutterFlowTheme.of(context).primary,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                );
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: TableCalendar(
+              firstDay: DateTime.utc(2024, 1, 1),
+              lastDay: DateTime.utc(2025, 12, 31),
+              focusedDay: _focusedDay,
+              calendarFormat: _calendarFormat,
+              selectedDayPredicate: (day) => isSameDay(_selectedDay, day),
+              onDaySelected: (selectedDay, focusedDay) {
+                setState(() {
+                  _selectedDay = selectedDay;
+                  _focusedDay = focusedDay;
+                });
               },
-            ),
-          ),
-          const SizedBox(height: 16),
-          if (_selectedDay != null) ...[
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                ElevatedButton(
-                  onPressed: () => _recordAttendance(_selectedDay!, true),
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: FlutterFlowTheme.of(context).primary,
-                    foregroundColor: Colors.white,
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 24, vertical: 12),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    elevation: 2,
-                  ),
-                  child: Text(
-                    'Check In',
-                    style: FlutterFlowTheme.of(context).titleSmall.override(
-                          fontFamily: 'Readex Pro',
-                          color: Colors.white,
-                        ),
-                  ),
+              onFormatChanged: (format) {
+                setState(() {
+                  _calendarFormat = format;
+                });
+              },
+              onPageChanged: (focusedDay) {
+                _focusedDay = focusedDay;
+                _loadAttendanceData();
+                _loadMonthlySummary(focusedDay);
+              },
+              calendarStyle: CalendarStyle(
+                markersMaxCount: 1,
+                markerDecoration: BoxDecoration(
+                  color: FlutterFlowTheme.of(context).primary,
+                  shape: BoxShape.circle,
                 ),
-                ElevatedButton(
-                  onPressed: () => _recordAttendance(_selectedDay!, false),
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: FlutterFlowTheme.of(context).primary,
-                    foregroundColor: Colors.white,
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 24, vertical: 12),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    elevation: 2,
-                  ),
-                  child: Text(
-                    'Check Out',
-                    style: FlutterFlowTheme.of(context).titleSmall.override(
-                          fontFamily: 'Readex Pro',
-                          color: Colors.white,
-                        ),
-                  ),
+                selectedDecoration: BoxDecoration(
+                  color: FlutterFlowTheme.of(context).primary,
+                  shape: BoxShape.circle,
                 ),
-              ],
-            ),
-            const SizedBox(height: 16),
-            Container(
-              padding: const EdgeInsets.all(16),
-              decoration: BoxDecoration(
-                color: FlutterFlowTheme.of(context).primaryBackground,
-                borderRadius: BorderRadius.circular(12),
+                todayDecoration: BoxDecoration(
+                  color: FlutterFlowTheme.of(context).primary.withOpacity(0.2),
+                  shape: BoxShape.circle,
+                ),
               ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'Attendance Details for ${DateFormat('MMMM d, y').format(_selectedDay!)}',
-                    style: FlutterFlowTheme.of(context).titleMedium,
-                  ),
-                  const SizedBox(height: 12),
-                  ...(_attendanceEvents[_selectedDay!] ?? []).map((record) {
-                    final duration = record.checkOut != null
-                        ? record.checkOut!.difference(record.checkIn)
-                        : _activeDurations[_selectedDay!] ?? Duration.zero;
+              headerStyle: HeaderStyle(
+                formatButtonVisible: true,
+                titleCentered: true,
+                formatButtonShowsNext: false,
+                formatButtonDecoration: BoxDecoration(
+                  color: FlutterFlowTheme.of(context).primary.withOpacity(0.1),
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                formatButtonTextStyle: TextStyle(
+                  color: FlutterFlowTheme.of(context).primary,
+                ),
+              ),
+              calendarBuilders: CalendarBuilders(
+                defaultBuilder: (context, date, _) {
+                  final totalHours = _getTotalHoursForDay(date);
+                  if (totalHours.isEmpty) return null;
 
-                    return Card(
-                      elevation: 2,
-                      margin: const EdgeInsets.only(bottom: 8),
-                      child: ListTile(
-                        title: Text(
-                          'Check-in: ${DateFormat('hh:mm a').format(record.checkIn)}',
+                  return Container(
+                    margin: const EdgeInsets.only(top: 4),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text(
+                          date.day.toString(),
                           style: FlutterFlowTheme.of(context).bodyMedium,
                         ),
-                        subtitle: Text(
-                          record.checkOut != null
-                              ? 'Check-out: ${DateFormat('hh:mm a').format(record.checkOut!)}'
-                              : 'Not checked out yet',
-                          style: FlutterFlowTheme.of(context).bodySmall,
-                        ),
-                        trailing: Container(
+                        const SizedBox(height: 2),
+                        Container(
                           padding: const EdgeInsets.symmetric(
-                              horizontal: 8, vertical: 4),
+                              horizontal: 4, vertical: 2),
                           decoration: BoxDecoration(
                             color: FlutterFlowTheme.of(context)
                                 .primary
@@ -452,17 +558,137 @@ class _AttendanceCalendarState extends State<AttendanceCalendar> {
                             borderRadius: BorderRadius.circular(4),
                           ),
                           child: Text(
-                            '${duration.inHours} hrs ${duration.inMinutes.remainder(60)} mins',
+                            totalHours,
                             style: TextStyle(
+                              fontSize: 10,
                               color: FlutterFlowTheme.of(context).primary,
-                              fontWeight: FontWeight.bold,
                             ),
                           ),
                         ),
+                      ],
+                    ),
+                  );
+                },
+              ),
+            ),
+          ),
+          const SizedBox(height: 16),
+          if (_selectedDay != null) ...[
+            if (isTodaySelected) ...[
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  if (!hasActiveCheckIn)
+                    ElevatedButton(
+                      onPressed: () => _recordAttendance(_selectedDay!, true),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: FlutterFlowTheme.of(context).primary,
+                        foregroundColor: Colors.white,
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 24, vertical: 12),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        elevation: 2,
                       ),
-                    );
-                  }).toList(),
+                      child: Text(
+                        'Check In',
+                        style: FlutterFlowTheme.of(context).titleSmall.override(
+                              fontFamily: 'Readex Pro',
+                              color: Colors.white,
+                            ),
+                      ),
+                    ),
+                  if (hasActiveCheckIn)
+                    ElevatedButton(
+                      onPressed: () => _recordAttendance(_selectedDay!, false),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: FlutterFlowTheme.of(context).primary,
+                        foregroundColor: Colors.white,
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 24, vertical: 12),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        elevation: 2,
+                      ),
+                      child: Text(
+                        'Check Out',
+                        style: FlutterFlowTheme.of(context).titleSmall.override(
+                              fontFamily: 'Readex Pro',
+                              color: Colors.white,
+                            ),
+                      ),
+                    ),
                 ],
+              ),
+              const SizedBox(height: 16),
+            ],
+            Expanded(
+              child: SingleChildScrollView(
+                child: Container(
+                  margin: const EdgeInsets.all(8),
+                  padding: const EdgeInsets.all(16),
+                  decoration: BoxDecoration(
+                    color: FlutterFlowTheme.of(context).primaryBackground,
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Attendance Details for ${DateFormat('MMMM d, y').format(_selectedDay!)}',
+                        style: FlutterFlowTheme.of(context).titleMedium,
+                      ),
+                      const SizedBox(height: 12),
+                      ...(_attendanceEvents[DateTime(
+                                _selectedDay!.year,
+                                _selectedDay!.month,
+                                _selectedDay!.day,
+                              )] ??
+                              [])
+                          .map((record) {
+                        final duration = record.checkOut != null
+                            ? record.checkOut!.difference(record.checkIn)
+                            : DateTime.now().difference(record.checkIn);
+
+                        return Card(
+                          elevation: 0,
+                          margin: const EdgeInsets.only(bottom: 8),
+                          child: ListTile(
+                            title: Text(
+                              'Check-in: ${DateFormat('hh:mm a').format(record.checkIn)}',
+                              style: FlutterFlowTheme.of(context).bodyMedium,
+                            ),
+                            subtitle: Text(
+                              record.checkOut != null
+                                  ? 'Check-out: ${DateFormat('hh:mm a').format(record.checkOut!)}'
+                                  : 'Not checked out yet',
+                              style: FlutterFlowTheme.of(context).bodySmall,
+                            ),
+                            trailing: Container(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 8, vertical: 4),
+                              decoration: BoxDecoration(
+                                color: FlutterFlowTheme.of(context)
+                                    .primary
+                                    .withOpacity(0.1),
+                                borderRadius: BorderRadius.circular(4),
+                              ),
+                              child: Text(
+                                '${duration.inHours} hrs ${duration.inMinutes.remainder(60)} mins',
+                                style: TextStyle(
+                                  color: FlutterFlowTheme.of(context).primary,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
+                          ),
+                        );
+                      }).toList(),
+                    ],
+                  ),
+                ),
               ),
             ),
           ],

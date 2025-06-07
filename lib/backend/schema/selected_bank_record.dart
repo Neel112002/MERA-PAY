@@ -50,6 +50,11 @@ class SelectedBankRecord extends FirestoreRecord {
   String get totalWithdraw => _totalWithdraw ?? '';
   bool hasTotalWithdraw() => _totalWithdraw != null;
 
+  // "Credits" field.
+  int? _credits;
+  int get credits => _credits ?? 0;
+  bool hasCredits() => _credits != null;
+
   void _initializeFields() {
     _uid = snapshotData['uid'] as String?;
     _bankName = snapshotData['BankName'] as String?;
@@ -58,6 +63,7 @@ class SelectedBankRecord extends FirestoreRecord {
     _branchName = snapshotData['BranchName'] as String?;
     _moneyWithdrawed = snapshotData['MoneyWithdrawed'] as String?;
     _totalWithdraw = snapshotData['TotalWithdraw'] as String?;
+    _credits = castToType<int>(snapshotData['Credits']);
   }
 
   static CollectionReference get collection =>
@@ -102,6 +108,7 @@ Map<String, dynamic> createSelectedBankRecordData({
   String? branchName,
   String? moneyWithdrawed,
   String? totalWithdraw,
+  int? credits,
 }) {
   final firestoreData = mapToFirestore(
     <String, dynamic>{
@@ -112,6 +119,7 @@ Map<String, dynamic> createSelectedBankRecordData({
       'BranchName': branchName,
       'MoneyWithdrawed': moneyWithdrawed,
       'TotalWithdraw': totalWithdraw,
+      'Credits': credits,
     }.withoutNulls,
   );
 
@@ -130,7 +138,8 @@ class SelectedBankRecordDocumentEquality
         e1?.iFSCCode == e2?.iFSCCode &&
         e1?.branchName == e2?.branchName &&
         e1?.moneyWithdrawed == e2?.moneyWithdrawed &&
-        e1?.totalWithdraw == e2?.totalWithdraw;
+        e1?.totalWithdraw == e2?.totalWithdraw &&
+        e1?.credits == e2?.credits;
   }
 
   @override
@@ -141,7 +150,8 @@ class SelectedBankRecordDocumentEquality
         e?.iFSCCode,
         e?.branchName,
         e?.moneyWithdrawed,
-        e?.totalWithdraw
+        e?.totalWithdraw,
+        e?.credits
       ]);
 
   @override

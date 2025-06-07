@@ -5,70 +5,77 @@ service cloud.firestore {
       allow create: if request.auth.uid == document;
       allow read: if request.auth.uid == document;
       allow write: if request.auth.uid == document;
-      allow delete: if request.auth.uid == document;
+      allow delete: if false;
     }
 
     match /EmployeeInformation/{document} {
-      allow create: if true;
-      allow read: if true;
-      allow write: if true;
-      allow delete: if true;
+      allow create: if request.auth.uid == request.resource.data.uid;
+      allow read: if request.auth.uid == resource.data.uid;
+      allow write: if request.auth.uid == resource.data.uid;
+      allow delete: if request.auth.uid == resource.data.uid;
     }
 
     match /aadhaar_cards/{document} {
-      allow create: if true;
-      allow read: if true;
-      allow write: if true;
-      allow delete: if true;
+      allow create: if request.auth.uid == request.resource.data.uid;
+      allow read: if request.auth.uid == resource.data.uid;
+      allow write: if request.auth.uid == resource.data.uid;
+      allow delete: if request.auth.uid == resource.data.uid;
     }
 
     match /pan_cards/{document} {
-      allow create: if true;
-      allow read: if true;
-      allow write: if true;
-      allow delete: if true;
+      allow create: if request.auth.uid == request.resource.data.uid;
+      allow read: if request.auth.uid == resource.data.uid;
+      allow write: if request.auth.uid == resource.data.uid;
+      allow delete: if request.auth.uid == resource.data.uid;
     }
 
     match /payslips/{document} {
-      allow create: if true;
-      allow read: if true;
-      allow write: if true;
-      allow delete: if true;
+      allow create: if request.auth.uid == request.resource.data.uid;
+      allow read: if request.auth.uid == resource.data.uid;
+      allow write: if request.auth.uid == resource.data.uid;
+      allow delete: if request.auth.uid == resource.data.uid;
     }
 
     match /selfies/{document} {
-      allow create: if true;
-      allow read: if true;
-      allow write: if true;
-      allow delete: if true;
+      allow create: if request.auth.uid == request.resource.data.uid;
+      allow read: if request.auth.uid == resource.data.uid;
+      allow write: if request.auth.uid == resource.data.uid;
+      allow delete: if request.auth.uid == resource.data.uid;
     }
 
     match /verifications/{document} {
-      allow create: if true;
-      allow read: if true;
-      allow write: if true;
-      allow delete: if true;
+      allow create: if request.auth.uid == request.resource.data.uid;
+      allow read: if request.auth.uid == resource.data.uid;
+      allow write: if request.auth.uid == resource.data.uid;
+      allow delete: if request.auth.uid == resource.data.uid;
     }
 
     match /bankDetails/{document} {
-      allow create: if true;
-      allow read: if true;
-      allow write: if true;
-      allow delete: if true;
+      allow create: if request.auth.uid == request.resource.data.uid;
+      allow read: if request.auth.uid == resource.data.uid;
+      allow write: if request.auth.uid == resource.data.uid;
+      allow delete: if request.auth.uid == resource.data.uid;
     }
 
     match /SelectedBank/{document} {
-      allow create: if true;
-      allow read: if true;
-      allow write: if true;
-      allow delete: if true;
+      allow create: if request.auth.uid == request.resource.data.uid;
+      allow read: if request.auth.uid == resource.data.uid;
+      allow write: if request.auth.uid == resource.data.uid;
+      allow delete: if request.auth.uid == resource.data.uid;
     }
 
     match /attendance/{document} {
-      allow create: if true;
-      allow read: if true;
-      allow write: if true;
-      allow delete: if true;
+      allow create: if request.auth.uid == request.resource.data.userId;
+      allow read: if request.auth.uid == resource.data.userId;
+      allow write: if request.auth.uid == resource.data.userId;
+      allow delete: if request.auth.uid == resource.data.userId;
+    }
+
+    match /attendance_summaries/{document} {
+      allow create: if request.auth.uid == request.resource.data.userId;
+      allow read: if request.auth.uid == resource.data.userId;
+      allow write: if request.auth.uid == resource.data.userId;
+      allow delete: if request.auth.uid == resource.data.userId;
     }
   }
 }
