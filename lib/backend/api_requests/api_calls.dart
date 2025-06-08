@@ -12,7 +12,8 @@ class CountryDataCall {
   static Future<ApiCallResponse> call() async {
     return ApiManager.instance.makeApiCall(
       callName: 'CountryData',
-      apiUrl: 'https://countriesnow.space/api/v0.1/countries/codes',
+      apiUrl:
+          'https://countriesnow.space/api/v0.1/countries/info?returns=currency,flag,unicodeFlag,dialCode',
       callType: ApiCallType.GET,
       headers: {},
       params: {},
@@ -30,16 +31,44 @@ class CountryDataCall {
         r'''$.data''',
         true,
       ) as List?;
-  static List<String>? countrycode(dynamic response) => (getJsonField(
+  static List<String>? countryname(dynamic response) => (getJsonField(
         response,
-        r'''$.data[:].dial_code''',
+        r'''$.data[:].name''',
         true,
       ) as List?)
           ?.withoutNulls
           .map((x) => castToType<String>(x))
           .withoutNulls
           .toList();
-  static List<String>? countryname(dynamic response) => (getJsonField(
+  static List<String>? countrycode(dynamic response) => (getJsonField(
+        response,
+        r'''$.data[:].dialCode''',
+        true,
+      ) as List?)
+          ?.withoutNulls
+          .map((x) => castToType<String>(x))
+          .withoutNulls
+          .toList();
+}
+
+class GetCountryDataCall {
+  static Future<ApiCallResponse> call() async {
+    return ApiManager.instance.makeApiCall(
+      callName: 'getCountryData',
+      apiUrl: 'https://countriesnow.space/api/v0.1/countries/currency',
+      callType: ApiCallType.GET,
+      headers: {},
+      params: {},
+      returnBody: true,
+      encodeBodyUtf8: false,
+      decodeUtf8: false,
+      cache: false,
+      isStreamingApi: false,
+      alwaysAllowBody: false,
+    );
+  }
+
+  static List<String>? name(dynamic response) => (getJsonField(
         response,
         r'''$.data[:].name''',
         true,

@@ -9,9 +9,6 @@ import 'package:flutter/material.dart';
 // Begin custom widget code
 // DO NOT REMOVE OR MODIFY THE CODE ABOVE!
 
-import 'index.dart'; // Imports other custom widgets
-
-import 'index.dart'; // Imports other custom widgets
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 import 'index.dart'; // Imports other custom widgets
@@ -175,6 +172,17 @@ class _AttendanceCalendarState extends State<AttendanceCalendar> {
     final todayString =
         "${date.year}-${date.month.toString().padLeft(2, '0')}-${date.day.toString().padLeft(2, '0')}";
 
+    // Reset daily fields at the start of each day
+    await summaryRef.set({
+      "status": "not working",
+      "clockInTime": null,
+      "clockOutTime": null,
+      "date": todayString,
+      "lastCheckOutTime": null,
+      "minutesWorked": 0,
+      "firstCheckInTime": null,
+    }, SetOptions(merge: true));
+
     // Fetch all attendance records for this user for the month
     final startOfMonth = DateTime(date.year, date.month, 1);
     final endOfMonth = DateTime(date.year, date.month + 1, 0);
@@ -199,6 +207,8 @@ class _AttendanceCalendarState extends State<AttendanceCalendar> {
     DateTime? lastOut;
     bool hasActiveCheckIn = false;
     DateTime? activeCheckInTime;
+    DateTime? firstCheckInTime;
+    DateTime? clockOutTime; // Track clock out time separately
 
     // Group records by day
     Map<String, List<Map<String, dynamic>>> dailyRecords = {};
@@ -216,17 +226,28 @@ class _AttendanceCalendarState extends State<AttendanceCalendar> {
       DateTime? thisLastOut;
       bool thisHasActiveCheckIn = false;
       DateTime? thisActiveCheckInTime;
+      DateTime? thisFirstCheckInTime;
+      DateTime? thisClockOutTime; // Track clock out time for this day
+
       for (var record in entry.value) {
         final checkIn = (record['checkIn'] as Timestamp).toDate();
         final checkOut = record['checkOut'] != null
             ? (record['checkOut'] as Timestamp).toDate()
             : null;
+
+        // Update first check-in time if this is earlier
+        if (thisFirstCheckInTime == null ||
+            checkIn.isBefore(thisFirstCheckInTime)) {
+          thisFirstCheckInTime = checkIn;
+        }
+
         if (checkOut != null) {
           thisDayMinutes += checkOut.difference(checkIn).inMinutes;
           if (thisFirstIn == null || checkIn.isBefore(thisFirstIn))
             thisFirstIn = checkIn;
           if (thisLastOut == null || checkOut.isAfter(thisLastOut))
             thisLastOut = checkOut;
+          thisClockOutTime = checkOut; // Set clock out time when checked out
         } else {
           thisHasActiveCheckIn = true;
           if (thisActiveCheckInTime == null ||
@@ -234,8 +255,21 @@ class _AttendanceCalendarState extends State<AttendanceCalendar> {
             thisActiveCheckInTime = checkIn;
           if (thisFirstIn == null || checkIn.isBefore(thisFirstIn))
             thisFirstIn = checkIn;
+          thisClockOutTime = null; // Reset clock out time when checked in
         }
       }
+
+      // If this is today, update today's summary
+      if (entry.key == todayString) {
+        dayMinutes = thisDayMinutes;
+        firstIn = thisFirstIn;
+        lastOut = thisLastOut;
+        hasActiveCheckIn = thisHasActiveCheckIn;
+        activeCheckInTime = thisActiveCheckInTime;
+        firstCheckInTime = thisFirstCheckInTime;
+        clockOutTime = thisClockOutTime; // Set today's clock out time
+      }
+
       bool isRegular = thisDayMinutes >= 480;
       int overtime = isRegular ? (thisDayMinutes - 480) : 0;
 
@@ -244,22 +278,12 @@ class _AttendanceCalendarState extends State<AttendanceCalendar> {
         totalDaysWorked += 1;
         if (isRegular) regularDays += 1;
         overtimeMinutes += overtime;
-        // Calculate regular and overtime work minutes for the month
         if (thisDayMinutes > 480) {
           regularMinutesThisMonth += 480;
           overtimeMinutesThisMonth += (thisDayMinutes - 480);
         } else {
           regularMinutesThisMonth += thisDayMinutes;
         }
-      }
-
-      // If this is today, set today's summary
-      if (entry.key == todayString) {
-        dayMinutes = thisDayMinutes;
-        firstIn = thisFirstIn;
-        lastOut = thisLastOut;
-        hasActiveCheckIn = thisHasActiveCheckIn;
-        activeCheckInTime = thisActiveCheckInTime;
       }
     }
 
@@ -277,12 +301,14 @@ class _AttendanceCalendarState extends State<AttendanceCalendar> {
       "clockInTime": hasActiveCheckIn
           ? activeCheckInTime?.toIso8601String()
           : firstIn?.toIso8601String(),
-      "clockOutTime": lastOut?.toIso8601String(),
+      "clockOutTime":
+          clockOutTime?.toIso8601String(), // Only set when actually checked out
       "status": hasActiveCheckIn
           ? "working"
           : (dayMinutes > 0 ? "worked" : "not working"),
       "overtime": overtimeToday,
       "isRegular": isRegularToday,
+      "firstCheckInTime": firstCheckInTime?.toIso8601String(),
       "lastUpdated": FieldValue.serverTimestamp(),
       // Monthly summary:
       "totalMinutesWorked": totalMinutes,

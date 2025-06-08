@@ -63,7 +63,12 @@ class _KycWidgetState extends State<KycWidget> {
               updateCallback: () => safeSetState(() {}),
               child: KycAppBarWidget(
                 title: 'Affiliation Check',
-                showIcons: false,
+                showIcons: true,
+                addbank: false,
+                backIcon: true,
+                backAction: () async {
+                  context.goNamed(DashboardPageWidget.routeName);
+                },
               ),
             ),
             Flexible(

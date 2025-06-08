@@ -75,6 +75,7 @@ class _KYCCompletePageWidgetState extends State<KYCCompletePageWidget> {
               child: KycAppBarWidget(
                 title: 'Verification Success',
                 showIcons: false,
+                backAction: () async {},
               ),
             ),
             Flexible(

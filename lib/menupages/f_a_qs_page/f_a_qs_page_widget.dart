@@ -59,6 +59,7 @@ class _FAQsPageWidgetState extends State<FAQsPageWidget> {
           top: true,
           child: ListView(
             padding: EdgeInsets.zero,
+            primary: false,
             shrinkWrap: true,
             scrollDirection: Axis.vertical,
             children: [
@@ -998,90 +999,6 @@ class _FAQsPageWidgetState extends State<FAQsPageWidget> {
                               ].divide(SizedBox(height: 9.0)),
                             ),
                           ].divide(SizedBox(height: 5.0)),
-                        ),
-                      ),
-                    ),
-                    Text(
-                      'Trusted by companies across India',
-                      textAlign: TextAlign.center,
-                      style: FlutterFlowTheme.of(context).bodyMedium.override(
-                            font: GoogleFonts.inter(
-                              fontWeight: FontWeight.w500,
-                              fontStyle: FlutterFlowTheme.of(context)
-                                  .bodyMedium
-                                  .fontStyle,
-                            ),
-                            color: FlutterFlowTheme.of(context).primaryText,
-                            fontSize: 19.0,
-                            letterSpacing: 0.0,
-                            fontWeight: FontWeight.w500,
-                            fontStyle: FlutterFlowTheme.of(context)
-                                .bodyMedium
-                                .fontStyle,
-                          ),
-                    ),
-                    Padding(
-                      padding:
-                          EdgeInsetsDirectional.fromSTEB(0.0, 15.0, 0.0, 0.0),
-                      child: SingleChildScrollView(
-                        scrollDirection: Axis.horizontal,
-                        child: Row(
-                          mainAxisSize: MainAxisSize.max,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Wrap(
-                              spacing: 12.0,
-                              runSpacing: 12.0,
-                              alignment: WrapAlignment.center,
-                              crossAxisAlignment: WrapCrossAlignment.start,
-                              direction: Axis.horizontal,
-                              runAlignment: WrapAlignment.start,
-                              verticalDirection: VerticalDirection.down,
-                              clipBehavior: Clip.none,
-                              children: [
-                                ClipRRect(
-                                  borderRadius: BorderRadius.circular(8.0),
-                                  child: Image.asset(
-                                    'assets/images/HCL.jpg',
-                                    width: 64.0,
-                                    height: 32.0,
-                                    fit: BoxFit.cover,
-                                    alignment: Alignment(0.0, 0.0),
-                                  ),
-                                ),
-                                ClipRRect(
-                                  borderRadius: BorderRadius.circular(8.0),
-                                  child: Image.asset(
-                                    'assets/images/tata.jpg',
-                                    width: 64.0,
-                                    height: 32.0,
-                                    fit: BoxFit.contain,
-                                    alignment: Alignment(0.0, 0.0),
-                                  ),
-                                ),
-                                ClipRRect(
-                                  borderRadius: BorderRadius.circular(8.0),
-                                  child: Image.asset(
-                                    'assets/images/infosys-logo-partner.png',
-                                    width: 64.0,
-                                    height: 32.0,
-                                    fit: BoxFit.contain,
-                                    alignment: Alignment(0.0, 0.0),
-                                  ),
-                                ),
-                                ClipRRect(
-                                  borderRadius: BorderRadius.circular(8.0),
-                                  child: Image.asset(
-                                    'assets/images/techcorp.jpeg',
-                                    width: 64.0,
-                                    height: 32.0,
-                                    fit: BoxFit.fill,
-                                    alignment: Alignment(0.0, 0.0),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ],
                         ),
                       ),
                     ),
@@ -2296,7 +2213,7 @@ class _FAQsPageWidgetState extends State<FAQsPageWidget> {
                                 ),
                               ),
                               Text(
-                                'Easy Registration',
+                                'Sign-Up',
                                 textAlign: TextAlign.start,
                                 style: FlutterFlowTheme.of(context)
                                     .bodyMedium
@@ -2400,7 +2317,7 @@ class _FAQsPageWidgetState extends State<FAQsPageWidget> {
                                 ),
                               ),
                               Text(
-                                'Track Your Earnings',
+                                'Track Hours',
                                 style: FlutterFlowTheme.of(context)
                                     .bodyMedium
                                     .override(
@@ -2503,7 +2420,7 @@ class _FAQsPageWidgetState extends State<FAQsPageWidget> {
                                 ),
                               ),
                               Text(
-                                'Request Withdrawals',
+                                'View Earnings',
                                 style: FlutterFlowTheme.of(context)
                                     .bodyMedium
                                     .override(
@@ -2606,7 +2523,7 @@ class _FAQsPageWidgetState extends State<FAQsPageWidget> {
                                 ),
                               ),
                               Text(
-                                'Automatic Reconciliation',
+                                'Withdraw Funds',
                                 style: FlutterFlowTheme.of(context)
                                     .bodyMedium
                                     .override(
@@ -2668,7 +2585,7 @@ class _FAQsPageWidgetState extends State<FAQsPageWidget> {
                               padding: EdgeInsetsDirectional.fromSTEB(
                                   10.0, 10.0, 10.0, 10.0),
                               child: Text(
-                                'Simple Process',
+                                'Key Advantages',
                                 textAlign: TextAlign.center,
                                 style: FlutterFlowTheme.of(context)
                                     .bodyMedium
@@ -2697,7 +2614,7 @@ class _FAQsPageWidgetState extends State<FAQsPageWidget> {
                                 text: TextSpan(
                                   children: [
                                     TextSpan(
-                                      text: 'How',
+                                      text: 'Why ',
                                       style: FlutterFlowTheme.of(context)
                                           .headlineSmall
                                           .override(
@@ -2717,13 +2634,13 @@ class _FAQsPageWidgetState extends State<FAQsPageWidget> {
                                           ),
                                     ),
                                     TextSpan(
-                                      text: ' Mera-Pe ',
+                                      text: 'Choose ',
                                       style: TextStyle(
                                         color: Color(0xFF22D846),
                                       ),
                                     ),
                                     TextSpan(
-                                      text: 'Works?',
+                                      text: ' Mera-Pe?',
                                       style: TextStyle(),
                                     )
                                   ],

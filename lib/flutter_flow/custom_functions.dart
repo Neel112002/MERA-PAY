@@ -128,14 +128,13 @@ double convertMinutesToHours(int? minutes) {
 }
 
 String extractTimeFromDateTime(String? dateTimeStr) {
-  if (dateTimeStr == null || dateTimeStr.isEmpty) return '00:00';
+  if (dateTimeStr == null || dateTimeStr.isEmpty) return '12:00 AM';
   try {
     final dateTime = DateTime.parse(dateTimeStr);
-    final hours = dateTime.hour.toString().padLeft(2, '0');
-    final minutes = dateTime.minute.toString().padLeft(2, '0');
-    return '$hours:$minutes';
+    final formattedTime = DateFormat('hh:mm a').format(dateTime);
+    return formattedTime;
   } catch (e) {
-    return '00:00'; // fallback for invalid format
+    return '12:00 AM'; // fallback for invalid format
   }
 }
 
