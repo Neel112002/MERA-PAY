@@ -141,10 +141,10 @@ class _WithdrawComponentWidgetState extends State<WithdrawComponentWidget> {
                           ),
                     ),
                     Text(
-                      valueOrDefault<String>(
+                      '\$${valueOrDefault<String>(
                         widget.amount?.toString(),
                         '-',
-                      ),
+                      )}',
                       style: FlutterFlowTheme.of(context).bodyMedium.override(
                             font: GoogleFonts.inter(
                               fontWeight: FlutterFlowTheme.of(context)
@@ -191,13 +191,13 @@ class _WithdrawComponentWidgetState extends State<WithdrawComponentWidget> {
                           ),
                     ),
                     Text(
-                      valueOrDefault<String>(
+                      '\$${valueOrDefault<String>(
                         functions
                             .calculatePercentageAmount(
                                 widget.amount!.toString(), 1.0)
                             ?.toString(),
                         '-',
-                      ),
+                      )}',
                       style: FlutterFlowTheme.of(context).bodyMedium.override(
                             font: GoogleFonts.inter(
                               fontWeight: FlutterFlowTheme.of(context)
@@ -295,16 +295,11 @@ class _WithdrawComponentWidgetState extends State<WithdrawComponentWidget> {
                           ),
                     ),
                     Text(
-                      functions
-                          .subStringAndDouble(
-                              widget.amount!.toString(),
-                              valueOrDefault<double>(
-                                functions.calculatePercentageAmount(
-                                    widget.amount!.toString(), 1.0),
-                                0.0,
-                              ),
-                              '0')
-                          .toString(),
+                      '\$${functions.subStringAndDouble(widget.amount!.toString(), valueOrDefault<double>(
+                            functions.calculatePercentageAmount(
+                                widget.amount!.toString(), 1.0),
+                            0.0,
+                          ), '0').toString()}',
                       style: FlutterFlowTheme.of(context).bodyMedium.override(
                             font: GoogleFonts.inter(
                               fontWeight: FlutterFlowTheme.of(context)

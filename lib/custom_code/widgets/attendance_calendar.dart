@@ -12,6 +12,11 @@ import 'package:flutter/material.dart';
 import 'index.dart'; // Imports other custom widgets
 
 import 'index.dart'; // Imports other custom widgets
+
+import 'index.dart'; // Imports other custom widgets
+
+import 'index.dart'; // Imports other custom widgets
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 import 'index.dart'; // Imports other custom widgets
@@ -43,6 +48,7 @@ class _AttendanceCalendarState extends State<AttendanceCalendar> {
   Map<DateTime, List<AttendanceRecord>> _attendanceEvents = {};
   bool _isLoading = true;
   Timer? _timer;
+  Timer? _midnightTimer;
   Map<DateTime, Duration> _activeDurations = {};
   Map<String, dynamic> _monthlySummary = {};
   String _currentMonthKey = '';
@@ -55,11 +61,57 @@ class _AttendanceCalendarState extends State<AttendanceCalendar> {
     _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
       _updateActiveDurations();
     });
+
+    // Set up midnight timer
+    _setupMidnightTimer();
+  }
+
+  void _setupMidnightTimer() {
+    // Calculate time until next midnight
+    final now = DateTime.now();
+    final nextMidnight = DateTime(now.year, now.month, now.day + 1);
+    final timeUntilMidnight = nextMidnight.difference(now);
+
+    // Cancel existing timer if any
+    _midnightTimer?.cancel();
+
+    // Set up new timer
+    _midnightTimer = Timer(timeUntilMidnight, () {
+      // Reset attendance summary fields at midnight
+      _resetAttendanceSummaryFields();
+
+      // Set up next midnight timer
+      _setupMidnightTimer();
+    });
+  }
+
+  Future<void> _resetAttendanceSummaryFields() async {
+    if (widget.userId == null) return;
+
+    final now = DateTime.now();
+    final monthKey = "${now.year}-${now.month.toString().padLeft(2, '0')}";
+    final docId = "${widget.userId}_$monthKey";
+    final summaryRef = FirebaseFirestore.instance
+        .collection('attendance_summaries')
+        .doc(docId);
+
+    // Reset daily fields
+    await summaryRef.set({
+      "status": "not working",
+      "clockInTime": null,
+      "clockOutTime": null,
+      "date":
+          "${now.year}-${now.month.toString().padLeft(2, '0')}-${now.day.toString().padLeft(2, '0')}",
+      "lastCheckOutTime": null,
+      "minutesWorked": 0,
+      "firstCheckInTime": null,
+    }, SetOptions(merge: true));
   }
 
   @override
   void dispose() {
     _timer?.cancel();
+    _midnightTimer?.cancel();
     super.dispose();
   }
 
@@ -175,6 +227,17 @@ class _AttendanceCalendarState extends State<AttendanceCalendar> {
     final todayString =
         "${date.year}-${date.month.toString().padLeft(2, '0')}-${date.day.toString().padLeft(2, '0')}";
 
+    // Reset daily fields at the start of each day
+    await summaryRef.set({
+      "status": "not working",
+      "clockInTime": null,
+      "clockOutTime": null,
+      "date": todayString,
+      "lastCheckOutTime": null,
+      "minutesWorked": 0,
+      "firstCheckInTime": null,
+    }, SetOptions(merge: true));
+
     // Fetch all attendance records for this user for the month
     final startOfMonth = DateTime(date.year, date.month, 1);
     final endOfMonth = DateTime(date.year, date.month + 1, 0);
@@ -199,6 +262,8 @@ class _AttendanceCalendarState extends State<AttendanceCalendar> {
     DateTime? lastOut;
     bool hasActiveCheckIn = false;
     DateTime? activeCheckInTime;
+    DateTime? firstCheckInTime;
+    DateTime? clockOutTime; // Track clock out time separately
 
     // Group records by day
     Map<String, List<Map<String, dynamic>>> dailyRecords = {};
@@ -216,17 +281,28 @@ class _AttendanceCalendarState extends State<AttendanceCalendar> {
       DateTime? thisLastOut;
       bool thisHasActiveCheckIn = false;
       DateTime? thisActiveCheckInTime;
+      DateTime? thisFirstCheckInTime;
+      DateTime? thisClockOutTime; // Track clock out time for this day
+
       for (var record in entry.value) {
         final checkIn = (record['checkIn'] as Timestamp).toDate();
         final checkOut = record['checkOut'] != null
             ? (record['checkOut'] as Timestamp).toDate()
             : null;
+
+        // Update first check-in time if this is earlier
+        if (thisFirstCheckInTime == null ||
+            checkIn.isBefore(thisFirstCheckInTime)) {
+          thisFirstCheckInTime = checkIn;
+        }
+
         if (checkOut != null) {
           thisDayMinutes += checkOut.difference(checkIn).inMinutes;
           if (thisFirstIn == null || checkIn.isBefore(thisFirstIn))
             thisFirstIn = checkIn;
           if (thisLastOut == null || checkOut.isAfter(thisLastOut))
             thisLastOut = checkOut;
+          thisClockOutTime = checkOut; // Set clock out time when checked out
         } else {
           thisHasActiveCheckIn = true;
           if (thisActiveCheckInTime == null ||
@@ -234,8 +310,21 @@ class _AttendanceCalendarState extends State<AttendanceCalendar> {
             thisActiveCheckInTime = checkIn;
           if (thisFirstIn == null || checkIn.isBefore(thisFirstIn))
             thisFirstIn = checkIn;
+          thisClockOutTime = null; // Reset clock out time when checked in
         }
       }
+
+      // If this is today, update today's summary
+      if (entry.key == todayString) {
+        dayMinutes = thisDayMinutes;
+        firstIn = thisFirstIn;
+        lastOut = thisLastOut;
+        hasActiveCheckIn = thisHasActiveCheckIn;
+        activeCheckInTime = thisActiveCheckInTime;
+        firstCheckInTime = thisFirstCheckInTime;
+        clockOutTime = thisClockOutTime; // Set today's clock out time
+      }
+
       bool isRegular = thisDayMinutes >= 480;
       int overtime = isRegular ? (thisDayMinutes - 480) : 0;
 
@@ -244,22 +333,12 @@ class _AttendanceCalendarState extends State<AttendanceCalendar> {
         totalDaysWorked += 1;
         if (isRegular) regularDays += 1;
         overtimeMinutes += overtime;
-        // Calculate regular and overtime work minutes for the month
         if (thisDayMinutes > 480) {
           regularMinutesThisMonth += 480;
           overtimeMinutesThisMonth += (thisDayMinutes - 480);
         } else {
           regularMinutesThisMonth += thisDayMinutes;
         }
-      }
-
-      // If this is today, set today's summary
-      if (entry.key == todayString) {
-        dayMinutes = thisDayMinutes;
-        firstIn = thisFirstIn;
-        lastOut = thisLastOut;
-        hasActiveCheckIn = thisHasActiveCheckIn;
-        activeCheckInTime = thisActiveCheckInTime;
       }
     }
 
@@ -277,12 +356,14 @@ class _AttendanceCalendarState extends State<AttendanceCalendar> {
       "clockInTime": hasActiveCheckIn
           ? activeCheckInTime?.toIso8601String()
           : firstIn?.toIso8601String(),
-      "clockOutTime": lastOut?.toIso8601String(),
+      "clockOutTime":
+          clockOutTime?.toIso8601String(), // Only set when actually checked out
       "status": hasActiveCheckIn
           ? "working"
           : (dayMinutes > 0 ? "worked" : "not working"),
       "overtime": overtimeToday,
       "isRegular": isRegularToday,
+      "firstCheckInTime": firstCheckInTime?.toIso8601String(),
       "lastUpdated": FieldValue.serverTimestamp(),
       // Monthly summary:
       "totalMinutesWorked": totalMinutes,
@@ -426,18 +507,45 @@ class _AttendanceCalendarState extends State<AttendanceCalendar> {
     }
   }
 
-  String _getTotalHoursForDay(DateTime day) {
-    final dayKey =
-        "${day.year}-${day.month.toString().padLeft(2, '0')}-${day.day.toString().padLeft(2, '0')}";
-    final dailySummaries = _monthlySummary['dailySummaries'] ?? {};
-    if (dailySummaries[dayKey] == null) return '';
-    final minutes = dailySummaries[dayKey]['minutesWorked'] ?? 0;
-    if (minutes == 0) return '';
-    final hours = minutes ~/ 60;
-    final mins = minutes % 60;
-    return hours > 0
-        ? '${hours.toString().padLeft(2, '0')}:${mins.toString().padLeft(2, '0')}'
-        : '${mins.toString().padLeft(2, '0')} mins';
+  String _getWorkHours(DateTime day) {
+    final now = DateTime.now();
+    final today = DateTime(now.year, now.month, now.day);
+    final checkDate = DateTime(day.year, day.month, day.day);
+
+    // Return empty string for future dates
+    if (checkDate.isAfter(today)) {
+      return '';
+    }
+
+    // Check if we have attendance records for this day
+    final normalizedDate = DateTime(day.year, day.month, day.day);
+    final dayRecords = _attendanceEvents[normalizedDate] ?? [];
+
+    // Calculate total minutes worked for the day
+    int totalMinutes = 0;
+    for (var record in dayRecords) {
+      if (record.checkOut != null) {
+        totalMinutes += record.checkOut!.difference(record.checkIn).inMinutes;
+      } else {
+        // If there's an active check-in, add time until now
+        totalMinutes += now.difference(record.checkIn).inMinutes;
+      }
+    }
+
+    final hours = totalMinutes ~/ 60;
+    final mins = totalMinutes % 60;
+    return '${hours}h ${mins}m';
+  }
+
+  Color _getStatusColor(String workHours) {
+    if (workHours.isEmpty) return Colors.grey; // Future dates
+
+    // Extract hours from the string (e.g., "8h 30m")
+    final hours = int.tryParse(workHours.split('h')[0]) ?? 0;
+
+    if (hours >= 8) return Colors.green; // Present (8+ hours)
+    if (hours >= 4) return Colors.orange; // Half day (4-8 hours)
+    return Colors.red; // Absent (< 4 hours)
   }
 
   @override
@@ -535,8 +643,19 @@ class _AttendanceCalendarState extends State<AttendanceCalendar> {
               ),
               calendarBuilders: CalendarBuilders(
                 defaultBuilder: (context, date, _) {
-                  final totalHours = _getTotalHoursForDay(date);
-                  if (totalHours.isEmpty) return null;
+                  final workHours = _getWorkHours(date);
+                  final statusColor = _getStatusColor(workHours);
+
+                  // Don't show status for future dates
+                  if (workHours.isEmpty) {
+                    return Container(
+                      margin: const EdgeInsets.only(top: 4),
+                      child: Text(
+                        date.day.toString(),
+                        style: FlutterFlowTheme.of(context).bodyMedium,
+                      ),
+                    );
+                  }
 
                   return Container(
                     margin: const EdgeInsets.only(top: 4),
@@ -552,16 +671,15 @@ class _AttendanceCalendarState extends State<AttendanceCalendar> {
                           padding: const EdgeInsets.symmetric(
                               horizontal: 4, vertical: 2),
                           decoration: BoxDecoration(
-                            color: FlutterFlowTheme.of(context)
-                                .primary
-                                .withOpacity(0.1),
+                            color: statusColor.withOpacity(0.2),
                             borderRadius: BorderRadius.circular(4),
                           ),
                           child: Text(
-                            totalHours,
+                            workHours,
                             style: TextStyle(
                               fontSize: 10,
-                              color: FlutterFlowTheme.of(context).primary,
+                              color: statusColor,
+                              fontWeight: FontWeight.w300,
                             ),
                           ),
                         ),
@@ -570,6 +688,19 @@ class _AttendanceCalendarState extends State<AttendanceCalendar> {
                   );
                 },
               ),
+            ),
+          ),
+          const SizedBox(height: 16),
+          // Update legend to show work hours
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                _buildLegendItem('Present', Colors.green),
+                _buildLegendItem('Half Day', Colors.orange),
+                _buildLegendItem('Absent', Colors.red),
+              ],
             ),
           ),
           const SizedBox(height: 16),
@@ -694,6 +825,30 @@ class _AttendanceCalendarState extends State<AttendanceCalendar> {
           ],
         ],
       ),
+    );
+  }
+
+  Widget _buildLegendItem(String label, Color color) {
+    return Row(
+      children: [
+        Container(
+          width: 12,
+          height: 12,
+          decoration: BoxDecoration(
+            color: color.withOpacity(0.2),
+            borderRadius: BorderRadius.circular(2),
+          ),
+        ),
+        const SizedBox(width: 4),
+        Text(
+          label,
+          style: TextStyle(
+            fontSize: 12,
+            color: color,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+      ],
     );
   }
 }

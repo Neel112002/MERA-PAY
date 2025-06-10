@@ -188,6 +188,11 @@ class _IdentityVerificationPageWidgetState
               child: KycAppBarWidget(
                 title: 'Identity Verification',
                 showIcons: false,
+                addbank: false,
+                backIcon: true,
+                backAction: () async {
+                  context.goNamed(KycWidget.routeName);
+                },
               ),
             ),
             Flexible(

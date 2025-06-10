@@ -3,6 +3,7 @@ import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
+import '/menupages/menu_page/menu_page_widget.dart';
 import '/withdraw/bank_accounts/bank_accounts_widget.dart';
 import '/index.dart';
 import 'package:flutter/material.dart';
@@ -16,12 +17,17 @@ class KycAppBarWidget extends StatefulWidget {
     this.title,
     bool? showIcons,
     bool? addbank,
+    bool? backIcon,
+    this.backAction,
   })  : this.showIcons = showIcons ?? false,
-        this.addbank = addbank ?? false;
+        this.addbank = addbank ?? false,
+        this.backIcon = backIcon ?? false;
 
   final String? title;
   final bool showIcons;
   final bool addbank;
+  final bool backIcon;
+  final Future Function()? backAction;
 
   @override
   State<KycAppBarWidget> createState() => _KycAppBarWidgetState();
@@ -102,6 +108,19 @@ class _KycAppBarWidgetState extends State<KycAppBarWidget> {
                   child: Row(
                     mainAxisSize: MainAxisSize.max,
                     children: [
+                      if (widget.backIcon == true)
+                        FlutterFlowIconButton(
+                          borderRadius: 8.0,
+                          buttonSize: 40.0,
+                          icon: Icon(
+                            Icons.arrow_back_ios,
+                            color: FlutterFlowTheme.of(context).primaryText,
+                            size: 24.0,
+                          ),
+                          onPressed: () async {
+                            await widget.backAction?.call();
+                          },
+                        ),
                       Flexible(
                         child: InkWell(
                           splashColor: Colors.transparent,
@@ -167,15 +186,28 @@ class _KycAppBarWidgetState extends State<KycAppBarWidget> {
                   children: [
                     if (widget.showIcons == true)
                       FlutterFlowIconButton(
-                        borderRadius: 8.0,
+                        borderColor: FlutterFlowTheme.of(context).alternate,
+                        borderRadius: 12.0,
+                        borderWidth: 1.0,
                         buttonSize: 40.0,
                         icon: Icon(
-                          Icons.add,
+                          Icons.menu,
                           color: FlutterFlowTheme.of(context).primary,
                           size: 24.0,
                         ),
-                        onPressed: () {
-                          print('IconButton pressed ...');
+                        onPressed: () async {
+                          await showModalBottomSheet(
+                            isScrollControlled: true,
+                            backgroundColor: Colors.transparent,
+                            enableDrag: false,
+                            context: context,
+                            builder: (context) {
+                              return Padding(
+                                padding: MediaQuery.viewInsetsOf(context),
+                                child: MenuPageWidget(),
+                              );
+                            },
+                          ).then((value) => safeSetState(() {}));
                         },
                       ),
                     if (widget.addbank == true)

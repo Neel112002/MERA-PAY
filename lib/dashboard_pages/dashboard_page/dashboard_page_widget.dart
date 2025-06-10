@@ -101,7 +101,10 @@ class _DashboardPageWidgetState extends State<DashboardPageWidget> {
               updateCallback: () => safeSetState(() {}),
               child: KycAppBarWidget(
                 title: 'Dashboard',
-                showIcons: false,
+                showIcons: true,
+                addbank: false,
+                backIcon: false,
+                backAction: () async {},
               ),
             ),
             Flexible(
@@ -149,6 +152,7 @@ class _DashboardPageWidgetState extends State<DashboardPageWidget> {
                       0,
                       29.0,
                     ),
+                    primary: false,
                     shrinkWrap: true,
                     scrollDirection: Axis.vertical,
                     children: [
@@ -295,7 +299,7 @@ class _DashboardPageWidgetState extends State<DashboardPageWidget> {
                                                                   .titleLarge
                                                                   .fontStyle,
                                                         ),
-                                                        fontSize: 16.0,
+                                                        fontSize: 18.0,
                                                         letterSpacing: 0.0,
                                                         fontWeight:
                                                             FlutterFlowTheme.of(
@@ -391,6 +395,7 @@ class _DashboardPageWidgetState extends State<DashboardPageWidget> {
                                                               .headlineSmall
                                                               .fontStyle,
                                                     ),
+                                                    fontSize: 16.0,
                                                     letterSpacing: 0.0,
                                                     fontWeight:
                                                         FlutterFlowTheme.of(
@@ -519,6 +524,7 @@ class _DashboardPageWidgetState extends State<DashboardPageWidget> {
                                                             .headlineSmall
                                                             .fontStyle,
                                                   ),
+                                                  fontSize: 16.0,
                                                   letterSpacing: 0.0,
                                                   fontWeight:
                                                       FlutterFlowTheme.of(
@@ -1039,6 +1045,7 @@ class _DashboardPageWidgetState extends State<DashboardPageWidget> {
                                                             .headlineSmall
                                                             .fontStyle,
                                                   ),
+                                                  fontSize: 16.0,
                                                   letterSpacing: 0.0,
                                                   fontWeight:
                                                       FlutterFlowTheme.of(
@@ -1407,7 +1414,7 @@ class _DashboardPageWidgetState extends State<DashboardPageWidget> {
                                                                     .headlineSmall
                                                                     .fontStyle,
                                                           ),
-                                                          fontSize: 20.0,
+                                                          fontSize: 16.0,
                                                           letterSpacing: 0.0,
                                                           fontWeight:
                                                               FlutterFlowTheme.of(
@@ -1569,7 +1576,7 @@ class _DashboardPageWidgetState extends State<DashboardPageWidget> {
                                     },
                                   ),
                                 ]
-                                    .divide(SizedBox(height: 16.0))
+                                    .divide(SizedBox(height: 10.0))
                                     .addToStart(SizedBox(height: 12.0)),
                               ),
                             );
@@ -1586,7 +1593,7 @@ class _DashboardPageWidgetState extends State<DashboardPageWidget> {
               updateCallback: () => safeSetState(() {}),
               child: NavbarWidget(),
             ),
-          ],
+          ].divide(SizedBox(height: 8.0)),
         ),
       ),
     );

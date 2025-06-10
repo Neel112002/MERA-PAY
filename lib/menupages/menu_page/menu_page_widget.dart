@@ -45,96 +45,107 @@ class _MenuPageWidgetState extends State<MenuPageWidget> {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: Colors.transparent,
+        color: FlutterFlowTheme.of(context).secondaryBackground,
+        borderRadius: BorderRadius.only(
+          bottomLeft: Radius.circular(0.0),
+          bottomRight: Radius.circular(0.0),
+          topLeft: Radius.circular(12.0),
+          topRight: Radius.circular(12.0),
+        ),
       ),
-      child: Padding(
-        padding: EdgeInsets.all(16.0),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Padding(
-              padding: EdgeInsetsDirectional.fromSTEB(16.0, 0.0, 16.0, 0.0),
-              child: Container(
-                width: 100.0,
-                height: 100.0,
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Row(
+            mainAxisSize: MainAxisSize.max,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Container(
+                width: 60.0,
+                height: 4.0,
                 decoration: BoxDecoration(
-                  color: FlutterFlowTheme.of(context).secondaryBackground,
-                  borderRadius: BorderRadius.circular(50.0),
-                  border: Border.all(
-                    color: FlutterFlowTheme.of(context).primary,
-                    width: 2.0,
-                  ),
+                  color: FlutterFlowTheme.of(context).alternate,
+                  borderRadius: BorderRadius.circular(12.0),
                 ),
-                child: AuthUserStreamWidget(
-                  builder: (context) => ClipRRect(
-                    borderRadius: BorderRadius.circular(50.0),
-                    child: Image.network(
-                      valueOrDefault<String>(
-                        currentUserPhoto != ''
-                            ? currentUserPhoto
-                            : 'https://cdn-icons-png.flaticon.com/512/6522/6522516.png',
-                        'https://cdn-icons-png.flaticon.com/512/6522/6522516.png',
+              ),
+            ],
+          ),
+          Padding(
+            padding: EdgeInsetsDirectional.fromSTEB(22.0, 16.0, 22.0, 40.0),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Padding(
+                  padding: EdgeInsetsDirectional.fromSTEB(16.0, 0.0, 16.0, 0.0),
+                  child: Container(
+                    width: 100.0,
+                    height: 100.0,
+                    decoration: BoxDecoration(
+                      color: FlutterFlowTheme.of(context).secondaryBackground,
+                      borderRadius: BorderRadius.circular(50.0),
+                      border: Border.all(
+                        color: FlutterFlowTheme.of(context).primary,
+                        width: 2.0,
                       ),
-                      width: 100.0,
-                      height: 100.0,
-                      fit: BoxFit.cover,
+                    ),
+                    child: AuthUserStreamWidget(
+                      builder: (context) => ClipRRect(
+                        borderRadius: BorderRadius.circular(50.0),
+                        child: Image.network(
+                          valueOrDefault<String>(
+                            currentUserPhoto != ''
+                                ? currentUserPhoto
+                                : 'https://cdn-icons-png.flaticon.com/512/6522/6522516.png',
+                            'https://cdn-icons-png.flaticon.com/512/6522/6522516.png',
+                          ),
+                          width: 100.0,
+                          height: 100.0,
+                          fit: BoxFit.cover,
+                        ),
+                      ),
                     ),
                   ),
                 ),
-              ),
-            ),
-            Padding(
-              padding: EdgeInsetsDirectional.fromSTEB(16.0, 0.0, 16.0, 0.0),
-              child: Container(
-                width: double.infinity,
-                decoration: BoxDecoration(
-                  color: FlutterFlowTheme.of(context).secondaryBackground,
-                  boxShadow: [
-                    BoxShadow(
-                      blurRadius: 4.0,
-                      color: Color(0x33000000),
-                      offset: Offset(
-                        0.0,
-                        2.0,
-                      ),
-                      spreadRadius: 0.0,
-                    )
-                  ],
-                  borderRadius: BorderRadius.circular(12.0),
-                ),
-                child: Padding(
-                  padding: EdgeInsets.all(16.0),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      ListView(
-                        padding: EdgeInsets.zero,
-                        primary: false,
-                        shrinkWrap: true,
-                        scrollDirection: Axis.vertical,
-                        children: [
-                          Padding(
-                            padding: EdgeInsetsDirectional.fromSTEB(
-                                12.0, 8.0, 12.0, 8.0),
-                            child: Row(
-                              mainAxisSize: MainAxisSize.max,
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: [
-                                Icon(
-                                  Icons.person_outline,
-                                  color: Color(0xFF22D846),
-                                  size: 24.0,
-                                ),
-                                InkWell(
-                                  splashColor: Colors.transparent,
-                                  focusColor: Colors.transparent,
-                                  hoverColor: Colors.transparent,
-                                  highlightColor: Colors.transparent,
-                                  onTap: () async {
-                                    context
-                                        .pushNamed(ProfilePageWidget.routeName);
-                                  },
-                                  child: Text(
+                Material(
+                  color: Colors.transparent,
+                  elevation: 0.0,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12.0),
+                  ),
+                  child: Container(
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                      color: FlutterFlowTheme.of(context).secondaryBackground,
+                      borderRadius: BorderRadius.circular(12.0),
+                    ),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        ListView(
+                          padding: EdgeInsets.zero,
+                          primary: false,
+                          shrinkWrap: true,
+                          scrollDirection: Axis.vertical,
+                          children: [
+                            InkWell(
+                              splashColor: Colors.transparent,
+                              focusColor: Colors.transparent,
+                              hoverColor: Colors.transparent,
+                              highlightColor: Colors.transparent,
+                              onTap: () async {
+                                context.pushNamed(ProfilePageWidget.routeName);
+                              },
+                              child: Row(
+                                mainAxisSize: MainAxisSize.max,
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  Icon(
+                                    Icons.person_outline,
+                                    color: Color(0xFF22D846),
+                                    size: 24.0,
+                                  ),
+                                  Text(
                                     'Profile',
                                     style: FlutterFlowTheme.of(context)
                                         .bodyLarge
@@ -160,31 +171,27 @@ class _MenuPageWidgetState extends State<MenuPageWidget> {
                                                   .fontStyle,
                                         ),
                                   ),
-                                ),
-                              ].divide(SizedBox(width: 12.0)),
+                                ].divide(SizedBox(width: 12.0)),
+                              ),
                             ),
-                          ),
-                          Padding(
-                            padding: EdgeInsetsDirectional.fromSTEB(
-                                12.0, 8.0, 12.0, 8.0),
-                            child: Row(
-                              mainAxisSize: MainAxisSize.max,
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: [
-                                Icon(
-                                  Icons.help_outline,
-                                  color: Color(0xFF22D846),
-                                  size: 24.0,
-                                ),
-                                InkWell(
-                                  splashColor: Colors.transparent,
-                                  focusColor: Colors.transparent,
-                                  hoverColor: Colors.transparent,
-                                  highlightColor: Colors.transparent,
-                                  onTap: () async {
-                                    context.pushNamed(FAQsPageWidget.routeName);
-                                  },
-                                  child: Text(
+                            InkWell(
+                              splashColor: Colors.transparent,
+                              focusColor: Colors.transparent,
+                              hoverColor: Colors.transparent,
+                              highlightColor: Colors.transparent,
+                              onTap: () async {
+                                context.pushNamed(FAQsPageWidget.routeName);
+                              },
+                              child: Row(
+                                mainAxisSize: MainAxisSize.max,
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  Icon(
+                                    Icons.help_outline,
+                                    color: Color(0xFF22D846),
+                                    size: 24.0,
+                                  ),
+                                  Text(
                                     'FAQs',
                                     style: FlutterFlowTheme.of(context)
                                         .bodyLarge
@@ -210,32 +217,27 @@ class _MenuPageWidgetState extends State<MenuPageWidget> {
                                                   .fontStyle,
                                         ),
                                   ),
-                                ),
-                              ].divide(SizedBox(width: 12.0)),
+                                ].divide(SizedBox(width: 12.0)),
+                              ),
                             ),
-                          ),
-                          Padding(
-                            padding: EdgeInsetsDirectional.fromSTEB(
-                                12.0, 8.0, 12.0, 8.0),
-                            child: Row(
-                              mainAxisSize: MainAxisSize.max,
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: [
-                                Icon(
-                                  Icons.settings_outlined,
-                                  color: Color(0xFF22D846),
-                                  size: 24.0,
-                                ),
-                                InkWell(
-                                  splashColor: Colors.transparent,
-                                  focusColor: Colors.transparent,
-                                  hoverColor: Colors.transparent,
-                                  highlightColor: Colors.transparent,
-                                  onTap: () async {
-                                    context.pushNamed(
-                                        SettingsPageWidget.routeName);
-                                  },
-                                  child: Text(
+                            InkWell(
+                              splashColor: Colors.transparent,
+                              focusColor: Colors.transparent,
+                              hoverColor: Colors.transparent,
+                              highlightColor: Colors.transparent,
+                              onTap: () async {
+                                context.pushNamed(SettingsPageWidget.routeName);
+                              },
+                              child: Row(
+                                mainAxisSize: MainAxisSize.max,
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  Icon(
+                                    Icons.settings_outlined,
+                                    color: Color(0xFF22D846),
+                                    size: 24.0,
+                                  ),
+                                  Text(
                                     'Settings',
                                     style: FlutterFlowTheme.of(context)
                                         .bodyLarge
@@ -261,14 +263,10 @@ class _MenuPageWidgetState extends State<MenuPageWidget> {
                                                   .fontStyle,
                                         ),
                                   ),
-                                ),
-                              ].divide(SizedBox(width: 12.0)),
+                                ].divide(SizedBox(width: 12.0)),
+                              ),
                             ),
-                          ),
-                          Padding(
-                            padding: EdgeInsetsDirectional.fromSTEB(
-                                12.0, 8.0, 12.0, 8.0),
-                            child: Row(
+                            Row(
                               mainAxisSize: MainAxisSize.max,
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: [
@@ -303,11 +301,7 @@ class _MenuPageWidgetState extends State<MenuPageWidget> {
                                 ),
                               ].divide(SizedBox(width: 12.0)),
                             ),
-                          ),
-                          Padding(
-                            padding: EdgeInsetsDirectional.fromSTEB(
-                                12.0, 8.0, 12.0, 8.0),
-                            child: Row(
+                            Row(
                               mainAxisSize: MainAxisSize.max,
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: [
@@ -342,35 +336,29 @@ class _MenuPageWidgetState extends State<MenuPageWidget> {
                                 ),
                               ].divide(SizedBox(width: 12.0)),
                             ),
-                          ),
-                          Padding(
-                            padding: EdgeInsetsDirectional.fromSTEB(
-                                12.0, 8.0, 12.0, 8.0),
-                            child: Row(
-                              mainAxisSize: MainAxisSize.max,
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: [
-                                Icon(
-                                  Icons.logout_rounded,
-                                  color: FlutterFlowTheme.of(context).error,
-                                  size: 24.0,
-                                ),
-                                InkWell(
-                                  splashColor: Colors.transparent,
-                                  focusColor: Colors.transparent,
-                                  hoverColor: Colors.transparent,
-                                  highlightColor: Colors.transparent,
-                                  onTap: () async {
-                                    GoRouter.of(context).prepareAuthEvent();
-                                    await authManager.signOut();
-                                    GoRouter.of(context)
-                                        .clearRedirectLocation();
+                            InkWell(
+                              splashColor: Colors.transparent,
+                              focusColor: Colors.transparent,
+                              hoverColor: Colors.transparent,
+                              highlightColor: Colors.transparent,
+                              onTap: () async {
+                                GoRouter.of(context).prepareAuthEvent();
+                                await authManager.signOut();
+                                GoRouter.of(context).clearRedirectLocation();
 
-                                    context.goNamedAuth(
-                                        LoginPageWidget.routeName,
-                                        context.mounted);
-                                  },
-                                  child: Text(
+                                context.goNamedAuth(
+                                    LoginPageWidget.routeName, context.mounted);
+                              },
+                              child: Row(
+                                mainAxisSize: MainAxisSize.max,
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  Icon(
+                                    Icons.logout_rounded,
+                                    color: FlutterFlowTheme.of(context).error,
+                                    size: 24.0,
+                                  ),
+                                  Text(
                                     'Log out',
                                     style: FlutterFlowTheme.of(context)
                                         .bodyLarge
@@ -398,19 +386,19 @@ class _MenuPageWidgetState extends State<MenuPageWidget> {
                                                   .fontStyle,
                                         ),
                                   ),
-                                ),
-                              ].divide(SizedBox(width: 12.0)),
+                                ].divide(SizedBox(width: 12.0)),
+                              ),
                             ),
-                          ),
-                        ],
-                      ),
-                    ].divide(SizedBox(height: 8.0)),
+                          ].divide(SizedBox(height: 14.0)),
+                        ),
+                      ].divide(SizedBox(height: 8.0)),
+                    ),
                   ),
                 ),
-              ),
+              ].divide(SizedBox(height: 16.0)),
             ),
-          ].divide(SizedBox(height: 16.0)),
-        ),
+          ),
+        ].addToStart(SizedBox(height: 12.0)),
       ),
     );
   }

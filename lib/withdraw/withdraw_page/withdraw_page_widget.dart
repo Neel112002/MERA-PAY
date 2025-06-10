@@ -85,6 +85,7 @@ class _WithdrawPageWidgetState extends State<WithdrawPageWidget> {
                 title: 'Withdraw',
                 showIcons: false,
                 addbank: true,
+                backAction: () async {},
               ),
             ),
             Flexible(
@@ -501,6 +502,13 @@ class _WithdrawPageWidgetState extends State<WithdrawPageWidget> {
                                                     borderRadius:
                                                         BorderRadius.circular(
                                                             8.0),
+                                                  ),
+                                                  prefixIcon: Icon(
+                                                    Icons.attach_money,
+                                                    color: FlutterFlowTheme.of(
+                                                            context)
+                                                        .primaryText,
+                                                    size: 16.0,
                                                   ),
                                                 ),
                                                 style: FlutterFlowTheme.of(
