@@ -767,7 +767,7 @@ class _AttendanceWidgetState extends State<AttendanceWidget> {
                                                           ? () {
                                                               if (columnAttendanceSummariesRecord
                                                                       ?.status ==
-                                                                  'worked') {
+                                                                  'not working') {
                                                                 return 'Clocked Out';
                                                               } else if (columnAttendanceSummariesRecord
                                                                       ?.status ==

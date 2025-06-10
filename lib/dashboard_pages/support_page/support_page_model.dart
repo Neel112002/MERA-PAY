@@ -16,6 +16,9 @@ class SupportPageModel extends FlutterFlowModel<SupportPageWidget> {
   // State field(s) for Expandable widget.
   late ExpandableController expandableExpandableController2;
 
+  // State field(s) for Expandable widget.
+  late ExpandableController expandableExpandableController3;
+
   // Model for Navbar component.
   late NavbarModel navbarModel;
 
@@ -30,6 +33,7 @@ class SupportPageModel extends FlutterFlowModel<SupportPageWidget> {
     kycAppBarModel.dispose();
     expandableExpandableController1.dispose();
     expandableExpandableController2.dispose();
+    expandableExpandableController3.dispose();
     navbarModel.dispose();
   }
 }
